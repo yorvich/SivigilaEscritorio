@@ -1,0 +1,2 @@
+SivigilaTemp.*
+tbPivotUPGD_UCIS.dbf

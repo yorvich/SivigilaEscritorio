@@ -1,0 +1,22 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.tip_tub, Recordsource.loctbrextr,;
+  Recordsource.clascaso, Recordsource.cic_vcg, Recordsource.vcnbcgcn,;
+  Recordsource.numsemgest, Recordsource.trab_salud,;
+  Recordsource.nomb_ocupa, Recordsource.prev_vih,;
+  Recordsource.consprevih, Recordsource.pruebdiagn, Recordsource.aso_vih,;
+  Recordsource.ter_prev_t, Recordsource.trat_antir,;
+  Recordsource.peso_act, Recordsource.talla_act, Recordsource.imc,;
+  Recordsource.ini_trat, Recordsource.f_initrat, Recordsource.baciloscop,;
+  Recordsource.fchbaci, Recordsource.res_bk, Recordsource.fch_rebac,;
+  Recordsource.rea_cul, Recordsource.fchcultivo, Recordsource.rescultivo,;
+  Recordsource.fch_recul, Recordsource.res_cult, Recordsource.histopatol,;
+  Recordsource.fchthisto, Recordsource.reshistopa,;
+  Recordsource.fch_rehis, Recordsource.prueb_mole,;
+  Recordsource.nom_pmolec, Recordsource.esp_pmolec, Recordsource.cli_pta,;
+  Recordsource.nex_epi, Recordsource.rediologic, Recordsource.ada,;
+  Recordsource.tuberculin, Recordsource.ajuste, Recordsource.fec_aju,;
+  Recordsource.res_pruvih, Recordsource.diabetes, Recordsource.silicosis,;
+  Recordsource.enfe_renal;
+ FROM ;
+     Eventos_54 Recordsource

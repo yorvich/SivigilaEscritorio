@@ -1,0 +1,13 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.fec_not, Recordsource.nom_men,;
+  Recordsource.f_nacto, Recordsource.reg_civ, Recordsource.sexo,;
+  LEFT(Recordsource.cod_mun,2) AS cod_dpto_n, RIGHT(Recordsource.cod_mun,3) AS cod_mun_na,;
+  Recordsource.edad_ges, Recordsource.tipo_parto, Recordsource.peso,;
+  Recordsource.longitud, Recordsource.cvir, Recordsource.cvir_fec,;
+  Recordsource.cvir_res, Recordsource.cvir2, Recordsource.cvir2_fec,;
+  Recordsource.cvir2_res, Recordsource.tar_prof, Recordsource.esquema,;
+  Recordsource.cua_otr_es, Recordsource.rec_for_la,;
+  Recordsource.rec_forla6, Recordsource.cla_fin, Recordsource.observacio, Recordsource.Ajuste, Recordsource.Fec_aju;
+ FROM ;
+     Eventos_29 Recordsource

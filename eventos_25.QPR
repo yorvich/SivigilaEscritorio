@@ -1,0 +1,14 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.evento, recordSource.tip_pte,;
+  recordSource.tip_nac, recordSource.pes_nac, recordSource.lon_nac,;
+  recordSource.clasificac, recordSource.pes_mn10, recordSource.lon_mn10,;
+  recordSource.talla_mn10, recordSource.pes_talla, recordSource.pes_edad,;
+  recordSource.talla_edad, recordSource.marasmo, recordSource.kwashiorko,;
+  recordSource.cc_cli, recordSource.cc_lab, recordSource.pes_my10,;
+  recordSource.talla_my10, recordSource.lon_alt_ro, recordSource.imc_10_17,;
+  recordSource.imc_18, recordSource.ges_peso, recordSource.ges_talla,;
+  recordSource.edad_ges, recordSource.tip_reg_pe, recordSource.pes_ini_us,;
+  recordSource.gan_pes, recordSource.cla_nom, recordSource.cla_imc,;
+  recordSource.remision, recordSource.sit_rem, recordSource.fec_inf;
+ FROM Eventos_25 AS recordSource 

@@ -1,0 +1,108 @@
+FUNCTION FieldRuleFor_Eventos_94_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_CARGO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(CARGO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_COD_MUN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_MUN))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_DILIGENCIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(DILIGENCIA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_FEC_AJU
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_AJU))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_FEC_NOT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_NOT))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_NUM_CON
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_CON))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_Eventos_94_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+

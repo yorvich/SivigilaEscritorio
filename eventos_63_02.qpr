@@ -1,0 +1,11 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.tipo_ca, Recordsource.consx2_neo,;
+  Recordsource.fec_dx2neo, Recordsource.recaida, Recordsource.fec_dx,;
+  Recordsource.crit_dx_pr, Recordsource.otrodxprob,;
+  Recordsource.fec_tomadp, Recordsource.fec_res_dp,;
+  Recordsource.crit_dx_de, Recordsource.otro_dxdef,;
+  Recordsource.fec_tomadd, Recordsource.fec_res_dd,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     eventos_63 Recordsource

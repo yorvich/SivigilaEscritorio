@@ -1,0 +1,14 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.edad_inici, Recordsource.droga_inic,;
+  Recordsource.edad_inyec, Recordsource.drog_via_i,;
+  Recordsource.act_tranqu, Recordsource.act_estimu,;
+  Recordsource.act_alcoho, Recordsource.act_cocain,;
+  Recordsource.act_heroin, Recordsource.act_metanf,;
+  Recordsource.act_metado, Recordsource.act_analge, Recordsource.act_lsd,;
+  Recordsource.act_ketami, Recordsource.act_ghb, Recordsource.act_speedb,;
+  Recordsource.frec_inyec, Recordsource.comp_mater,;
+  Recordsource.relsin_pre, Recordsource.sobred_año,;
+  Recordsource.sobred_mes, Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_78 Recordsource

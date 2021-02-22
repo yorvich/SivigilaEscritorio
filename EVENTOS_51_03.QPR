@@ -1,0 +1,22 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.naturaleza, Recordsource.esc_vict,;
+  Recordsource.vulnerab, Recordsource.otro_vuln, Recordsource.fact_preci,;
+  Recordsource.antec, Recordsource.edad_agre, Recordsource.sexo_agre,;
+  Recordsource.ocup_agre, Recordsource.esc_agre, Recordsource.r_fam_vic,;
+  Recordsource.otro_fam, Recordsource.conv_agre, Recordsource.r_nofiliar,;
+  Recordsource.otro_nofam, Recordsource.grupos, Recordsource.otro_grup,;
+  Recordsource.armas, Recordsource.sust_intx, Recordsource.otra_arma,;
+  Recordsource.otro_mec, Recordsource.cual_o_mec, Recordsource.sust_vict,;
+  Recordsource.sust_agr, Recordsource.fec_hecho, Recordsource.hora_hecho,;
+  Recordsource.escenario, Recordsource.otro_esce,;
+  Recordsource.dir_escena, Recordsource.zona_conf, Recordsource.sp_psic,;
+  Recordsource.ac_mental, Recordsource.sp_its, Recordsource.prof_hep_b, Recordsource.prof_otras,;
+  Recordsource.ac_anticon, Recordsource.ac_ive, Recordsource.canal_pers,;
+  Recordsource.aten_medic, Recordsource.inf_aut,;
+  Recordsource.inf_autpj, Recordsource.inf_autfis,;
+  Recordsource.remit_aut, Recordsource.remit_prot,;
+  Recordsource.remit_just, Recordsource.otra_asp,;
+  Recordsource.inf_pac_ma, Recordsource.r_protec, Recordsource.tcampo;
+ FROM ;
+     eventos_51 Recordsource

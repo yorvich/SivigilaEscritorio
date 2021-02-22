@@ -1,0 +1,25 @@
+SELECT Recordsource.cod_eve, Recordsource.fec_not, Recordsource.semana,;
+  Recordsource.año, Recordsource.cod_pre, Recordsource.cod_sub,;
+  Recordsource.cod_mun, Recordsource.num_con, ;
+  Recordsource.grupoh_1, Recordsource.grupoh_2, Recordsource.grupoh_3,;
+  Recordsource.grupoh_4, Recordsource.grupoh_5, Recordsource.grupoh_6,;
+  Recordsource.grupoh_7, Recordsource.hospital_1,;
+  Recordsource.hospital_2, Recordsource.hospital_3,;
+  Recordsource.hospital_4, Recordsource.hospital_5,;
+  Recordsource.hospital_6, Recordsource.hospital_7,;
+  Recordsource.irauci_1, Recordsource.irauci_2, Recordsource.irauci_3,;
+  Recordsource.irauci_4, Recordsource.irauci_5, Recordsource.irauci_6,;
+  Recordsource.irauci_7, Recordsource.totuci_1, Recordsource.totuci_2,;
+  Recordsource.totuci_3, Recordsource.totuci_4, Recordsource.totuci_5,;
+  Recordsource.totuci_6, Recordsource.totuci_7, Recordsource.mteira_1,;
+  Recordsource.mteira_2, Recordsource.mteira_3, Recordsource.mteira_4,;
+  Recordsource.mteira_5, Recordsource.mteira_6, Recordsource.mteira_7,;
+  Recordsource.mtetot_1, Recordsource.mtetot_2, Recordsource.mtetot_3,;
+  Recordsource.mtetot_4, Recordsource.mtetot_5, Recordsource.mtetot_6,;
+  Recordsource.mtetot_7, ;
+  RecordSource.IRACEXT_1,RecordSource.IRACEXT_2,RecordSource.IRACEXT_3,RecordSource.IRACEXT_4,RecordSource.IRACEXT_5,RecordSource.IRACEXT_6,RecordSource.IRACEXT_7,RecordSource.TOTCEXT_1,RecordSource.TOTCEXT_2,RecordSource.TOTCEXT_3,RecordSource.TOTCEXT_4,RecordSource.TOTCEXT_5,RecordSource.TOTCEXT_6,RecordSource.TOTCEXT_7,;
+  Recordsource.ajuste, Recordsource.fec_aju,;
+  Recordsource.diligencia, Recordsource.cargo, Recordsource.telefono,;
+  Recordsource.correo;
+ FROM ;
+     EVENTOS_43 Recordsource

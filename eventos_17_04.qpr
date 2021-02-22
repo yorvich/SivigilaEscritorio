@@ -1,0 +1,15 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.cara, Recordsource.tronco,;
+  Recordsource.mie_sup, Recordsource.mie_inf, Recordsource.muc_afe,;
+  Recordsource.rinorrea, Recordsource.epistaxis, Recordsource.onasal,;
+  Recordsource.disfonía, Recordsource.disfagia, Recordsource.hiperemia,;
+  Recordsource.ulceración, Recordsource.perforació,;
+  Recordsource.destrucció, Recordsource.fiebre, Recordsource.hepatomega,;
+  Recordsource.esplenomeg, Recordsource.anemia, Recordsource.leucopenia,;
+  Recordsource.trombocito, Recordsource.coinfe_vih, Recordsource.rec_tto,;
+  Recordsource.pes_pte, Recordsource.med_for, Recordsource.cual,;
+  Recordsource.vol_dia, Recordsource.dia_tto, Recordsource.tot_amp,;
+  Recordsource.ajuste, Recordsource.fec_aju, Recordsource.tto_local;
+ FROM ;
+     Eventos_17 Recordsource

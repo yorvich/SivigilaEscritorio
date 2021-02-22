@@ -1,0 +1,117 @@
+FUNCTION FieldRuleFor_eventos_63_CONSX2_NEO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CONSX2_NEO,'1','2')) AND ( .NOT. EMPTY(CONSX2_NEO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_RECAIDA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RECAIDA,'1','2')) AND ( .NOT. EMPTY(RECAIDA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_CRIT_DX_PR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CRIT_DX_PR,'1','2','3','4','5')) AND ( .NOT. EMPTY(CRIT_DX_PR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_CRIT_DX_DE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CRIT_DX_DE,'1','2','3','4','5','7','8')) OR ( EMPTY(CRIT_DX_DE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_TIPO_CA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIPO_CA,'1','2','3','4','5','6','7','8','9','10','11','12','13','14')) AND ( .NOT. EMPTY(TIPO_CA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_63_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','3','4','5','6','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+

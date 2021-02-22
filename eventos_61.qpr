@@ -1,0 +1,21 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.t_en_resid, Recordsource.triq_previ,;
+  Recordsource.ojo_cirugi, Recordsource.par_ojoder,;
+  Recordsource.par_ojoizq, Recordsource.cic_mucosa,;
+  Recordsource.cic_muc_oj, Recordsource.dep_parsup,;
+  Recordsource.dep_ps_oj, Recordsource.pest_ps_od,;
+  Recordsource.pest_ps_oi, Recordsource.dep_parinf,;
+  Recordsource.dep_pi_oj, Recordsource.pest_pi_od,;
+  Recordsource.pest_pi_oi, Recordsource.pest_go_ps,;
+  Recordsource.pego_ps_oj, Recordsource.pego_ps_od,;
+  Recordsource.pego_ps_oi, Recordsource.pest_go_pi,;
+  Recordsource.pego_pi_oj, Recordsource.pego_pi_od,;
+  Recordsource.pego_pi_oi, Recordsource.pestcornea,;
+  Recordsource.pes_cor_oj, Recordsource.pes_cor_od,;
+  Recordsource.pes_cor_oi, Recordsource.opc_cornea,;
+  Recordsource.eng_parpad, Recordsource.pes_malpos,;
+  Recordsource.cuerpo_ext, Recordsource.fotofobia,;
+  Recordsource.agudeza_od, Recordsource.agudeza_oi;
+ FROM ;
+     Eventos_61 Recordsource

@@ -1,0 +1,11 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.mom_dx, recordSource.fec_wester,;
+  recordSource.edad_ges_1, recordSource.edad_gesdx, recordSource.cd4,;
+  recordSource.cd4_fec, recordSource.cd4_val, recordSource.cvir,;
+  recordSource.cvir_fec, recordSource.cvir_val, recordSource.cvir_2,;
+  recordSource.cvir_2fec, recordSource.cvir_2val, recordSource.tto_arv,;
+  recordSource.e_tto_arv, recordSource.edad_g_ini, recordSource.ini_tto_in,;
+  recordSource.e_tto_intr, recordSource.tipo_par, recordSource.fec_parto,;
+  recordSource.condic_rn, recordSource.motivo_sal, recordSource.observacio;
+ FROM Eventos_28 AS recordSource 

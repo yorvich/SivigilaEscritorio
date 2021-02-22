@@ -1,0 +1,44 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.nom_madre, Recordsource.tip_ide_ma,;
+  Recordsource.num_ide_ma, Recordsource.edad_madre,;
+  Recordsource.no_embaraz, Recordsource.no_nac_viv,;
+  Recordsource.no_abortos, Recordsource.no_mortina,;
+  Recordsource.diagnostic, Recordsource.edadge_dia, Recordsource.ive,;
+  Recordsource.edadge_ive, Recordsource.acido_foli,;
+  Recordsource.af_preconc, Recordsource.af_pren_tr, Recordsource.alcohol,;
+  Recordsource.al_preconc, Recordsource.ca_pren_tr, Recordsource.tabaco,;
+  Recordsource.ct_preconc, Recordsource.cd_pren_tr,;
+  Recordsource.psicoactiv, Recordsource.ps_preconc,;
+  Recordsource.ps_pren_tr, Recordsource.patol_cron,;
+  Recordsource.pc_preconc, Recordsource.pc_pren_tr,;
+  Recordsource.ex_ag_tera, Recordsource.oe_fisicos,;
+  Recordsource.oe_fis_pre, Recordsource.trim_ex_fi,;
+  Recordsource.oe_quimico, Recordsource.oe_qui_pre,;
+  Recordsource.trim_ex_qu, Recordsource.oe_bilogic,;
+  Recordsource.oe_bio_pre, Recordsource.trim_ex_bi,;
+  Recordsource.oe_medic, Recordsource.oe_me_prec,;
+  Recordsource.trim_ex_me, Recordsource.emb_multip,;
+  Recordsource.no_product, Recordsource.nativivo, Recordsource.edad_ges,;
+  Recordsource.peso_nac, Recordsource.defmet_cod,;
+  Recordsource.descripc_1, Recordsource.defse1_cod,;
+  Recordsource.descripc_2, Recordsource.defse2_cod,;
+  Recordsource.descripc_3, Recordsource.malfo1_cod,;
+  Recordsource.desc_mal_1, Recordsource.malfo2_cod,;
+  Recordsource.desc_mal_2, Recordsource.malfo3_cod,;
+  Recordsource.desc_mal_3, Recordsource.malfo4_cod,;
+  Recordsource.desc_mal_4, Recordsource.malfo5_cod,;
+  Recordsource.desc_mal_5, Recordsource.storch, Recordsource.acsigm_rub,;
+  Recordsource.acsigm_tox, Recordsource.acsigm_cit,;
+  Recordsource.acsigm_her, Recordsource.serolo_sif,;
+  Recordsource.tsh_cordon, Recordsource.res_cordon,;
+  Recordsource.tsh_talon, Recordsource.res_talon, Recordsource.tsh_suero,;
+  Recordsource.res_tsh_su, Recordsource.t4_total,;
+  Recordsource.res_t4_tot, Recordsource.t4_libre,;
+  Recordsource.res_t4_lib, Recordsource.rec_tratam,;
+  Recordsource.fec_ini_tr, Recordsource.ajuste, Recordsource.fec_aju,;
+  Recordsource.per_cefali;
+ FROM ;
+     eventos_56 Recordsource
+
+

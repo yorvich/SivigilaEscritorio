@@ -1,0 +1,14 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.compl_neur, Recordsource.fec_ini_si,;
+  Recordsource.tipo_compl, Recordsource.desplazami, Recordsource.codmun,;
+  Recordsource.coddep, Recordsource.codpais, Recordsource.unid_anali,;
+  Recordsource.res_uniana, Recordsource.fec_ult_me,;
+  Recordsource.hubo_1_eco, Recordsource.fec_1_eco, Recordsource.edad_ges,;
+  Recordsource.seg_eapb, Recordsource.ges_ter_em,;
+  Recordsource.fec_ter_em, Recordsource.con_fin_pr,;
+  Recordsource.per_cefali, Recordsource.autopsia,;
+  Recordsource.def_congen, Recordsource.mue_suero,;
+  Recordsource.mue_cordon, Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_85 Recordsource

@@ -1,0 +1,36 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.nauseas, Recordsource.vomito,;
+  Recordsource.diarrea, Recordsource.fiebre, Recordsource.calambres,;
+  Recordsource.cefalea, Recordsource.deshidrata, Recordsource.cianosis,;
+  Recordsource.mialgias, Recordsource.artralgias, Recordsource.mareo,;
+  Recordsource.lmaculopal, Recordsource.escalofrio, Recordsource.tos,;
+  Recordsource.parestesia, Recordsource.sialorrea, Recordsource.miosis,;
+  Recordsource.otros, Recordsource.cual, Recordsource.hora_ini,;
+  Recordsource.ali_in_na1, Recordsource.ali_in_hm1,;
+  Recordsource.ali_in_lc1, Recordsource.ali_in_na2,;
+  Recordsource.ali_in_hm2, Recordsource.ali_in_lc2,;
+  Recordsource.ali_in_na3, Recordsource.ali_in_hm3,;
+  Recordsource.ali_in_lc3, Recordsource.ai_ant_na1,;
+  Recordsource.ai_ant_hm1, Recordsource.ai_ant_lc1,;
+  Recordsource.ai_ant_na2, Recordsource.ai_ant_hm2,;
+  Recordsource.ai_ant_lc2, Recordsource.ai_ant_na3,;
+  Recordsource.ai_ant_hm3, Recordsource.ai_ant_lc3,;
+  Recordsource.ai_an2_na1, Recordsource.ai_an2_hm1,;
+  Recordsource.ai_an2_lc1, Recordsource.ai_an2_na2,;
+  Recordsource.ai_an2_hm2, Recordsource.ai_an2_lc2,;
+  Recordsource.ai_an2_na3, Recordsource.ai_an2_hm3,;
+  Recordsource.ai_an2_lc3, Recordsource.nom_lug, Recordsource.dir_lug,;
+  Recordsource.aso_bro, Recordsource.captado, Recordsource.relacion,;
+  Recordsource.mtra_biolo, Recordsource.mtra_heces,;
+  Recordsource.mtra_vomit, Recordsource.mtra_sangr,;
+  Recordsource.mtra_otra, Recordsource.cual_tip_m, Recordsource.agente1,;
+  Recordsource.agente2, Recordsource.agente3, Recordsource.agente4, Recordsource.CUAL_OT_AG;
+ FROM ;
+     Eventos_22 Recordsource
+
+
+  
+
+  
+    

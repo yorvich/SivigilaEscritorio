@@ -1,0 +1,26 @@
+SELECT recordSource.semana, recordSource.año,;
+  recordSource.cod_pre, recordSource.cod_sub,;
+  recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.ss_ninguno,;
+  recordSource.nauseas, recordSource.vomito,;
+  recordSource.diarrea, recordSource.fiebre,;
+  recordSource.calambres, recordSource.cefalea,;
+  recordSource.deshidrata, recordSource.cianosis,;
+  recordSource.mialgias, recordSource.artralgias,;
+  recordSource.mareo, recordSource.lmaculopal,;
+  recordSource.escalofrio, recordSource.tos,;
+  recordSource.parestesia, recordSource.sialorrea,;
+  recordSource.miosis, recordSource.otros, recordSource.cual,;
+  recordSource.hora_ini, recordSource.ali_in_na1,;
+  recordSource.ali_in_hm1, recordSource.ali_in_lc1,;
+  recordSource.ali_in_na2, recordSource.ali_in_hm2,;
+  recordSource.ali_in_lc2, recordSource.ali_in_na3,;
+  recordSource.ali_in_hm3, recordSource.ali_in_lc3,;
+  recordSource.nom_lug, recordSource.dir_lug,;
+  recordSource.aso_bro, recordSource.captado,;
+  recordSource.relacion, recordSource.mtra_biolo,;
+  recordSource.mtra_heces,recordSource.mtra_vomit,recordSource.mtra_sangr,;
+  recordSource.mtra_otra,recordSource.cual_tip_m,;
+  recordSource.agente1, recordSource.agente2,;
+  recordSource.agente3, recordSource.agente4;
+ FROM Eventos_22 AS recordSource

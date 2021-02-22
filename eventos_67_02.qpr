@@ -1,0 +1,14 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.cod_enferm, Recordsource.nivel_educ,;
+  Recordsource.trab_urban, Recordsource.trab_rural,;
+  Recordsource.jov_vul_ru, Recordsource.jov_vul_ur,;
+  Recordsource.dis_sisner, Recordsource.dis_ojos, Recordsource.dis_oidos,;
+  Recordsource.dis_otrsen, Recordsource.dis_vozhab,;
+  Recordsource.dis_cardio, Recordsource.dis_digest,;
+  Recordsource.dis_sisgen, Recordsource.dis_movimi,;
+  Recordsource.dis_piel, Recordsource.dis_otra, Recordsource.no_definid,;
+  Recordsource.fec_diagno, Recordsource.prueba_lab, Recordsource.ajuste,;
+  Recordsource.fec_aju;
+ FROM ;
+     Eventos_67 Recordsource

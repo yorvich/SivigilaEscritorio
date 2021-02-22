@@ -1,0 +1,15 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.dean_16, Recordsource.dean_15,;
+  Recordsource.dean_13, Recordsource.dean_12, Recordsource.dean_11,;
+  Recordsource.dean_21, Recordsource.dean_22, Recordsource.dean_23,;
+  Recordsource.dean_25, Recordsource.dean_26, Recordsource.dean_36,;
+  Recordsource.dean_46, Recordsource.clas_les, Recordsource.caries,;
+  Recordsource.t_caries, Recordsource.res_madre, Recordsource.res_pac,;
+  Recordsource.cons_agua, Recordsource.cons_sal, Recordsource.orig_sal,;
+  Recordsource.r_cepilla, Recordsource.fr_cepilla,;
+  Recordsource.cant_crem, Recordsource.ing_crem, Recordsource.ing_enjua,;
+  Recordsource.t_flour, Recordsource.lact_mater,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     eventos_49 Recordsource

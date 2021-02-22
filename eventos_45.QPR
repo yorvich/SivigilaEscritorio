@@ -1,0 +1,9 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.nuevo, Recordsource.embarazo,;
+  Recordsource.hospitaliz, Recordsource.tipoexamen,;
+  Recordsource.cua_otro_t, Recordsource.recuento,;
+  Recordsource.gametocito, Recordsource.resp_diag,;
+  Recordsource.result_exa, Recordsource.fec_result;
+ FROM ;
+     Eventos_45 Recordsource

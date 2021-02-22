@@ -1,0 +1,15 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.carne_vacu, Recordsource.vac_fa1,;
+  Recordsource.fec_fa1, Recordsource.fiebre, Recordsource.malgias,;
+  Recordsource.artralgia, Recordsource.cefalea, Recordsource.vomito,;
+  Recordsource.ictericia, Recordsource.hemoptisis, Recordsource.sfaget,;
+  Recordsource.hipiremia, Recordsource.hematemesi, Recordsource.oliguria,;
+  Recordsource.petequias, Recordsource.metrorragi, Recordsource.choque,;
+  Recordsource.bradicardi, Recordsource.melenas, Recordsource.equimosis,;
+  Recordsource.epistaxis, Recordsource.hematuria,;
+  Recordsource.falla_rena, Recordsource.falla_hepa,;
+  Recordsource.hepatomega, Recordsource.cas_fa, Recordsource.codmuninfe,;
+  Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_01 Recordsource

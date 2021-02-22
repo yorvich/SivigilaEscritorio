@@ -1,0 +1,18 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.est_soc, Recordsource.escolarida,;
+  Recordsource.amputacion, Recordsource.laceracion,;
+  Recordsource.contusion, Recordsource.quemadura, Recordsource.dañ_ocu,;
+  Recordsource.dañ_aud, Recordsource.sin_dato, Recordsource.otro,;
+  Recordsource.cual,  Recordsource.cla_gra,Recordsource.ext_que,;
+  Recordsource.ojos, Recordsource.orejas, Recordsource.cara,;
+  Recordsource.cab_cue, Recordsource.via_aer, Recordsource.tronco,;
+  Recordsource.abdomen, Recordsource.ext_sup, Recordsource.ext_inf,;
+  Recordsource.manos, Recordsource.dedos_man, Recordsource.genitales,;
+  Recordsource.sa_sindato, Recordsource.sa_otro, Recordsource.cua_otr_sa,;
+  Recordsource.circunstan, Recordsource.circu_cual, Recordsource.lug_ocu,;
+  Recordsource.lug_ocu_cu, Recordsource.con_alc_le,;
+  Recordsource.con_alc_ac, Recordsource.artefacto, Recordsource.otro_art;
+ FROM ;
+     Eventos_26 Recordsource
+

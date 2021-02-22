@@ -1,0 +1,11 @@
+SELECT Recordsource.mes, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.Filler, Recordsource.num_con,;
+  Recordsource.fec_not, Recordsource.n_colecist, Recordsource.d_colecist,;
+  Recordsource.n_herniorr, Recordsource.d_herniorr,;
+  Recordsource.n_revascul, Recordsource.d_revascul,;
+  Recordsource.n_cesarea, Recordsource.d_cesarea,;
+  Recordsource.n_postcesa, Recordsource.d_postcesa,;
+  Recordsource.n_postpart, Recordsource.d_postpart, Recordsource.ajuste,;
+  Recordsource.fec_aju;
+ FROM ;
+     Eventos_90 Recordsource

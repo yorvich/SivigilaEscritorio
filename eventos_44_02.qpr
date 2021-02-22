@@ -1,0 +1,15 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.nom_madre, recordSource.tip_ide_ma,;
+  recordSource.num_ide_ma, recordSource.peso_nac, recordSource.talla_nac,;
+  recordSource.sexo, recordSource.aborto, recordSource.mortinato,;
+  recordSource.prematurid, recordSource.alteracion, recordSource.lesioncuta,;
+  recordSource.riniserosa, recordSource.hepatoespl, recordSource.hidropesia,;
+  recordSource.lesionosea, recordSource.alterenal, recordSource.altehemato,;
+  recordSource.altefunhep, recordSource.sordera, recordSource.alteocular,;
+  recordSource.asintomati, recordSource.tomaserolo, recordSource.resultsero,;
+  recordSource.resser_lcr, ;
+  IIF(EMPTY(recordSource.tratamient),recordSource.rec_tto,recordSource.tratamient) AS tratamient,;
+  IIF(EMPTY(recordSource.modatratam),recordSource.tip_tto,recordSource.modatratam) AS modatratam,;
+  recordSource.medicadmin, recordSource.motivnotrt;
+ FROM Eventos_44 AS recordSource 

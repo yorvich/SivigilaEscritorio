@@ -1,0 +1,27 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.vac_fa1, recordSource.fec_fa1,;
+  recordSource.vac_fa1_ft, recordSource.vac_fa2, recordSource.fec_fa2,;
+  recordSource.vac_fa2_ft, recordSource.vac_hb1, recordSource.fec_hb1,;
+  recordSource.vac_hb1_ft, recordSource.vac_hb2, recordSource.fec_hb2,;
+  recordSource.vac_hb2_ft, recordSource.dengue, recordSource.malaria,;
+  recordSource.viajo, recordSource.donde_viaj, recordSource.micos,;
+  recordSource.ratas, recordSource.perros, recordSource.cerdos,;
+  recordSource.ninguno, recordSource.contac_acc, recordSource.recibio_tr,;
+  recordSource.fec_transf, recordSource.fiebre, recordSource.escalofrio,;
+  recordSource.cefalea, recordSource.dolor_retr, recordSource.fotofobia,;
+  recordSource.hiperemia, recordSource.astenia, recordSource.adinamia,;
+  recordSource.anorexia, recordSource.osteomialg, recordSource.diaforesis,;
+  recordSource.vomito, recordSource.diarrea, recordSource.dabdominal,;
+  recordSource.ictericia, recordSource.rash, recordSource.petequias,;
+  recordSource.equimosis, recordSource.epistaxis, recordSource.hemoptisis,;
+  recordSource.gingivorra, recordSource.hematemesi, recordSource.metrorragi,;
+  recordSource.hematuria, recordSource.melenas, recordSource.coluria,;
+  recordSource.acolia, recordSource.anuria, recordSource.prueb_torn,;
+  recordSource.res_pr_tor, recordSource.fec_tom_mu, recordSource.entidad_re,;
+  recordSource.lab_ips, recordSource.lab_sal_pu, recordSource.lab_nal_re,;
+  recordSource.gota_grues, recordSource.dengue_igm, recordSource.hep_a_igm,;
+  recordSource.hbs_ag, recordSource.leptosp_ig, recordSource.fa_igm,;
+  recordSource.ais_vir_fa, recordSource.ais_vir_de, recordSource.rickettsia,;
+  recordSource.inmun_hist, recordSource.leptos_mat;
+ FROM Eventos_40 AS recordSource 

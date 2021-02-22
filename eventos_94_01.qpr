@@ -1,0 +1,21 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.cod_mun,;
+  Recordsource.num_con, Recordsource.fec_not, Recordsource.th_0a9,;
+  Recordsource.th_10a19, Recordsource.th_20a29, Recordsource.th_30a39,;
+  Recordsource.th_40a49, Recordsource.th_50a59, Recordsource.th_60a69,;
+  Recordsource.th_70a79, Recordsource.th_80amas, Recordsource.thuci0a9,;
+  Recordsource.thuci10a19, Recordsource.thuci20a29,;
+  Recordsource.thuci30a39, Recordsource.thuci40a49,;
+  Recordsource.thuci50a59, Recordsource.thuci60a69,;
+  Recordsource.thuci70a79, Recordsource.thuci80ama, Recordsource.tmue0a9,;
+  Recordsource.tmue10a19, Recordsource.tmue20a29, Recordsource.tmue30a39,;
+  Recordsource.tmue40a49, Recordsource.tmue50a59, Recordsource.tmue60a69,;
+  Recordsource.tmue70a79, Recordsource.tmue80amas, Recordsource.tceu0a9,;
+  Recordsource.tceu10a19, Recordsource.tceu20a29, Recordsource.tceu30a39,;
+  Recordsource.tceu40a49, Recordsource.tceu50a59, Recordsource.tceu60a69,;
+  Recordsource.tceu70a79, Recordsource.tceu80amas,;
+  Recordsource.diligencia, Recordsource.cargo, Recordsource.telefono,;
+  Recordsource.correo, Recordsource.version, Recordsource.ajuste,;
+  Recordsource.fec_aju;
+ FROM ;
+     EVENTOS_94 Recordsource

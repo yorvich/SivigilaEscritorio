@@ -1,0 +1,15 @@
+SELECT Recordsource.cod_eve, Recordsource.fec_not, Recordsource.semana,;
+  Recordsource.año, Recordsource.cod_pre, Recordsource.cod_sub,;
+  Recordsource.cod_mun, Recordsource.num_con, Recordsource.gru_1,;
+  Recordsource.gru_2, Recordsource.grupo_3, Recordsource.grupo_4,;
+  Recordsource.grupo_5, Recordsource.grupo_6, Recordsource.grupo_7,;
+  Recordsource.grupo_8, Recordsource.grupo_9, Recordsource.grupo_10,;
+  Recordsource.grupo_11, Recordsource.grupo_12, Recordsource.grupo_13,;
+  Recordsource.grupo_14, Recordsource.grupo_15, Recordsource.grupo_16,;
+  Recordsource.grupo_17, Recordsource.grupo_18, Recordsource.cas_sos,;
+  Recordsource.cas_pro, Recordsource.cas_conl, Recordsource.cas_conc,;
+  Recordsource.cas_conn, Recordsource.hombres, Recordsource.mujeres,;
+  Recordsource.vivos, Recordsource.muertos,Recordsource.pte_hos,Recordsource.pte_amb,;
+  LEFT(mun_pro,2) AS cod_dpto_p, RIGHT(mun_pro,3) AS cod_mun_pr,;
+  Recordsource.bar_sector, Recordsource.ajuste, Recordsource.fec_aju ;
+ FROM Brotes Recordsource

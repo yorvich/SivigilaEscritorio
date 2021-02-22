@@ -1,0 +1,9 @@
+*.*
+AgreementData\*.*
+MAPAS\*.*
+REPORTES\*.*
+REPORTES\Tmp\*.*
+DatosValidados\*.*
+SivigilaData\*.*
+TABLAS\*.*
+TmpTables\*.*

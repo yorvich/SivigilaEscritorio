@@ -1,0 +1,12 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.caso, recordSource.cla_lep,;
+  recordSource.clas_final, recordSource.baciloscop, recordSource.fec_bacilo,;
+  recordSource.res_bacilo, recordSource.fec_res_ba, recordSource.biopsia,;
+  recordSource.fec_tom_bi, recordSource.res_bio, recordSource.fec_res_bi,;
+  recordSource.max_gra_di, recordSource.pre_rea_le, recordSource.fec_ini_tr,;
+  recordSource.met_hal, recordSource.fue_con, recordSource.inv_campo,;
+  recordSource.fec_inv, recordSource.tie_con, recordSource.tot_con,;
+  recordSource.con_exa, recordSource.tot_con_si, recordSource.vac_bcg,;
+  recordSource.observacio;
+ FROM Eventos_03 AS recordSource

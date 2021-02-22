@@ -1,0 +1,22 @@
+SELECT recordSource.semana, recordSource.año,;
+  recordSource.cod_pre, recordSource.cod_sub,;
+  recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.fec_inv,;
+  recordSource.ent_rea_in, recordSource.mue_detx,;
+  recordSource.sitio_mue, recordSource.otro_sitio,;
+  recordSource.nombre_ent, recordSource.tip_doc_en,;
+  recordSource.num_ide_en, recordSource.parentesco,;
+  recordSource.otro_paren, recordSource.escola_mad,;
+  recordSource.estrato, recordSource.estado_civ,;
+  recordSource.ocupacion, recordSource.peso_nacer,;
+  recordSource.ant_des, recordSource.esq_vacuna,;
+  recordSource.hacinamien, recordSource.poca_venti,;
+  recordSource.humedad, recordSource.acueducto,;
+  recordSource.alcantaril, recordSource.gas,;
+  recordSource.electricid, recordSource.se_fuma_vi,;
+  recordSource.cocina_con, recordSource.ftes_conta,;
+  recordSource.trafico_ve, recordSource.signos_ala,;
+  recordSource.ayuda_méd, recordSource.facil_tran,;
+  recordSource.dif_admiti, recordSource.cual,;
+  recordSource.ate_oportu, recordSource.cal_atenci;
+ FROM Eventos_30 AS recordSource

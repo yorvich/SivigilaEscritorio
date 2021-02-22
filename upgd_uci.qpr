@@ -1,0 +1,6 @@
+SELECT Recordsource.cod_pre, Recordsource.cod_sub, Recordsource.id_uci,;
+  Recordsource.tipo_uci, Recordsource.tot_uci, Recordsource.comp_espac,;
+  Recordsource.n_cam_inte, Recordsource.sub_tipuci, Recordsource.activa,;
+  Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     UPGD_UCIS Recordsource

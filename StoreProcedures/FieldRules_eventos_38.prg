@@ -1,0 +1,765 @@
+FUNCTION FieldRuleFor_eventos_38_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_NOM_MADRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NOM_MADRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TIP_IDE_MA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE_MA,'RC','TI','CC','CE','PA','MS','AS')) AND ( .NOT. EMPTY(TIP_IDE_MA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_NUM_IDE_MA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE_MA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_EDAD_NIÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( VAL(EDAD_NIÑO)>0  AND  VAL(EDAD_NIÑO) <=48 AND ISNUMERIC(EDAD_NIÑO)) OR ( EMPTY(EDAD_NIÑO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_EDAD_GEST
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( VAL(EDAD_GEST)>=22  AND  VAL(EDAD_GEST) <=43 AND ISNUMERIC(EDAD_GEST)) AND ( .NOT. EMPTY(EDAD_GEST)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_PARTO_MULT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARTO_MULT,'1','2')) AND ( .NOT. EMPTY(PARTO_MULT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_BAJO_PN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(BAJO_PN,'1','2')) AND ( .NOT. EMPTY(BAJO_PN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_PESO_NACER
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( VAL(PESO_NACER)>=500  AND  VAL(PESO_NACER) <=4999 AND ISNUMERIC(PESO_NACER)) AND ( .NOT. EMPTY(PESO_NACER)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TAMIZAJE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TAMIZAJE,'1','2')) AND ( .NOT. EMPTY(TAMIZAJE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RESULTADO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RESULTADO,'1','2')) OR ( EMPTY(RESULTADO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_PARTO_ATEN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARTO_ATEN,'1','2','3')) AND ( .NOT. EMPTY(PARTO_ATEN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_COND_M_DX
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(COND_M_DX,'1','2','3','4','5','6')) AND ( .NOT. EMPTY(COND_M_DX)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RES_TSH_NA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(RES_TSH_NA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_REC_TTO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(REC_TTO,'1','2')) AND ( .NOT. EMPTY(REC_TTO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_VAL_MED_GR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VAL_MED_GR,'1','2')) AND ( .NOT. EMPTY(VAL_MED_GR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_VAL_PEDIAT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VAL_PEDIAT,'1','2')) AND ( .NOT. EMPTY(VAL_PEDIAT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_VAL_ENDOCR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VAL_ENDOCR,'1','2')) AND ( .NOT. EMPTY(VAL_ENDOCR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_VAL_NEUROL
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VAL_NEUROL,'1','2')) AND ( .NOT. EMPTY(VAL_NEUROL)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_VAL_GENETI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VAL_GENETI,'1','2')) AND ( .NOT. EMPTY(VAL_GENETI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_VAL_NINGUN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VAL_NINGUN,'1','2')) AND ( .NOT. EMPTY(VAL_NINGUN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_ECO_TIROID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ECO_TIROID,'1','2')) AND ( .NOT. EMPTY(ECO_TIROID)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RX_RODILLA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RX_RODILLA,'1','2')) AND ( .NOT. EMPTY(RX_RODILLA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TTO_MATERN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TTO_MATERN,'1','2')) AND ( .NOT. EMPTY(TTO_MATERN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TTO_LACTAN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TTO_LACTAN,'1','2')) AND ( .NOT. EMPTY(TTO_LACTAN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TSH_CORDON
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TSH_CORDON,'1','2')) OR ( EMPTY(TSH_CORDON)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RES_CORDON
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RES_CORDON,'1','2','3')) OR ( EMPTY(RES_CORDON)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TSH_TALON
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TSH_TALON,'1','2')) OR ( EMPTY(TSH_TALON)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RES_TALON
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RES_TALON,'1','2','3')) OR ( EMPTY(RES_TALON)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TSH_CONFIR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TSH_CONFIR,'1','2')) OR ( EMPTY(TSH_CONFIR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RES_CONFIR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RES_CONFIR,'1','2','3')) OR ( EMPTY(RES_CONFIR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_T4_TOTAL
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(T4_TOTAL,'1','2')) OR ( EMPTY(T4_TOTAL)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RES_T4_TOT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RES_T4_TOT,'1','2','3')) OR ( EMPTY(RES_T4_TOT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_T4_LIBRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(T4_LIBRE,'1','2')) OR ( EMPTY(T4_LIBRE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RES_T4_LIB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RES_T4_LIB,'1','2','3')) OR ( EMPTY(RES_T4_LIB)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_T3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(T3,'1','2')) OR ( EMPTY(T3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RES_T3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RES_T3,'1','2','3')) OR ( EMPTY(RES_T3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_TBG
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TBG,'1','2')) OR ( EMPTY(TBG)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_RES_TBG
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RES_TBG,'1','2','3')) OR ( EMPTY(RES_TBG)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_ENE_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ENE_1,'1','2')) AND ( .NOT. EMPTY(ENE_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_FEB_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FEB_1,'1','2')) AND ( .NOT. EMPTY(FEB_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_MAR_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MAR_1,'1','2')) AND ( .NOT. EMPTY(MAR_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_ABR_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ABR_1,'1','2')) AND ( .NOT. EMPTY(ABR_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_MAY_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MAY_1,'1','2')) AND ( .NOT. EMPTY(MAY_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_JUN_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(JUN_1,'1','2')) AND ( .NOT. EMPTY(JUN_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_JUL_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(JUL_1,'1','2')) AND ( .NOT. EMPTY(JUL_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_AGO_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AGO_1,'1','2')) AND ( .NOT. EMPTY(AGO_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_SEP_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEP_1,'1','2')) AND ( .NOT. EMPTY(SEP_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_OCT_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(OCT_1,'1','2')) AND ( .NOT. EMPTY(OCT_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_NOV_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(NOV_1,'1','2')) AND ( .NOT. EMPTY(NOV_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_DIC_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DIC_1,'1','2')) AND ( .NOT. EMPTY(DIC_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_ENE_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ENE_2,'1','2')) AND ( .NOT. EMPTY(ENE_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_FEB_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FEB_2,'1','2')) AND ( .NOT. EMPTY(FEB_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_MAR_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MAR_2,'1','2')) AND ( .NOT. EMPTY(MAR_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_ABR_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ABR_2,'1','2')) AND ( .NOT. EMPTY(ABR_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_MAY_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MAY_2,'1','2')) AND ( .NOT. EMPTY(MAY_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_JUN_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(JUN_2,'1','2')) AND ( .NOT. EMPTY(JUN_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_JUL_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(JUL_2,'1','2')) AND ( .NOT. EMPTY(JUL_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_AGO_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AGO_2,'1','2')) AND ( .NOT. EMPTY(AGO_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_SEP_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEP_2,'1','2')) AND ( .NOT. EMPTY(SEP_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_OCT_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(OCT_2,'1','2')) AND ( .NOT. EMPTY(OCT_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_NOV_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(NOV_2,'1','2')) AND ( .NOT. EMPTY(NOV_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_DIC_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DIC_2,'1','2')) AND ( .NOT. EMPTY(DIC_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_ENE_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ENE_3,'1','2')) AND ( .NOT. EMPTY(ENE_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_FEB_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FEB_3,'1','2')) AND ( .NOT. EMPTY(FEB_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_MAR_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MAR_3,'1','2')) AND ( .NOT. EMPTY(MAR_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_ABR_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ABR_3,'1','2')) AND ( .NOT. EMPTY(ABR_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_MAY_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MAY_3,'1','2')) AND ( .NOT. EMPTY(MAY_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_JUN_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(JUN_3,'1','2')) AND ( .NOT. EMPTY(JUN_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_JUL_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(JUL_3,'1','2')) AND ( .NOT. EMPTY(JUL_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_AGO_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AGO_3,'1','2')) AND ( .NOT. EMPTY(AGO_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_SEP_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEP_3,'1','2')) AND ( .NOT. EMPTY(SEP_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_OCT_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(OCT_3,'1','2')) AND ( .NOT. EMPTY(OCT_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_NOV_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(NOV_3,'1','2')) AND ( .NOT. EMPTY(NOV_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_DIC_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DIC_3,'1','2')) AND ( .NOT. EMPTY(DIC_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_PUNTAJE_1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PUNTAJE_1,'1','2')) AND ( .NOT. EMPTY(PUNTAJE_1)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_PUNTAJE_2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PUNTAJE_2,'1','2')) AND ( .NOT. EMPTY(PUNTAJE_2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_PUNTAJE_3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PUNTAJE_3,'1','2')) AND ( .NOT. EMPTY(PUNTAJE_3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_38_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','3','4','5','6','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+

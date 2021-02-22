@@ -1,0 +1,16 @@
+SELECT Recordsource.cod_eve, Recordsource.fec_not, Recordsource.semana,;
+  Recordsource.año, Recordsource.cod_pre, Recordsource.cod_sub,;
+  Recordsource.cod_mun, Recordsource.num_con,;
+  Recordsource.gru_1, Recordsource.gru_2, Recordsource.gru_3,;
+  Recordsource.gru_4, Recordsource.gru_5, Recordsource.gru_6,;
+  Recordsource.cas_sos, Recordsource.cas_pro, Recordsource.cas_conl,;
+  Recordsource.cas_conc, Recordsource.cas_conn, Recordsource.hombres,;
+  Recordsource.mujeres, Recordsource.vivos, Recordsource.muertos,;
+  LEFT(mun_pro,2) AS cod_dpto_p, RIGHT(mun_pro,3) AS cod_mun_pr,;
+  Recordsource.ajuste, Recordsource.fec_aju, Recordsource.pte_hos,;
+  Recordsource.pte_amb, Upgd.nit_upgd;
+ FROM ;
+     Brotes Recordsource ;
+    INNER JOIN upgd ;
+   ON  Recordsource.cod_pre = Upgd.cod_pre;
+   AND  Recordsource.cod_sub = Upgd.cod_sub

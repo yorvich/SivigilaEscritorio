@@ -1,0 +1,24 @@
+SELECT recordSource.semana, recordSource.año,;
+  recordSource.cod_pre, recordSource.cod_sub,;
+  recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.nom_pm,;
+  recordSource.ocu_pm, recordSource.dir_pm,;
+  recordSource.cas_detx, recordSource.vac_sar,;
+  recordSource.dos_sar, recordSource.ult_sar,;
+  recordSource.fte_sar, recordSource.tip_vac_sa,;
+  recordSource.vac_rub, recordSource.dos_rub,;
+  recordSource.ult_rub, recordSource.fte_rub,;
+  recordSource.tip_vac_ru, recordSource.fvis_dom,;
+  recordSource.dx_ini, recordSource.fini_fie,;
+  recordSource.tip_eru, recordSource.fini_eru,;
+  recordSource.dur_dia, recordSource.tos,;
+  recordSource.coriza, recordSource.conjuntivi,;
+  recordSource.adenopatia, recordSource.artralgia,;
+  recordSource.embarazada, recordSource.num_sem,;
+  recordSource.mun_par, recordSource.sar_rub_7,;
+  recordSource.sar_rub_a, recordSource.viajo,;
+  recordSource.don_mun, recordSource.con_muj_e,;
+  recordSource.vac_bloq, recordSource.mon_rap,;
+  recordSource.seg_cont, recordSource.fte_infecc,;
+  recordSource.imp_pais, recordSource.cri_des;
+ FROM Eventos_06 AS recordSource

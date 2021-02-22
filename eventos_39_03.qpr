@@ -1,0 +1,12 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.dol_cue, Recordsource.dol_gar,;
+  Recordsource.imp_hablar, Recordsource.disfagia,;
+  Recordsource.convulsion, Recordsource.con_muscul,;
+  Recordsource.rig_mu_abd, Recordsource.esp_genera,;
+  Recordsource.rig_nuca, Recordsource.afe_ner_cr, Recordsource.trismus,;
+  Recordsource.opistótono, Recordsource.fiebre, Recordsource.otro_cual,;
+  Recordsource.est_final,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     Eventos_39 Recordsource

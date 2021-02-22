@@ -1,0 +1,8 @@
+SELECT RecordSource.SEMANA    ,	RecordSource.AÑO       ,	RecordSource.COD_PRE   ,	RecordSource.COD_SUB   ,	RecordSource.COD_EVE   ,;
+RecordSource.TIP_IDE   ,	RecordSource.NUM_IDE   ,	RecordSource.CARNE_VACU,	RecordSource.VAC_FA1   ,	RecordSource.FEC_FA1   ,;
+RecordSource.FIEBRE    ,	RecordSource.MALGIAS   ,	RecordSource.ARTRALGIA ,	RecordSource.CEFALEA   ,	RecordSource.VOMITO    ,;
+RecordSource.ICTERICIA ,	RecordSource.HEMOPTISIS,	RecordSource.SFAGET    ,	RecordSource.HIPIREMIA ,	RecordSource.HEMATEMESI,;
+RecordSource.OLIGURIA  ,	RecordSource.PETEQUIAS ,	RecordSource.METRORRAGI,	RecordSource.CHOQUE    ,	RecordSource.BRADICARDI,;
+RecordSource.MELENAS   ,	RecordSource.EQUIMOSIS ,	RecordSource.EPISTAXIS ,	RecordSource.HEMATURIA ,	RecordSource.FALLA_RENA,;
+RecordSource.FALLA_HEPA,	RecordSource.HEPATOMEGA,	RecordSource.CAS_FA    ,	RecordSource.CODMUNINFE FROM ;
+     Eventos_01 Recordsource

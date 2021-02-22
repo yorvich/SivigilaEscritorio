@@ -1,0 +1,19 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.vac_hep_a, Recordsource.num_dosis,;
+  Recordsource.fec_ult_va, Recordsource.fuente_vac, Recordsource.cefalea,;
+  Recordsource.malestar, Recordsource.astenia, Recordsource.adinamia,;
+  Recordsource.vomito, Recordsource.diarrea, Recordsource.hepatomega,;
+  Recordsource.fiebre, Recordsource.mialgias, Recordsource.ictericia,;
+  Recordsource.dabdominal, Recordsource.prurito, Recordsource.coluria,;
+  Recordsource.erupcion, Recordsource.acolia, Recordsource.complicaci,;
+  Recordsource.ict_prolon, Recordsource.hep_colest,;
+  Recordsource.hep_recidi, Recordsource.falla_hepa,;
+  Recordsource.com_neurol, Recordsource.sepsis, Recordsource.viajo,;
+  Recordsource.fec_despla, Recordsource.codmun_via,;
+  Recordsource.antec_cont, Recordsource.lugar_asoc,;
+  Recordsource.asoc_brote, Recordsource.orig_hidri,;
+  Recordsource.fuen_proga, Recordsource.mon_rap_va,;
+  Recordsource.vac_bloque, Recordsource.seg_contac;
+ FROM ;
+     eventos_57 Recordsource

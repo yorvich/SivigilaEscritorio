@@ -1,0 +1,20 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.sit_defunc, Recordsource.nom_madre,;
+  Recordsource.apel_madre, Recordsource.tip_ide_ma,;
+  Recordsource.num_ide_ma, Recordsource.edad_madre,;
+  Recordsource.num_hi_viv, Recordsource.num_hi_mue,;
+  Recordsource.est_conyug, Recordsource.ult_año_es,;
+  Recordsource.mecanismo1, Recordsource.mecanismo2,;
+  Recordsource.mecanismo3, Recordsource.mecanismo4,;
+  Recordsource.asis_medic, Recordsource.c_direct_a,;
+  Recordsource.c_antecb, Recordsource.c_antecc, Recordsource.c_antecd,;
+  Recordsource.otr_patol, Recordsource.cau_pr_scm,;
+  Recordsource.clas_caso, Recordsource.ajuste, Recordsource.fec_aju,;
+  Recordsource.est_ingr;
+ FROM ;
+     Eventos_82 Recordsource
+     
+     
+
+

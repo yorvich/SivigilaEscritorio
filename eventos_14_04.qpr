@@ -1,0 +1,12 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.cas_ide, Recordsource.con_cc,;
+  Recordsource.car_vac, Recordsource.dos_apli, Recordsource.tip_vac,;
+  Recordsource.cual_tip_v, Recordsource.fec_ud, Recordsource.fiebre,;
+  Recordsource.amigdaliti, Recordsource.faringitis,;
+  Recordsource.laringitis, Recordsource.pre_mem, Recordsource.complicaci,;
+  Recordsource.tip_com, Recordsource.ant_dif, Recordsource.dos_apl,;
+  Recordsource.fec_apl,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     Eventos_14 Recordsource

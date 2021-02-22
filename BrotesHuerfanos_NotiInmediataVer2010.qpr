@@ -1,0 +1,11 @@
+SELECT Br.* FROM (SELECT Plano_Brotes.*, RECNO() AS nReg FROM PLANO_BROTES) as Br ;
+    LEFT OUTER JOIN  (SELECT * FROM plano_eventos WHERE !("LAB" $ Plano_Eventos.Control)) as B ;
+   ON ( ( ( ( (  (Br.año = B.año;
+   AND  Br.semana = B.semana );
+   AND  Br.cod_eve = B.cod_eve );
+   AND  Br.cod_mun = B.tip_ide );
+   AND  Br.num_con = B.num_ide );
+   AND  Br.cod_pre = B.cod_pre );
+   AND  Br.cod_sub = B.cod_sub);
+ WHERE B.cod_eve IS NULL ;
+   AND  VAL(Br.Ajuste)=0 AND Br.INMEDIATA='NO' AND Br.cod_eve NOT IN (SELECT Eventos.cod_eve FROM eventos WHERE  EMPTY(Eventos.formulario))

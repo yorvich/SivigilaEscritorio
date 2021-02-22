@@ -1,0 +1,16 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.tipo_cance, Recordsource.fec_pro_co,;
+  Recordsource.fec_res_bi, Recordsource.res_biops9,;
+  Recordsource.grad_histo, Recordsource.clas_cieo,;
+  Recordsource.fec_toma_e, Recordsource.fec_res_ex,;
+  Recordsource.biop_exoce, Recordsource.res_b_exoc,;
+  Recordsource.grado_hist, Recordsource.biop_endoc,;
+  Recordsource.res_b_aden, Recordsource.res_b_hist,;
+  Recordsource.cla_cie_hi, Recordsource.seg_trat_i,;
+  Recordsource.radioterap, Recordsource.quirurgico,;
+  Recordsource.quimiotera, Recordsource.hormonoter,;
+  Recordsource.cuid_palia, Recordsource.inmunotera,;
+  Recordsource.fch_seg_tr, Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_79 Recordsource

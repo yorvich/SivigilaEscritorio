@@ -1,0 +1,19 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.cla_ini, recordSource.nom_mad_tu,;
+  recordSource.mun_nac, recordSource.fue_not, recordSource.nom_mad,;
+  recordSource.edad, recordSource.num_emb, recordSource.car_vac,;
+  recordSource.vac_rub, recordSource.dos_rub, recordSource.ult_dos,;
+  recordSource.rub_con, recordSource.sem_emb, recordSource.sim_rub,;
+  recordSource.se_sim, recordSource.exp_rub, recordSource.se_exp,;
+  recordSource.mun_exp, recordSource.viajes, recordSource.se_via,;
+  recordSource.mun_via, recordSource.apgar, recordSource.bpn, recordSource.peso,;
+  recordSource.peq_eda, recordSource.semanas, recordSource.cataratas,;
+  recordSource.glaucoma, recordSource.retinopati, recordSource.otr_ojo,;
+  recordSource.per_con, recordSource.est_art, recordSource.otr_cor,;
+  recordSource.sordera, recordSource.otr_oid, recordSource.microcefal,;
+  recordSource.ret_des, recordSource.purpura, recordSource.hepatomega,;
+  recordSource.ict_nac, recordSource.esplenomeg, recordSource.ost_rad,;
+  recordSource.meningoenc, recordSource.otro, recordSource.dx_fin,;
+  recordSource.investigad, recordSource.tel_invest;
+ FROM Eventos_10 AS recordSource

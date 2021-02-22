@@ -1,0 +1,17 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.est_soc, Recordsource.escolarida,;
+  Recordsource.amputacion, Recordsource.laceracion,;
+  Recordsource.contusion, Recordsource.herida, Recordsource.quemadura,;
+  Recordsource.sit_quemad, Recordsource.cla_gra, Recordsource.ext_que,;
+  Recordsource.dañ_ocu, Recordsource.dañ_aud, Recordsource.fracturas,;
+  Recordsource.sin_dato, Recordsource.via_aer, Recordsource.abdomen,;
+  Recordsource.sa_sindato, Recordsource.sa_otro, Recordsource.cua_otr_sa,;
+  Recordsource.circunstan, Recordsource.circu_cual,;
+  Recordsource.intenc_man, Recordsource.lug_ocu, Recordsource.cir_social,;
+  Recordsource.lug_ocu_cu, Recordsource.con_alc_le,;
+  Recordsource.con_alc_ac, Recordsource.artef_lesi,;
+  Recordsource.artefacto, Recordsource.otro_art;
+ FROM ;
+     Eventos_26 Recordsource
+

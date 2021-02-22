@@ -1,0 +1,522 @@
+FUNCTION FieldRuleFor_eventos_04_FLA_MSD
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FLA_MSD,'1','2')) OR ( EMPTY(FLA_MSD)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PAR_MSI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PAR_MSI,'1','2')) OR ( EMPTY(PAR_MSI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PARA_MSI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARA_MSI,'1','2')) OR ( EMPTY(PARA_MSI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_FLA_MSI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FLA_MSI,'1','2')) OR ( EMPTY(FLA_MSI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PAR_MID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PAR_MID,'1','2')) OR ( EMPTY(PAR_MID)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PARA_MID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARA_MID,'1','2')) OR ( EMPTY(PARA_MID)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_FLA_MID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FLA_MID,'1','2')) OR ( EMPTY(FLA_MID)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PAR_MII
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PAR_MII,'1','2')) OR ( EMPTY(PAR_MII)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PARA_MII
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARA_MII,'1','2')) OR ( EMPTY(PARA_MII)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_FLA_MII
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FLA_MII,'1','2')) OR ( EMPTY(FLA_MII)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_LOC_MSD
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LOC_MSD,'1','2')) OR ( EMPTY(LOC_MSD)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_SEN_MSD
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEN_MSD,'1','2','3')) OR ( EMPTY(SEN_MSD)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_ROT_MSD
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ROT_MSD,'1','2','3')) OR ( EMPTY(ROT_MSD)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_LOC_MSI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LOC_MSI,'1','2')) OR ( EMPTY(LOC_MSI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_SEN_MSI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEN_MSI,'1','2','3')) OR ( EMPTY(SEN_MSI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_ROT_MSI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ROT_MSI,'1','2','3')) OR ( EMPTY(ROT_MSI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_LOC_MID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LOC_MID,'1','2')) OR ( EMPTY(LOC_MID)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_SEN_MID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEN_MID,'1','2','3')) OR ( EMPTY(SEN_MID)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_ROT_MID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ROT_MID,'1','2','3')) OR ( EMPTY(ROT_MID)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_LOC_MII
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LOC_MII,'1','2')) OR ( EMPTY(LOC_MII)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_DOS_REC
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( VAL(DOS_REC)>=0  AND  VAL(DOS_REC) <=9 AND ISNUMERIC(DOS_REC)) AND ( .NOT. EMPTY(DOS_REC)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_DOS_VIP_RE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( VAL(DOS_VIP_RE)>=0  AND  VAL(DOS_VIP_RE) <=9 AND ISNUMERIC(DOS_VIP_RE)) AND ( .NOT. EMPTY(DOS_VIP_RE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_TIE_CAR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIE_CAR,'1','2','3')) AND ( .NOT. EMPTY(TIE_CAR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_FIEBRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FIEBRE,'1','2','3')) AND ( .NOT. EMPTY(FIEBRE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_RESPIRATOR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RESPIRATOR,'1','2','3')) AND ( .NOT. EMPTY(RESPIRATOR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_DIGESTIVOS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DIGESTIVOS,'1','2','3')) AND ( .NOT. EMPTY(DIGESTIVOS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_DOL_MUS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DOL_MUS,'1','2','3')) AND ( .NOT. EMPTY(DOL_MUS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_SIG_MEN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SIG_MEN,'1','2','3')) AND ( .NOT. EMPTY(SIG_MEN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_FIE_INI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FIE_INI,'1','2','3')) AND ( .NOT. EMPTY(FIE_INI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PROGRESION
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PROGRESION,'1','2','3')) AND ( .NOT. EMPTY(PROGRESION)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_INI_PAR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(INI_PAR))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PAR_MSD
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PAR_MSD,'1','2')) OR ( EMPTY(PAR_MSD)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PARA_MSD
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARA_MSD,'1','2')) OR ( EMPTY(PARA_MSD)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_SEN_MII
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEN_MII,'1','2','3')) OR ( EMPTY(SEN_MII)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_ROT_MII
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ROT_MII,'1','2','3')) OR ( EMPTY(ROT_MII)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_CMUS_RES
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CMUS_RES,'1','2','3')) AND ( .NOT. EMPTY(CMUS_RES)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_CSIG_MEN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CSIG_MEN,'1','2','3')) AND ( .NOT. EMPTY(CSIG_MEN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_COM_BAB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(COM_BAB,'1','2','3')) AND ( .NOT. EMPTY(COM_BAB)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_COM_BRU
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(COM_BRU,'1','2','3')) AND ( .NOT. EMPTY(COM_BRU)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_CPAR_CRA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CPAR_CRA,'1','2','3')) AND ( .NOT. EMPTY(CPAR_CRA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_TOM_LIQ_CE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TOM_LIQ_CE,'1','2','3')) OR ( EMPTY(TOM_LIQ_CE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_TELE_MIO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TELE_MIO,'1','2','3')) OR ( EMPTY(TELE_MIO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_VEL_CON
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VEL_CON,'1','2','3')) OR ( EMPTY(VEL_CON)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_MAT_FEC
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MAT_FEC,'1','2','3')) OR ( EMPTY(MAT_FEC)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_RES_MF
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RES_MF,'1','2','3','4','5','6','7','8','9','10','11','12','13')) OR ( EMPTY(RES_MF)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_CAS_DETX
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CAS_DETX,'1','2','3','4','5','6','7','8')) OR ( EMPTY(CAS_DETX)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_PAR_RES
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PAR_RES,'1','2','3')) OR ( EMPTY(PAR_RES)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_ATROFIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ATROFIA,'1','2','3')) OR ( EMPTY(ATROFIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_CLA_FIN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CLA_FIN,'1','2','3','4','5')) OR ( EMPTY(CLA_FIN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_CRI_CLA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CRI_CLA,'1','2','3','4','5','6')) OR ( EMPTY(CRI_CLA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_04_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','3','4','5','6','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+

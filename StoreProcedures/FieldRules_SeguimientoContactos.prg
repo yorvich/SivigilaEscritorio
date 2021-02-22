@@ -1,0 +1,144 @@
+FUNCTION FieldRuleFor_SeguimientoContactos_FECINI_GRA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FECINI_GRA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_ID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(ID) OR NOTIF_IAAS!='1')
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_ID_PERSONA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(ID_PERSONA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_SINTOMATIC
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SINTOMATIC,'1','2')) AND ( .NOT. EMPTY(SINTOMATIC)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_HOSPITALIZ
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(HOSPITALIZ,'1','2')) AND ( .NOT. EMPTY(HOSPITALIZ)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_FEC_SEGUMI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_SEGUMI))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_HORA_SEGUI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(HORA_SEGUI))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_TOS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TOS,'1','2')) OR ( EMPTY(TOS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_FIEBRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FIEBRE,'1','2')) OR ( EMPTY(FIEBRE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_DIF_RES
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DIF_RES,'1','2')) OR ( EMPTY(DIF_RES)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_ODINOFAGIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ODINOFAGIA,'1','2')) OR ( EMPTY(ODINOFAGIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_ADINAMIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ADINAMIA,'1','2')) OR ( EMPTY(ADINAMIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','6','7','D')) AND ( .NOT. EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_FEC_AJU
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_AJU))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_EST_INGR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(EST_INGR,0,2,3)) OR (EST_INGR=0))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_SeguimientoContactos_ESTADOTRAN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ESTADOTRAN,'3','5','2')) AND ( .NOT. EMPTY(ESTADOTRAN)))
+	ENDIF
+ENDFUNC
+
+

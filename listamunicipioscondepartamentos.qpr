@@ -1,0 +1,6 @@
+SELECT Municipios.cod_mun, Municipios.nom_mun, Deptos.nom_dep;
+ FROM ;
+     Municipios ;
+    LEFT OUTER JOIN Deptos ;
+   ON  LEFT(Municipios.cod_mun,2) = Deptos.cod_dep;
+ INTO CURSOR rsListaMunicipios  READWRITE

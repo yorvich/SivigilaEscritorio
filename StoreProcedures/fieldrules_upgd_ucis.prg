@@ -1,0 +1,54 @@
+FUNCTION FieldRuleFor_upgd_ucis_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_upgd_ucis_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_upgd_ucis_TIPO_UCI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIPO_UCI,'A','P','N')) AND ( .NOT. EMPTY(TIPO_UCI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_upgd_ucis_TOT_UCI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ((TOT_UCI>=1  AND TOT_UCI <= 999 AND ISNUMERIC(TOT_UCI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_upgd_ucis_SUB_TIPUCI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SUB_TIPUCI,'2','3')) AND ( .NOT. EMPTY(SUB_TIPUCI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_upgd_ucis_ACTIVA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ACTIVA,'1','2')) AND ( .NOT. EMPTY(ACTIVA)))
+	ENDIF
+ENDFUNC
+
+

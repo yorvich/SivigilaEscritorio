@@ -1,0 +1,26 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.viajo, Recordsource.donde_viaj,;
+  Recordsource.ratas, Recordsource.perros, Recordsource.cerdos,;
+  Recordsource.contac_acc, Recordsource.recibio_tr, Recordsource.fiebre,;
+  Recordsource.escalofrio, Recordsource.cefalea, Recordsource.dolor_retr,;
+  Recordsource.vomito, Recordsource.diarrea, Recordsource.dabdominal,;
+  Recordsource.ictericia, Recordsource.dias_fiebr, Recordsource.mialgias,;
+  Recordsource.artralgias, Recordsource.hepatomega,;
+  Recordsource.esplenomeg, Recordsource.adenopatia, Recordsource.disnea,;
+  Recordsource.deshidrata, Recordsource.sig_mening,;
+  Recordsource.exantema, Recordsource.loc_exante, Recordsource.edema,;
+  Recordsource.loc_edema, Recordsource.convulsion,;
+  Recordsource.hemorragia, Recordsource.loc_hemorr,;
+  Recordsource.dolor_pant, Recordsource.sudor_noct,;
+  Recordsource.epididimit, Recordsource.orquitis, Recordsource.oliguria,;
+  Recordsource.anim_en_ca, Recordsource.gatos, Recordsource.bovinos,;
+  Recordsource.equinos, Recordsource.silvestres, Recordsource.cual_silve,;
+  Recordsource.otr_animal, Recordsource.cual_otr_a,;
+  Recordsource.picad_garr, Recordsource.picad_pioj,;
+  Recordsource.picad_pulg, Recordsource.cons_leche,;
+  Recordsource.mult_parej, Recordsource.usa_hemodi,;
+  Recordsource.usa_drog_i, Recordsource.cont_hbsag,;
+  Recordsource.manip_secr, Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_40 Recordsource

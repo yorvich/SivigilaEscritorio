@@ -1,0 +1,14 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.f_vis_cam, recordSource.num_dos_dp,;
+  recordSource.f_ult_dos, recordSource.inf_vac_ob, recordSource.ant_med,;
+  recordSource.otros_ant, recordSource.dol_cue, recordSource.dol_gar,;
+  recordSource.imp_hablar, recordSource.disfagia, recordSource.convulsion,;
+  recordSource.con_muscul, recordSource.rig_mu_abd, recordSource.esp_genera,;
+  recordSource.rig_nuca, recordSource.afe_ner_cr, recordSource.trismus,;
+  recordSource.opistótono, recordSource.fiebre, recordSource.otro_cual,;
+  recordSource.puerta_ent, recordSource.puerta_otr, recordSource.fec_herida,;
+  recordSource.loc_ana_he, recordSource.manejo_ini, recordSource.manejo_otr,;
+  recordSource.adm_antito, recordSource.fec_adm, recordSource.adm_toxoid,;
+  recordSource.fec_adm_to, recordSource.est_final;
+ FROM Eventos_39 AS recordSource 

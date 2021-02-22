@@ -1,0 +1,16 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.vig_activa, Recordsource.sintomatic,;
+  Recordsource.clas_caso, Recordsource.nuevo, Recordsource.recrudece,;
+  Recordsource.trimestre, Recordsource.tratamient,;
+  Recordsource.f_ini_trat, Recordsource.tipoexamen,;
+  Recordsource.recuento, Recordsource.gametocito,;
+  Recordsource.complicaci, Recordsource.com_cerebr,;
+  Recordsource.com_renal, Recordsource.com_hepati,;
+  Recordsource.com_pulmon, Recordsource.com_hemato,;
+  Recordsource.com_otras, Recordsource.esp_pla, Recordsource.resp_diag,;
+  Recordsource.result_exa, Recordsource.fec_result,;
+  Recordsource.estadotran,;
+  RecordSource.Ajuste, RecordSource.Fec_aju, RecordSource.DESPLAZAMI, RecordSource.CODMUN1;
+ FROM ;
+     eventos_65 Recordsource

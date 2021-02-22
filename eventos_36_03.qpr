@@ -1,0 +1,17 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.fiebre, Recordsource.mialgias,;
+  Recordsource.cefalea, Recordsource.hepatomega, Recordsource.ictericia,;
+  Recordsource.perros, Recordsource.gatos, Recordsource.bovinos,;
+  Recordsource.equinos, Recordsource.porcinos, Recordsource.ninguno,;
+  Recordsource.otros, Recordsource.cual_otros, Recordsource.ani_enferm,;
+  Recordsource.ratas, Recordsource.ratas_alre, Recordsource.acueducto,;
+  Recordsource.pozo, Recordsource.rio, Recordsource.tanque,;
+  Recordsource.alcan_des, Recordsource.inundacion,;
+  Recordsource.c_agu_esta, Recordsource.represa, Recordsource.río,;
+  Recordsource.arroyo, Recordsource.lagolaguna, Recordsource.sinanteced,;
+  Recordsource.d_res_sol, Recordsource.t_alm_bas,;
+  Recordsource.p_sin_simi,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     Eventos_36 Recordsource

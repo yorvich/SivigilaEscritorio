@@ -1,0 +1,5 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.cod_enferm;
+ FROM ;
+     Eventos_67 Recordsource

@@ -1,0 +1,19 @@
+SELECT Cie10.nom_cie, Cie10.cod_cie;
+ FROM ;
+     cie10;
+ WHERE ( ( ( ( ( ( ( ( ( ( ( (  Cie10.cod_cie = ( "B050" );
+   OR  Cie10.cod_cie = ( "B051" ) );
+   OR  Cie10.cod_cie = ( "B052" ) );
+   OR  Cie10.cod_cie = ( "B053" ) );
+   OR  Cie10.cod_cie = ( "B054" ) );
+   OR  Cie10.cod_cie = ( "B058" ) );
+   OR  Cie10.cod_cie = ( "B059" ) );
+   OR  Cie10.cod_cie = ( "B060" ) );
+   OR  Cie10.cod_cie = ( "B068" ) );
+   OR  Cie10.cod_cie = ( "B069" ) );
+   OR  Cie10.cod_cie = ( "B082" ) );
+   OR  Cie10.cod_cie = ( "B09X" ) );
+   OR  Cie10.cod_cie = ( "A38X" ) );
+   OR  Cie10.cod_cie = ( "B083" );
+ ORDER BY Cie10.nom_cie;
+ INTO CURSOR cursor_ListaCodigosCIE_E06  

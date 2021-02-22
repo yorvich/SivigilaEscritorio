@@ -1,0 +1,16 @@
+SELECT RecordSource.SEMANA    ,	RecordSource.AÑO       ,	RecordSource.COD_PRE   ,	RecordSource.COD_SUB   ,	RecordSource.COD_EVE   ,;
+RecordSource.TIP_IDE   ,	RecordSource.NUM_IDE   ,	RecordSource.LACERACION,	RecordSource.CONTUSION ,	RecordSource.QUEMADURA ,;
+RecordSource.QUE_CARA  ,	RecordSource.QUE_CUELLO,	RecordSource.QUE_MANO  ,	RecordSource.QUE_PIE   ,	RecordSource.QUE_PLIEGU,;
+RecordSource.QUE_GENITA,	RecordSource.QUE_TRONCO,	RecordSource.QUE_MIESUP,	RecordSource.QUE_MIEINF,	RecordSource.CLA_GRA   ,;
+RecordSource.EXT_QUE   ,	RecordSource.AMPUTACION,	RecordSource.AMP_DEDMAN,	RecordSource.AMP_MANO  ,	RecordSource.AMP_ANTEBR,;
+RecordSource.AMP_BRAZO ,	RecordSource.AMP_MUSLO ,	RecordSource.AMP_PIERNA,	RecordSource.AMP_PIE   ,	RecordSource.AMP_DEDPIE,;
+RecordSource.AMP_MULTIP,	RecordSource.DAÑ_OCU   ,	RecordSource.OJO_IZQ   ,	RecordSource.OJO_DER   ,	RecordSource.DAÑ_AUD   ,;
+RecordSource.OIDO_IZQ  ,	RecordSource.OIDO_DER  ,	RecordSource.FRACTURAS ,	RecordSource.FRA_CRANEO,	RecordSource.FRA_HUEMAN,;
+RecordSource.FRA_CUBITO,	RecordSource.FRA_RADIO ,	RecordSource.FRA_HUMERO,	RecordSource.FRA_FEMUR ,	RecordSource.FRA_TIBIA ,;
+RecordSource.FRA_PERONE,	RecordSource.FRA_HUEPIE,	RecordSource.FRA_REJA  ,	RecordSource.FRA_MULTIP,	RecordSource.FRA_OTROSH,;
+RecordSource.VIA_AER   ,	RecordSource.ABDOMEN   ,	RecordSource.OTRO      ,	RecordSource.CUAL      ,	RecordSource.ARTEF_LESI,;
+RecordSource.ARTEFACTO ,	RecordSource.OTR_ART_PI,	RecordSource.CON_ALC_LE,	RecordSource.CON_ALC_AC,	RecordSource.LUG_OCU   ,;
+RecordSource.CIR_SOCIAL,	RecordSource.ACT_POLVOR,	RecordSource.OTR_AC_POL,	RecordSource.ACT_MINAS ,	RecordSource.OTR_AC_MIN;
+ FROM   eventos_60 Recordsource
+
+

@@ -1,0 +1,18 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.compl_serv, Recordsource.conte_proc,;
+  Recordsource.procedimie, Recordsource.anest_raqu,;
+  Recordsource.anest_peri, Recordsource.anest_gene,;
+  Recordsource.anest_regi, Recordsource.anest_endo,;
+  Recordsource.aten_parto, Recordsource.fec_parto,;
+  Recordsource.fec_reingr, Recordsource.fec_id_end,;
+  Recordsource.tipo_endom, Recordsource.prf_antib,;
+  Recordsource.cual_antbi, Recordsource.tiem_antes,;
+  Recordsource.tiem_duran, Recordsource.tiem_despu,;
+  Recordsource.estan_hosp, Recordsource.dias_estan,;
+  Recordsource.neces_hosp, Recordsource.dias_hospi,;
+  Recordsource.reus_disp, Recordsource.reut_lapiz,;
+  Recordsource.reut_cauch, Recordsource.reut_otros,;
+  Recordsource.otro_eleme;
+ FROM ;
+     Eventos_75 Recordsource

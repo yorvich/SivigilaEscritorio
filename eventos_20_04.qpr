@@ -1,0 +1,12 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.pad_mad, Recordsource.identifica,;
+  Recordsource.antipertus, Recordsource.tip_vac, Recordsource.fec_ud,;
+  Recordsource.eta_enf, Recordsource.ira, Recordsource.tos,;
+  Recordsource.dur_tos, Recordsource.tos_par, Recordsource.estridor,;
+  Recordsource.apnea, Recordsource.cianosis, Recordsource.vomito,;
+  Recordsource.complicaci, Recordsource.tip_com, Recordsource.tto_ant,;
+  Recordsource.tip_ant, Recordsource.dur_tto, Recordsource.fec_ii,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     Eventos_20 Recordsource

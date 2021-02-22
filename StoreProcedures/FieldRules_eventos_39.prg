@@ -1,0 +1,189 @@
+FUNCTION FieldRuleFor_eventos_39_AFE_NER_CR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AFE_NER_CR,'1','2','3')) AND ( .NOT. EMPTY(AFE_NER_CR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_TRISMUS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TRISMUS,'1','2','3')) AND ( .NOT. EMPTY(TRISMUS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_OPISTÓTONO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(OPISTÓTONO,'1','2','3')) AND ( .NOT. EMPTY(OPISTÓTONO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_FIEBRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FIEBRE,'1','2','3')) AND ( .NOT. EMPTY(FIEBRE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_DOL_CUE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DOL_CUE,'1','2','3')) AND ( .NOT. EMPTY(DOL_CUE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_DOL_GAR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DOL_GAR,'1','2','3')) AND ( .NOT. EMPTY(DOL_GAR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_IMP_HABLAR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(IMP_HABLAR,'1','2','3')) AND ( .NOT. EMPTY(IMP_HABLAR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_DISFAGIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DISFAGIA,'1','2','3')) AND ( .NOT. EMPTY(DISFAGIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_CONVULSION
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CONVULSION,'1','2','3')) AND ( .NOT. EMPTY(CONVULSION)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_CON_MUSCUL
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CON_MUSCUL,'1','2','3')) AND ( .NOT. EMPTY(CON_MUSCUL)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_RIG_MU_ABD
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RIG_MU_ABD,'1','2','3')) AND ( .NOT. EMPTY(RIG_MU_ABD)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_ESP_GENERA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ESP_GENERA,'1','2','3')) AND ( .NOT. EMPTY(ESP_GENERA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_RIG_NUCA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(RIG_NUCA,'1','2','3')) AND ( .NOT. EMPTY(RIG_NUCA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_39_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','3','4','5','6','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+

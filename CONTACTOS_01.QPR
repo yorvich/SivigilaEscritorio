@@ -1,0 +1,20 @@
+SELECT Recordsource.id, Recordsource.pri_nom, Recordsource.seg_nom,;
+  Recordsource.pri_ape, Recordsource.seg_ape, Recordsource.tip_ide,;
+  Recordsource.num_ide, "CONTACTOS" AS control, Recordsource.tipide_pos,;
+  Recordsource.numide_pos, Recordsource.cod_evepos, Recordsource.edad,;
+  Recordsource.uni_med, Recordsource.sexo, Recordsource.dir_res,;
+  Recordsource.ocupacion, Recordsource.tip_ss, Recordsource.cod_ase,;
+  Recordsource.cod_mun_r, Recordsource.fec_not, Recordsource.telefono,;
+  Recordsource.fecha_nto, Recordsource.version, Recordsource.estadotran,;
+  Recordsource.uni_modif, Recordsource.est_ingr, Recordsource.nacionalid,;
+  Recordsource.desplazami, Recordsource.cod_mun_d1,;
+  Recordsource.cod_mun_d2, Recordsource.cod_mun_d3,;
+  Recordsource.cod_mun_d4, Recordsource.cod_mun_d5,;
+  Recordsource.inst_labor, Recordsource.cor_ele, Recordsource.id_padre,;
+  Recordsource.tipo_conta, Recordsource.rol, Recordsource.fec_pos_ex,;
+  Recordsource.toma_muest, Recordsource.fec_tom_mu,;
+  Recordsource.resultado, Recordsource.sintomatic,;
+  Recordsource.fec_ini_si, Recordsource.inmediata, Recordsource.ajuste,;
+  Recordsource.fec_aju, Recordsource.fecini_gra;
+ FROM ;
+     Contactos Recordsource

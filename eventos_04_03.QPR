@@ -1,0 +1,26 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.nom_mad, Recordsource.nom_pad,;
+  Recordsource.ini_inv, Recordsource.dos_rec, Recordsource.dos_vip_re,;
+  Recordsource.ult_dos, Recordsource.tie_car, Recordsource.fiebre,;
+  Recordsource.respirator, Recordsource.digestivos, Recordsource.dol_mus,;
+  Recordsource.sig_men, Recordsource.fie_ini, Recordsource.instalacio,;
+  Recordsource.progresion, Recordsource.ini_par, Recordsource.par_msd,;
+  Recordsource.para_msd, Recordsource.fla_msd, Recordsource.par_msi,;
+  Recordsource.para_msi, Recordsource.fla_msi, Recordsource.par_mid,;
+  Recordsource.para_mid, Recordsource.fla_mid, Recordsource.par_mii,;
+  Recordsource.para_mii, Recordsource.fla_mii, Recordsource.loc_msd,;
+  Recordsource.sen_msd, Recordsource.rot_msd, Recordsource.loc_msi,;
+  Recordsource.sen_msi, Recordsource.rot_msi, Recordsource.loc_mid,;
+  Recordsource.sen_mid, Recordsource.rot_mid, Recordsource.loc_mii,;
+  Recordsource.sen_mii, Recordsource.rot_mii, Recordsource.cmus_res,;
+  Recordsource.csig_men, Recordsource.com_bab, Recordsource.com_bru,;
+  Recordsource.cpar_cra, Recordsource.tom_liq_ce, Recordsource.tele_mio,;
+  Recordsource.vel_con, Recordsource.imp_dia, Recordsource.mat_fec,;
+  Recordsource.fmat_fec, Recordsource.env_mue, Recordsource.rec_mue,;
+  Recordsource.res_mue, Recordsource.res_mf, Recordsource.vac_blo,;
+  Recordsource.cas_detx, Recordsource.fec_seg, Recordsource.par_res,;
+  Recordsource.atrofia, Recordsource.cla_fin, Recordsource.fec_cf,;
+  Recordsource.cri_cla, Recordsource.dx_fin;
+ FROM ;
+     Eventos_04 Recordsource

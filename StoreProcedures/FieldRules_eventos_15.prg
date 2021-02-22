@@ -1,0 +1,504 @@
+FUNCTION FieldRuleFor_eventos_15_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_VACUNA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VACUNA,'1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','17','18','19','20','21','22','23','24','16')) AND ( .NOT. EMPTY(VACUNA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_DOSIS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DOSIS,'1','2','3','4','5','6')) AND ( .NOT. EMPTY(DOSIS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_VIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VIA,'1','2','3','4')) AND ( .NOT. EMPTY(VIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_SITIO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SITIO,'1','2','3','4','5','6','7','8','9')) AND ( .NOT. EMPTY(SITIO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_FEC_VAC
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_VAC))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_FABRICANT1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FABRICANT1))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_LOTE1
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(LOTE1))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_VACUNA2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VACUNA2,'1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','17','18','19','20','21','22','23','24','16')) OR ( EMPTY(VACUNA2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_DOSIS2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DOSIS2,'1','2','3','4','5','6')) OR ( EMPTY(DOSIS2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_VIA2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VIA2,'1','2','3','4')) OR ( EMPTY(VIA2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_SITIO2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SITIO2,'1','2','3','4','5','6','7','8','9')) OR ( EMPTY(SITIO2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_VACUNA3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VACUNA3,'1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','17','18','19','20','21','22','23','24','16')) OR ( EMPTY(VACUNA3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_DOSIS3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DOSIS3,'1','2','3','4','5','6')) OR ( EMPTY(DOSIS3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_VIA3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VIA3,'1','2','3','4')) OR ( EMPTY(VIA3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_SITIO3
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SITIO3,'1','2','3','4','5','6','7','8','9')) OR ( EMPTY(SITIO3)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_VACUNA4
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VACUNA4,'1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','17','18','19','20','21','22','23','24','16')) OR ( EMPTY(VACUNA4)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_DOSIS4
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DOSIS4,'1','2','3','4','5','6')) OR ( EMPTY(DOSIS4)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_VIA4
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VIA4,'1','2','3','4')) OR ( EMPTY(VIA4)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_SITIO4
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SITIO4,'1','2','3','4','5','6','7','8','9')) OR ( EMPTY(SITIO4)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_BECEGEITIS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(BECEGEITIS,'1','2')) OR ( EMPTY(BECEGEITIS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_ABSCESO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ABSCESO,'1','2')) AND ( .NOT. EMPTY(ABSCESO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_LINFADENIT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LINFADENIT,'1','2')) AND ( .NOT. EMPTY(LINFADENIT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_FIEBRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FIEBRE,'1','2')) AND ( .NOT. EMPTY(FIEBRE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_CON_FEB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CON_FEB,'1','2')) AND ( .NOT. EMPTY(CON_FEB)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_CON_SINF
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CON_SINF,'1','2')) AND ( .NOT. EMPTY(CON_SINF)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_HIPOTONÍA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(HIPOTONÍA,'1','2')) AND ( .NOT. EMPTY(HIPOTONÍA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_PARESTESIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARESTESIA,'1','2')) AND ( .NOT. EMPTY(PARESTESIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_PARÁLISIS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARÁLISIS,'1','2')) AND ( .NOT. EMPTY(PARÁLISIS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_ENCEFALOPA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ENCEFALOPA,'1','2')) AND ( .NOT. EMPTY(ENCEFALOPA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_MENINGITIS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MENINGITIS,'1','2')) AND ( .NOT. EMPTY(MENINGITIS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_URTICARIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(URTICARIA,'1','2')) AND ( .NOT. EMPTY(URTICARIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_ECZEMA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ECZEMA,'1','2')) AND ( .NOT. EMPTY(ECZEMA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_CHO_ANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CHO_ANA,'1','2')) AND ( .NOT. EMPTY(CHO_ANA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_GUI_BAR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(GUI_BAR,'1','2')) AND ( .NOT. EMPTY(GUI_BAR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_CELULITIS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CELULITIS,'1','2')) AND ( .NOT. EMPTY(CELULITIS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_LLA_PER
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LLA_PER,'1','2')) AND ( .NOT. EMPTY(LLA_PER)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_TIE_TRA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(TIE_TRA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_UN_TIE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(UN_TIE,'2','3','4','5')) AND ( .NOT. EMPTY(UN_TIE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_ANT_PAT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ANT_PAT,'1','2')) AND ( .NOT. EMPTY(ANT_PAT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_ANT_ALE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ANT_ALE,'1','2')) AND ( .NOT. EMPTY(ANT_ALE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_AASV
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AASV,'1','2')) AND ( .NOT. EMPTY(AASV)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_EST_FIN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(EST_FIN,'2','3')) OR ( EMPTY(EST_FIN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_CLA_FINAL
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CLA_FINAL,'2','3','4','5','6','7','8')) AND ( .NOT. EMPTY(CLA_FINAL)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','3','4','5','6','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_FATIGA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(FATIGA,'1','2')) OR ( EMPTY(FATIGA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_DOLOR_CABE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DOLOR_CABE,'1','2')) OR ( EMPTY(DOLOR_CABE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_MIALGIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MIALGIA,'1','2')) OR ( EMPTY(MIALGIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_ARTRALGIA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ARTRALGIA,'1','2')) OR ( EMPTY(ARTRALGIA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_15_NAUSEAS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(NAUSEAS,'1','2')) OR ( EMPTY(NAUSEAS)))
+	ENDIF
+ENDFUNC
+
+

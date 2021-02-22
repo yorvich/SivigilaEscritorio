@@ -1,0 +1,5 @@
+SELECT Eventos.cod_eve, Eventos.nom_eve, Eventos.tip_not ;
+ FROM ;
+     eventos;
+ WHERE  (Eventos.tip_not = 2 OR Eventos.tip_not = 3) AND Eventos.cod_eve!='910' and Eventos.cod_eve!='353'  ORDER BY Eventos.nom_eve;
+ INTO CURSOR rsListaEventosBrotes READWRITE

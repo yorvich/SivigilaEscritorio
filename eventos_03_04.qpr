@@ -1,0 +1,12 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.caso, Recordsource.cla_clinic,;
+  Recordsource.num_lesion, Recordsource.cla_lep, Recordsource.clas_final,;
+  Recordsource.baciloscop, Recordsource.fec_bacilo,;
+  Recordsource.res_bacilo, Recordsource.fec_res_ba, Recordsource.biopsia,;
+  Recordsource.fec_tom_bi, Recordsource.res_bio, Recordsource.fec_res_bi,;
+  Recordsource.max_gra_di, Recordsource.pre_rea_le,;
+  Recordsource.inic_trata, Recordsource.fec_ini_tr,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     Eventos_03 Recordsource

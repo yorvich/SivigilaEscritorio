@@ -1,0 +1,10 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.marc_react, Recordsource.neutr_hbs,;
+  Recordsource.anti_hbc, Recordsource.anti_hbsag,;
+  Recordsource.interpreta, Recordsource.ubic_donan,;
+  Recordsource.donan_asis, Recordsource.fec_asesor,;
+  Recordsource.causa_noub, Recordsource.observacio,;
+  Recordsource.fec_ult_do, Recordsource.informe_st;
+ FROM ;
+     Eventos_69 Recordsource

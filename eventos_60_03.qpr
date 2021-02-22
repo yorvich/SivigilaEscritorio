@@ -1,0 +1,30 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.laceracion, Recordsource.contusion,;
+  Recordsource.quemadura, Recordsource.que_cara, Recordsource.que_cuello,;
+  Recordsource.que_mano, Recordsource.que_pie, Recordsource.que_pliegu,;
+  Recordsource.que_genita, Recordsource.que_tronco,;
+  Recordsource.que_miesup, Recordsource.que_mieinf, Recordsource.cla_gra,;
+  Recordsource.ext_que, Recordsource.amputacion, Recordsource.amp_dedman,;
+  Recordsource.amp_mano, Recordsource.amp_antebr, Recordsource.amp_brazo,;
+  Recordsource.amp_muslo, Recordsource.amp_pierna, Recordsource.amp_pie,;
+  Recordsource.amp_dedpie, Recordsource.amp_multip, Recordsource.dañ_ocu,;
+  Recordsource.ojo_izq, Recordsource.ojo_der, Recordsource.dañ_aud,;
+  Recordsource.oido_izq, Recordsource.oido_der, Recordsource.fracturas,;
+  Recordsource.fra_craneo, Recordsource.fra_hueman,;
+  Recordsource.fra_cubito, Recordsource.fra_radio,;
+  Recordsource.fra_humero, Recordsource.fra_femur,;
+  Recordsource.fra_tibia, Recordsource.fra_perone,;
+  Recordsource.fra_huepie, Recordsource.fra_reja,;
+  Recordsource.fra_multip, Recordsource.fra_otrosh, Recordsource.via_aer,;
+  Recordsource.abdomen, Recordsource.otro, Recordsource.cual,;
+  Recordsource.artef_lesi, Recordsource.artefacto,;
+  Recordsource.otr_art_pi, Recordsource.con_alc_le,;
+  Recordsource.con_alc_ac, Recordsource.lug_ocu, Recordsource.cir_social,;
+  Recordsource.act_polvor, Recordsource.otr_ac_pol,;
+  Recordsource.act_minas, Recordsource.otr_ac_min, Recordsource.ajuste,;
+  Recordsource.fec_aju;
+ FROM ;
+     eventos_60 Recordsource
+
+

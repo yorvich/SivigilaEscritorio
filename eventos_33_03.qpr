@@ -1,0 +1,28 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.vac_con_ro, Recordsource.fec_dosis1,;
+  Recordsource.fec_dosis2, Recordsource.tiene_carn,;
+  Recordsource.peso_nac, Recordsource.rec_leche, Recordsource.cuan_rec_l,;
+  Recordsource.alim_actua, Recordsource.fiebre, Recordsource.vomito,;
+  Recordsource.no_episodi, Recordsource.fec_ini_di,;
+  Recordsource.no_depos, Recordsource.fec_ter_di,;
+  Recordsource.carac_hece, Recordsource.cual_car_h,;
+  Recordsource.estado_ing, Recordsource.grad_deshi,;
+  Recordsource.peso_ingr, Recordsource.talla_ingr,;
+  Recordsource.rec_antibi, Recordsource.cual_antib,;
+  Recordsource.trat_hidra, Recordsource.comp_hosp,;
+  Recordsource.cual_comp, Recordsource.rec_ant_ho,;
+  Recordsource.cual_ant_h, Recordsource.dias_hosp,;
+  Recordsource.dias_h_urg, Recordsource.dias_h_ped,;
+  Recordsource.dias_h_uci, Recordsource.fec_egreso,;
+  Recordsource.motivo_egr, Recordsource.sal_con_di,;
+  Recordsource.diag_egr, Recordsource.fec_recole, Recordsource.fec_recep,;
+  Recordsource.fec_result, Recordsource.ident_rota,;
+  Recordsource.serotipo_g, Recordsource.serotipo_p,;
+  Recordsource.ident_bact, Recordsource.cual_bact,;
+  Recordsource.ident_para, Recordsource.cual_para,;
+  Recordsource.guarderia, Recordsource.cual_guar,;
+  Recordsource.mas_person,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     Eventos_33 Recordsource

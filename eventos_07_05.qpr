@@ -1,0 +1,22 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.mec_pro_t, Recordsource.nom_madre,;
+  Recordsource.tip_ide_ma, Recordsource.num_ide_ma,;
+  Recordsource.ide_genero, Recordsource.dono_sangr,;
+  Recordsource.fec_donaci, Recordsource.inst_donac, Recordsource.tip_pru,;
+  Recordsource.ase_pre, Recordsource.ase_post, Recordsource.fec_res,;
+  Recordsource.val_res, Recordsource.est_cli, Recordsource.hij_18h,;
+  Recordsource.hij_18m, Recordsource.embarazo, Recordsource.sem_emb,;
+  Recordsource.can_eso, Recordsource.can_va, Recordsource.tub_pul,;
+  Recordsource.can_cer, Recordsource.tub_exp, Recordsource.coccidiodo,;
+  Recordsource.citomegalo, Recordsource.ren_cit, Recordsource.encefalopa,;
+  Recordsource.otras_micr, Recordsource.his_ext, Recordsource.iso_cro,;
+  Recordsource.erp_zos, Recordsource.his_dis, Recordsource.lin_bur,;
+  Recordsource.neu_pne, Recordsource.neu_rec, Recordsource.lin_inm,;
+  Recordsource.cri_cro, Recordsource.cri_ext, Recordsource.sar_kap,;
+  Recordsource.sin_ema, Recordsource.leu_mul, Recordsource.sep_rec,;
+  Recordsource.tox_cer, Recordsource.hep_b, Recordsource.hep_c,;
+  Recordsource.meningitis, Recordsource.cd4, Recordsource.ajuste,;
+  Recordsource.fec_aju, Recordsource.pob_clave;
+ FROM ;
+     Eventos_07 Recordsource

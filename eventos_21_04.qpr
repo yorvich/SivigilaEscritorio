@@ -1,0 +1,23 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.pre_car_v1, Recordsource.vac_hi, Recordsource.dos_hi,;
+  Recordsource.fud_hi,  Recordsource.vac_sp,;
+  Recordsource.dos_sp, Recordsource.fud_sp, Recordsource.vac_ei,;
+  Recordsource.dos_ei, Recordsource.fud_ei, Recordsource.asoc_brote,;
+  Recordsource.viajó, Recordsource.municipio, Recordsource.internal,;
+  Recordsource.codpais_pr, Recordsource.con_con, Recordsource.con_est,;
+  Recordsource.asma, Recordsource.epoc, Recordsource.diabetes,;
+  Recordsource.vih, Recordsource.enf_card, Recordsource.cancer,;
+  Recordsource.malnutri, Recordsource.semana_ges, Recordsource.obesidad,;
+  Recordsource.ins_renal, Recordsource.otr_medinm, Recordsource.fumador,;
+  Recordsource.otros_dc, Recordsource.cual_ot_dc, Recordsource.tos,;
+  Recordsource.fiebre, Recordsource.dol_gar, Recordsource.rinorrea,;
+  Recordsource.conjuntivi, Recordsource.cefalea, Recordsource.dif_res,;
+  Recordsource.diarrea, Recordsource.rx_torax, Recordsource.fec_tom_ra,;
+  Recordsource.hallaz_rad, Recordsource.uso_antib, Recordsource.fec_atib,;
+  Recordsource.uso_antiv, Recordsource.fec_antiv, Recordsource.serv_hosp,;
+  Recordsource.der_ple, Recordsource.der_per, Recordsource.miocarditi,;
+  Recordsource.septicemia, Recordsource.falla_resp, Recordsource.otros,;
+  Recordsource.otros_cual, Recordsource.dx_ini, Recordsource.dx_egr;
+ FROM ;
+     Eventos_21 Recordsource

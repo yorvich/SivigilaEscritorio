@@ -1,0 +1,14 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.n_ges_act, Recordsource.f_ult_reg,;
+  Recordsource.s_ges_act, Recordsource.n_s_ges_ac,;
+  Recordsource.peso_preg, Recordsource.peso_act, Recordsource.talla,;
+  Recordsource.gan_peso, Recordsource.clas_imc, Recordsource.eda_ges_in,;
+  Recordsource.n_cont_pre, Recordsource.mult_emb,;
+  Recordsource.hemoglobin, Recordsource.hemo_alert,;
+  Recordsource.micr_calc, Recordsource.micr_hierr,;
+  Recordsource.micr_acid, Recordsource.trim_gest, Recordsource.cir_brazo,;
+  Recordsource.tami_alert;
+ FROM ;
+     Eventos_53 Recordsource
+

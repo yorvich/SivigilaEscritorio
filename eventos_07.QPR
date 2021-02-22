@@ -1,0 +1,24 @@
+SELECT recordSource.semana, recordSource.año,;
+  recordSource.cod_pre, recordSource.cod_sub,;
+  recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.mec_pro_t,;
+  recordSource.tip_pru, recordSource.fec_res,;
+  recordSource.val_res, recordSource.est_cli,;
+  recordSource.hij_18h, recordSource.hij_18m,;
+  recordSource.embarazo, recordSource.sem_emb,;
+  recordSource.can_eso, recordSource.can_va,;
+  recordSource.tub_pul, recordSource.can_cer,;
+  recordSource.tub_exp, recordSource.coccidiodo,;
+  recordSource.citomegalo, recordSource.ren_cit,;
+  recordSource.encefalopa, recordSource.otras_micr,;
+  recordSource.his_ext, recordSource.iso_cro,;
+  recordSource.erp_zos, recordSource.his_dis,;
+  recordSource.lin_bur, recordSource.neu_pne,;
+  recordSource.neu_rec, recordSource.lin_inm,;
+  recordSource.cri_cro, recordSource.cri_ext,;
+  recordSource.sar_kap, recordSource.sin_ema,;
+  recordSource.leu_mul, recordSource.sep_rec,;
+  recordSource.tox_cer, recordSource.hep_b,;
+  recordSource.hep_c, recordSource.tub_mening,;
+  recordSource.meningitis;
+ FROM Eventos_07 AS recordSource

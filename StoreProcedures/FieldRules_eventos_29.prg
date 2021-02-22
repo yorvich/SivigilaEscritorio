@@ -1,0 +1,216 @@
+FUNCTION FieldRuleFor_eventos_29_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_NOM_MEN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NOM_MEN))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_F_NACTO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(F_NACTO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_REG_CIV
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(REG_CIV))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_SEXO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEXO,'M','F')) AND ( .NOT. EMPTY(SEXO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_EDAD_GES
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( VAL(EDAD_GES)>= 0  AND  VAL(EDAD_GES) <= 45 AND ISNUMERIC(EDAD_GES)) AND ( .NOT. EMPTY(EDAD_GES)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_TIPO_PARTO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIPO_PARTO,'1','2')) AND ( .NOT. EMPTY(TIPO_PARTO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_PESO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(PESO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_LONGITUD
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(LONGITUD))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_CVIR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CVIR,'1','2')) AND ( .NOT. EMPTY(CVIR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_CVIR2
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CVIR2,'1','2')) AND ( .NOT. EMPTY(CVIR2)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_TAR_PROF
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TAR_PROF,'1','2')) AND ( .NOT. EMPTY(TAR_PROF)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_ESQUEMA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ESQUEMA,'1','2','3','4')) OR ( EMPTY(ESQUEMA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_REC_FOR_LA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(REC_FOR_LA,'1','2')) AND ( .NOT. EMPTY(REC_FOR_LA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_REC_FORLA6
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(REC_FORLA6,'1','2')) AND ( .NOT. EMPTY(REC_FORLA6)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_CLA_FIN
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CLA_FIN,'1','2')) AND ( .NOT. EMPTY(CLA_FIN)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_FEC_NOT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_NOT))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_29_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+

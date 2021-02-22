@@ -1,0 +1,23 @@
+SELECT Recordsource.mes, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.num_con,;
+  Recordsource.fec_not, Recordsource.tipos_vigi, Recordsource.t_cam_ucia,;
+  Recordsource.t_dco_ucia, Recordsource.t_dcd_ucia,;
+  Recordsource.pro_o_ucia, Recordsource.g_cef_ucia,;
+  Recordsource.ddd_cef_a, Recordsource.g_imi_ucia,;
+  Recordsource.ddd_imi_a, Recordsource.g_mer_ucia,;
+  Recordsource.ddd_mer_a, Recordsource.g_pip_ucia,;
+  Recordsource.ddd_pip_a, Recordsource.g_van_ucia,;
+  Recordsource.ddd_van_a, Recordsource.t_cam_sha, Recordsource.t_dco_sha,;
+  Recordsource.t_dcd_sha, Recordsource.pro_o_sha, Recordsource.g_cef_sha,;
+  Recordsource.ddd_cef_s, Recordsource.g_cipp_sha,;
+  Recordsource.ddd_cipp_s, Recordsource.g_cipe_sha,;
+  Recordsource.ddd_cipe_s, Recordsource.g_imi_sha,;
+  Recordsource.ddd_imi_s, Recordsource.g_mer_sha, Recordsource.ddd_mer_s,;
+  Recordsource.g_pip_sha, Recordsource.ddd_pip_s, Recordsource.g_van_sha,;
+  Recordsource.ddd_van_s, Recordsource.ajuste, Recordsource.fec_aju,;
+  Recordsource.g_ert_sha, Recordsource.ddd_ert_s,;
+  Recordsource.g_cefe_sha, Recordsource.ddd_cefe_s,;
+  Recordsource.g_ert_ucia, Recordsource.ddd_ert_a,;
+  Recordsource.g_cefe_uci, Recordsource.ddd_cefe_a;
+ FROM ;
+     Eventos_81 Recordsource

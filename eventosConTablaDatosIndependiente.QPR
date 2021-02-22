@@ -1,0 +1,17 @@
+SELECT *;
+ FROM ;
+     eventos;
+ WHERE ( ( ( ( ( ( ( ( ( (  ( cod_eve ) = ( "650" );
+   OR  ( cod_eve ) = ( "652" ) );
+   OR  ( cod_eve ) = ( "860" ) );
+   OR  ( cod_eve ) = ( "870" ) );
+   OR  ( cod_eve ) = ( "890" ) );
+   OR  ( cod_eve ) = ( "680" ) );
+   OR  Eventos.cod_eve = ( "995" ) );
+   OR  Eventos.cod_eve = ( "353" ) );
+   OR  Eventos.cod_eve = ( "354" ) );
+   OR  Eventos.cod_eve = ( "359" ) );
+   OR  Eventos.cod_eve = ( "362" ) );
+   OR  (  Eventos.cod_eve = ( "349" );
+   OR  Eventos.cod_eve = "994" );
+ INTO CURSOR rsEventosConTablaDatosIndependiente  NOFILTER

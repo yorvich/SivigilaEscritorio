@@ -1,0 +1,21 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.desplazami, Recordsource.cod_mun_d,;
+  Recordsource.famantdngu, Recordsource.direclabor, Recordsource.fiebre,;
+  Recordsource.cefalea, Recordsource.dolrretroo, Recordsource.malgias,;
+  Recordsource.artralgia, Recordsource.erupcionr,;
+  Recordsource.dolor_abdo, Recordsource.vomito, Recordsource.diarrea,;
+  Recordsource.somnolenci, Recordsource.hipotensio,;
+  Recordsource.hepatomeg,  Recordsource.hem_mucosa,;
+  Recordsource.hipotermia, Recordsource.caida_plaq,;
+  Recordsource.acum_liqui, Recordsource.aum_hemato, Recordsource.extravasac,;
+  Recordsource.hemorr_hem, Recordsource.choque, Recordsource.daño_organ,;
+  Recordsource.muesttejid,;
+  Recordsource.mueshigado, Recordsource.muesbazo,;
+  Recordsource.muespulmon, Recordsource.muescerebr,;
+  Recordsource.muesmiocar, Recordsource.muesmedula,;
+  Recordsource.muesriñon, Recordsource.clasfinal, Recordsource.conducta,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     Eventos_42 Recordsource
+

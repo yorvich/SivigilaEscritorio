@@ -1,0 +1,25 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.naturaleza, Recordsource.actividad,;
+  Recordsource.pob_lgtbi, Recordsource.consum_spa,;
+  Recordsource.tra_sexual, Recordsource.desmov_rei,;
+  Recordsource.campesino, Recordsource.mujer_cabf,;
+  Recordsource.ama_de_cas, Recordsource.nna_snbf,;
+  Recordsource.priv_liber, Recordsource.vic_confli,;
+  Recordsource.otra_situa, Recordsource.antec, Recordsource.edad_agre,;
+  Recordsource.sexo_agre, Recordsource.r_fam_vic, Recordsource.conv_agre,;
+  Recordsource.r_nofiliar, Recordsource.grupos, Recordsource.armas,;
+  Recordsource.que_cara, Recordsource.que_cuello, Recordsource.que_mano,;
+  Recordsource.que_pie, Recordsource.que_pliegu, Recordsource.que_genita,;
+  Recordsource.que_tronco, Recordsource.que_miesup,;
+  Recordsource.que_mieinf, Recordsource.cla_gra, Recordsource.ext_que,;
+  Recordsource.sust_vict, Recordsource.fec_hecho,;
+  Recordsource.hora_hecho, Recordsource.escenario,;
+  Recordsource.zona_conf, Recordsource.sp_its, Recordsource.prof_hep_b,;
+  Recordsource.prof_otras, Recordsource.ac_anticon, Recordsource.ac_ive,;
+  Recordsource.ac_mental, Recordsource.remit_prot, Recordsource.inf_aut,;
+  Recordsource.evi_mlegal, Recordsource.estadotran, Recordsource.ajuste,;
+  Recordsource.fec_aju, Recordsource.nat_viosex, Recordsource.orient_sex,;
+  Recordsource.ident_gene, Recordsource.ambito_lug, Recordsource.TIPO_GRUPO;
+ FROM ;
+     eventos_51 Recordsource

@@ -1,0 +1,15 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.ant_hib, recordSource.dosis_hib,;
+  recordSource.pri_dos, recordSource.ult_dos, recordSource.carne_hib,;
+  recordSource.meningococ, recordSource.dos_men, recordSource.pri_men,;
+  recordSource.ult_men, recordSource.carne_men, recordSource.neumococo,;
+  recordSource.dos_neu, recordSource.pri_neu, recordSource.ult_neu,;
+  recordSource.carne_neu, recordSource.fiebre, recordSource.rig_nuca,;
+  recordSource.irri_men, recordSource.rash, recordSource.afontanela,;
+  recordSource.alt_con, recordSource.uso_ant, recordSource.cual_antib,;
+  recordSource.fec_ud, recordSource.fec_mue_lc, recordSource.fec_mue_sa,;
+  recordSource.gram, recordSource.cultivo_lc, recordSource.antige_lcr,;
+  recordSource.cultivo_sa, recordSource.antige_san, recordSource.resultado,;
+  recordSource.res_difere, recordSource.fec_result, recordSource.observacio;
+ FROM Eventos_19 AS recordSource 

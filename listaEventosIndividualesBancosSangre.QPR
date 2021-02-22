@@ -1,0 +1,14 @@
+*Listado de eventos individuales habilitados para procesos de edición de datos para los bancos de sangre
+
+SELECT Eventos.cod_eve, Eventos.nom_eve, Eventos.inicio_sin;
+ FROM ;
+     eventos;
+ WHERE  Eventos.cod_eve  =  "855" ;
+   OR  Eventos.cod_eve  =  "339"  ;
+   OR  Eventos.cod_eve  =  "344"  ;
+   OR  Eventos.cod_eve  =  "207"  ;
+   OR  Eventos.cod_eve  =  "745"  ;
+   OR  Eventos.cod_eve  =  "896"  ;
+   OR  Eventos.cod_eve  =  "467"  ;
+ ORDER BY Eventos.nom_eve;
+ INTO CURSOR cursor_ListaEventosIndividualesBancosSangre

@@ -1,0 +1,16 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.tip_agr, Recordsource.area_morde,;
+  Recordsource.agr_pro, Recordsource.tip_les, Recordsource.profun,;
+  Recordsource.ccc, Recordsource.man_ded, Recordsource.tronco,;
+  Recordsource.mie_sup, Recordsource.mie_inf, Recordsource.pies_dedos,;
+  Recordsource.genit_ext, Recordsource.fec_exp, Recordsource.esp_ani,;
+  Recordsource.ant_vac, Recordsource.car_vac, Recordsource.fecha_vac,;
+  Recordsource.nom_pro, Recordsource.dir_pro, Recordsource.tel_pro,;
+  Recordsource.est_ma, Recordsource.estado_ani, Recordsource.ubicacion,;
+  Recordsource.tip_exp, Recordsource.sue_ant, Recordsource.fec_apl,;
+  Recordsource.vac_ant, Recordsource.num_dos, Recordsource.f_ult_dos,;
+  Recordsource.le_agu_jab, Recordsource.sut_her, Recordsource.apl_sa,;
+  Recordsource.apl_vac, Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_05 Recordsource

@@ -1,0 +1,26 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.vacuna, recordSource.dosis, recordSource.via,;
+  recordSource.sitio, recordSource.fec_vac, recordSource.fabricant1,;
+  recordSource.lote1, recordSource.vacuna2, recordSource.dosis2, recordSource.via2,;
+  recordSource.sitio2, recordSource.fec_vac2, recordSource.fabricant2,;
+  recordSource.lote2, recordSource.vacuna3, recordSource.dosis3, recordSource.via3,;
+  recordSource.sitio3, recordSource.fec_vac3, recordSource.fabricant3,;
+  recordSource.lote3, recordSource.vacuna4, recordSource.dosis4, recordSource.via4,;
+  recordSource.sitio4, recordSource.fec_vac4, recordSource.fabricant4,;
+  recordSource.lote4, recordSource.becegeitis, recordSource.absceso,;
+  recordSource.linfadenit, recordSource.fiebre, recordSource.con_feb,;
+  recordSource.con_sinf, recordSource.hipotonía, recordSource.parestesia,;
+  recordSource.parálisis, recordSource.encefalopa, recordSource.meningitis,;
+  recordSource.urticaria, recordSource.eczema, recordSource.cho_ana,;
+  recordSource.gui_bar, recordSource.celulitis, recordSource.induración,;
+  recordSource.dol_loc, recordSource.lla_per, recordSource.irritabili,;
+  recordSource.eritema, recordSource.otro, recordSource.otro_cual,;
+  recordSource.tie_tra, recordSource.un_tie, recordSource.lug_vac,;
+  recordSource.cod_mun, recordSource.est_sal, recordSource.rec_med,;
+  recordSource.cual_medic, recordSource.ant_pat, recordSource.cua_ant_pa,;
+  recordSource.ant_ale, recordSource.cua_ant_al, recordSource.aasv,;
+  recordSource.cua_ant_ea, recordSource.est_fin, recordSource.exc_dos,;
+  recordSource.cua_exc_do, recordSource.uso_equ_di, recordSource.cua_uso_eq,;
+  recordSource.cla_final;
+ FROM Eventos_15 AS recordSource 

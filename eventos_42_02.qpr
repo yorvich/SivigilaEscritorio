@@ -1,0 +1,35 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.desplazami, Recordsource.fec_des,;
+  Recordsource.cod_mun_d, Recordsource.antecdengu,;
+  Recordsource.famantdngu, Recordsource.direclabor, Recordsource.fiebre,;
+  Recordsource.malgias, Recordsource.gingivorre, Recordsource.vomito,;
+  Recordsource.ictericia, Recordsource.dolrretroo,;
+  Recordsource.hemoptisis, Recordsource.artralgia,;
+  Recordsource.hipiremia, Recordsource.erupcionr,;
+  Recordsource.hematemesi, Recordsource.oliguria, Recordsource.petequias,;
+  Recordsource.metrorragi, Recordsource.choque, Recordsource.diarrea,;
+  Recordsource.equimosis, Recordsource.melenas, Recordsource.derrame,;
+  Recordsource.epistaxis, Recordsource.hematuria, Recordsource.ascitis,;
+  Recordsource.dolor_abdo, Recordsource.cefalea, Recordsource.torniqpos,;
+  Recordsource.torniqneg, Recordsource.alterconci,;
+  Recordsource.convulsion, Recordsource.hipotensio,;
+  Recordsource.taquicard, Recordsource.hepatomeg, Recordsource.esplenom,;
+  Recordsource.edemapulm, Recordsource.recuenleuc,;
+  Recordsource.hematinic, Recordsource.hematoctrl,;
+  Recordsource.recuplaqin, Recordsource.recuplaqct,;
+  Recordsource.igmdengue, Recordsource.rt_pcr, Recordsource.aislaminto,;
+  Recordsource.albumina, Recordsource.gasarteria,;
+  Recordsource.alterelect, Recordsource.alt_tgp, Recordsource.ast_tgo,;
+  Recordsource.nitroureic, Recordsource.creatinina,;
+  Recordsource.tpoprotrom, Recordsource.tpopclprtr, Recordsource.rxtorax,;
+  Recordsource.electrocar, Recordsource.ecograbd,;
+  Recordsource.ecocardiog, Recordsource.taccraneo,;
+  Recordsource.muesttejid, Recordsource.mueshigado,;
+  Recordsource.muesbazo, Recordsource.muespulmon,;
+  Recordsource.muescerebr, Recordsource.muesmiocar,;
+  Recordsource.muesmedula, Recordsource.muesriñon,;
+  Recordsource.clasfinal, Recordsource.nivelatenc, Recordsource.conducta;
+ FROM ;
+     Eventos_42 Recordsource
+

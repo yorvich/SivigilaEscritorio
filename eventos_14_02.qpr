@@ -1,0 +1,20 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.nom_pm, Recordsource.fec_ii,;
+  Recordsource.cas_ide, Recordsource.con_cc, Recordsource.car_vac,;
+  Recordsource.dos_apli, Recordsource.tip_vac, Recordsource.cual_tip_v,;
+  Recordsource.fec_ud, Recordsource.fiebre, Recordsource.amigdaliti,;
+  Recordsource.faringitis, Recordsource.laringitis, Recordsource.pre_mem,;
+  Recordsource.complicaci, Recordsource.tip_com, Recordsource.tra_ant,;
+  Recordsource.tip_ant, Recordsource.dur_tra, Recordsource.ant_dif,;
+  Recordsource.dos_apl, Recordsource.fec_apl, Recordsource.inv_cam,;
+  Recordsource.ope_bar, Recordsource.num_con, Recordsource.quimioprof,;
+  Recordsource.pt1, Recordsource.da1_dpt1, Recordsource.da1_dpt2,;
+  Recordsource.da1_dpt3, Recordsource.da1_ref1, Recordsource.da1_ref2,;
+  Recordsource.pt2, Recordsource.da2_dpt1, Recordsource.da2_dpt2,;
+  Recordsource.da2_dpt3, Recordsource.da2_ref1, Recordsource.da_ref2,;
+  Recordsource.pt3, Recordsource.da3_dpt1, Recordsource.da3_dpt2,;
+  Recordsource.da3_dpt3, Recordsource.da3_ref1, Recordsource.da3_ref2,;
+  Recordsource.mun_vac;
+ FROM ;
+     Eventos_14 Recordsource

@@ -1,0 +1,13 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.tipo_agent, Recordsource.ant_hib,;
+  Recordsource.dosis_hib, Recordsource.pri_dos, Recordsource.ult_dos,;
+  Recordsource.carne_hib, Recordsource.meningococ, Recordsource.dos_men,;
+  Recordsource.pri_men, Recordsource.ult_men, Recordsource.carne_men,;
+  Recordsource.neumococo, Recordsource.dos_neu, Recordsource.pri_neu,;
+  Recordsource.ult_neu, Recordsource.carne_neu, Recordsource.fiebre,;
+  Recordsource.rig_nuca, Recordsource.irri_men, Recordsource.rash,;
+  Recordsource.afontanela, Recordsource.alt_con, Recordsource.uso_ant,;
+  Recordsource.cual_antib, Recordsource.fec_ud;
+ FROM ;
+     Eventos_62 Recordsource

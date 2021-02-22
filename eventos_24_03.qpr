@@ -1,0 +1,18 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.fec_not, Recordsource.cla_ini_ca,;
+  Recordsource.nom_pro, Recordsource.dir_pro, Recordsource.tel_pro,;
+  Recordsource.cod_dep_pr, Recordsource.cod_mun_pr, Recordsource.esp_ani,;
+  Recordsource.raza, Recordsource.color, Recordsource.edad,;
+  Recordsource.uni_med, Recordsource.ant_vac, Recordsource.fec_vac,;
+  Recordsource.area_pro, Recordsource.agresivida, Recordsource.paralisis,;
+  Recordsource.salivacion, Recordsource.apetito, Recordsource.voracidad,;
+  Recordsource.deglucion, Recordsource.ladrido, Recordsource.mandibula,;
+  Recordsource.anisocoria, Recordsource.otro_ss, Recordsource.otros_cual,;
+  Recordsource.f_ini_sin, Recordsource.muerte, Recordsource.fec_mue,;
+  Recordsource.f_tom_mue, Recordsource.f_tom_rem,;
+  Recordsource.pr_dia_con, Recordsource.resultado, Recordsource.ide_vv,;
+  Recordsource.var_ide, Recordsource.var_i_cual, Recordsource.des_m_cual,;
+  Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_24 Recordsource

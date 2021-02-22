@@ -1,0 +1,84 @@
+LPARAMETERS sUPGDCode as String
+*SET STEP ON 
+
+CLEAR
+oUPGD=NEWOBJECT("Upgd","Upgd.Prg",.NULL.,sUPGDCode)
+WITH oUPGD
+	?.sCOD_PRESTADOR
+	?.dFEC_CAR
+	?.sCOD_PRE
+	?.sCOD_SUB
+	?.sRAZ_SOC
+	?.sDIR
+	?.sREP_LEG
+	?.sCOR_ELE
+	?.sRES_NOT
+	?.sTEL
+	?.dFEC_CON
+	?.nNAT_JUR
+	?.nNIV
+	?.nNOT_ACT
+	?.nUNI_ANA
+	?.nCOV
+	?.nTAL_HUM
+	?.nTEC_DIS
+	?.nCOM
+	?.nFAX_MOD
+	?.nTIE_COR
+	?.nINT
+	?.nTEL_FAX
+	?.nRAD_TEL
+	?.nACT_SIV
+	?.sNIT_UPGD
+	?.sES_UNI_NOT
+	?.sESTADOUPGD
+	?.sLOC_O_ZONA
+	?.dFEC_INICAR
+	?.sNOTIF_IAAS
+	?.sHOSP_UNIVE
+	?.sREG_EXCEPC
+	?.sTOT_CAMAS
+	?"Caracterización de UCI_A"
+	?.sUCI_A
+	?.nUCI_A
+	?"Caracterización de UCI_P"
+	?.sUCI_P
+	?.nUCI_P	
+	?"Caracterización de UCI_N"
+	?.sUCI_N
+	?.nUCI_N
+	?.sCOMITE_INF
+	?.sBI_PROFESI
+	?.sIAAS_ULTIM
+	?.sINF_TENDEN
+	?.sSOCIAL_TEN
+	?.sLAB_MICROB
+	?.sLAB_PROPIO
+	?.sLABS_CONTR
+	?.sIDENT_GYE
+	?.sPRUE_SUCEP
+	?.sLAB_AUTOMA
+	?.sVITEK
+	?.sMICROSCAN
+	?.sPHOENIX
+	?.sLAB_CCI
+	?.sLAB_CCE
+	?.sMICR_CDI
+	?.sWHONET
+	?.sINFORM_PAT
+	?.sLAB_CON_PE
+	?.sLAB_REM_CE
+	?.sLAB_REPORT
+	?.sVIGILA_CAB
+	?.sPSF_PARCAB
+	?.sMED_PARCAB
+	?.sINF_ANTIOB
+	?.sQUIEN_VCAB
+	?.sSER_CIRGEN
+	?.sSER_GINECO
+	?.sSER_CIRCAR
+	?.nFORMULARIO
+ENDWITH
+RELEASE oUPGD
+
+

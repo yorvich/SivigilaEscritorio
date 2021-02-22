@@ -1,0 +1,12 @@
+SELECT Recordsource.fec_car, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.raz_soc, Recordsource.dir,;
+  Recordsource.rep_leg, Recordsource.cor_ele, Recordsource.res_not,;
+  Recordsource.tel, Recordsource.fec_con, Recordsource.nat_jur,;
+  Recordsource.niv, Recordsource.not_act, Recordsource.uni_ana,;
+  Recordsource.cov, Recordsource.tal_hum, Recordsource.tec_dis,;
+  Recordsource.com, Recordsource.fax_mod, Recordsource.tie_cor,;
+  Recordsource.int, Recordsource.tel_fax, Recordsource.rad_tel,;
+  Recordsource.act_siv, Recordsource.nit_upgd, Recordsource.es_uni_not,;
+  Recordsource.loc_o_zona, Recordsource.version, Recordsource.fec_inicar;
+ FROM ;
+     UPGD Recordsource

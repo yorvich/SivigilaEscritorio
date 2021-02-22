@@ -1,0 +1,16 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.tipo_ca, Recordsource.cla_riesgo,;
+  Recordsource.recaida, Recordsource.fec_dx, Recordsource.fec_tom_ce,;
+  Recordsource.fec_res_ce, Recordsource.ch_blastos,;
+  Recordsource.fec_tom_sp, Recordsource.fec_res_sp,;
+  Recordsource.sp_blastos, Recordsource.fec_as_mo,;
+  Recordsource.fec_res_mo, Recordsource.mo_blastos,;
+  Recordsource.dx_otro_ca, Recordsource.otro_cual, Recordsource.fec_tom,;
+  Recordsource.fec_res, Recordsource.causa_dire, Recordsource.caus_mue_d,;
+  Recordsource.causa_ante, Recordsource.sit_def, Recordsource.fec_ini_tr,;
+  Recordsource.dif_fc_ch, Recordsource.dif_ch_amo,;
+  Recordsource.dif_amo_it, Recordsource.rem_inst, Recordsource.fec_rem,;
+  Recordsource.cod_mun_re, Recordsource.upgd_rem, Recordsource.tel_cont;
+ FROM ;
+     eventos_55 Recordsource

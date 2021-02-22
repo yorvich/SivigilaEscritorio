@@ -1,0 +1,387 @@
+FUNCTION FieldRuleFor_eventos_07_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_MEC_PRO_T
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MEC_PRO_T,'1','2','3','4','5','6','7','9','10','11','12','13','14')) AND ( .NOT. EMPTY(MEC_PRO_T)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_TIP_IDE_MA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE_MA,'RC','TI','CC','CE','PA','MS','AS','PE')) OR ( EMPTY(TIP_IDE_MA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_IDE_GENERO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(IDE_GENERO,'M','F','T')) AND ( .NOT. EMPTY(IDE_GENERO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_DONO_SANGR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DONO_SANGR,'1','2')) AND ( .NOT. EMPTY(DONO_SANGR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_TIP_PRU
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_PRU,'1','2','3','4')) OR ( EMPTY(TIP_PRU)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_FEC_RES
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_RES))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_EST_CLI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(EST_CLI,'1','2','3')) AND ( .NOT. EMPTY(EST_CLI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_CAN_ESO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CAN_ESO,'1','2')) AND ( .NOT. EMPTY(CAN_ESO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_CAN_VA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CAN_VA,'1','2')) AND ( .NOT. EMPTY(CAN_VA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_TUB_PUL
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TUB_PUL,'1','2')) AND ( .NOT. EMPTY(TUB_PUL)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_CAN_CER
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CAN_CER,'1','2')) AND ( .NOT. EMPTY(CAN_CER)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_TUB_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TUB_EXP,'1','2')) AND ( .NOT. EMPTY(TUB_EXP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_COCCIDIODO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(COCCIDIODO,'1','2')) AND ( .NOT. EMPTY(COCCIDIODO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_CITOMEGALO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CITOMEGALO,'1','2')) AND ( .NOT. EMPTY(CITOMEGALO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_REN_CIT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(REN_CIT,'1','2')) AND ( .NOT. EMPTY(REN_CIT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_ENCEFALOPA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ENCEFALOPA,'1','2')) AND ( .NOT. EMPTY(ENCEFALOPA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_OTRAS_MICR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(OTRAS_MICR,'1','2')) AND ( .NOT. EMPTY(OTRAS_MICR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_HIS_EXT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(HIS_EXT,'1','2')) AND ( .NOT. EMPTY(HIS_EXT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_ISO_CRO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ISO_CRO,'1','2')) AND ( .NOT. EMPTY(ISO_CRO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_ERP_ZOS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ERP_ZOS,'1','2')) AND ( .NOT. EMPTY(ERP_ZOS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_HIS_DIS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(HIS_DIS,'1','2')) AND ( .NOT. EMPTY(HIS_DIS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_LIN_BUR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LIN_BUR,'1','2')) AND ( .NOT. EMPTY(LIN_BUR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_NEU_PNE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(NEU_PNE,'1','2')) AND ( .NOT. EMPTY(NEU_PNE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_NEU_REC
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(NEU_REC,'1','2')) AND ( .NOT. EMPTY(NEU_REC)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_LIN_INM
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LIN_INM,'1','2')) AND ( .NOT. EMPTY(LIN_INM)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_CRI_CRO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CRI_CRO,'1','2')) AND ( .NOT. EMPTY(CRI_CRO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_CRI_EXT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CRI_EXT,'1','2')) AND ( .NOT. EMPTY(CRI_EXT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_SAR_KAP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SAR_KAP,'1','2')) AND ( .NOT. EMPTY(SAR_KAP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_SIN_EMA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SIN_EMA,'1','2')) AND ( .NOT. EMPTY(SIN_EMA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_LEU_MUL
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LEU_MUL,'1','2')) AND ( .NOT. EMPTY(LEU_MUL)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_SEP_REC
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SEP_REC,'1','2')) AND ( .NOT. EMPTY(SEP_REC)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_TOX_CER
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TOX_CER,'1','2')) AND ( .NOT. EMPTY(TOX_CER)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_HEP_B
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(HEP_B,'1','2')) AND ( .NOT. EMPTY(HEP_B)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_HEP_C
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(HEP_C,'1','2')) AND ( .NOT. EMPTY(HEP_C)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_MENINGITIS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MENINGITIS,'1','2')) AND ( .NOT. EMPTY(MENINGITIS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_07_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','3','4','5','6','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+

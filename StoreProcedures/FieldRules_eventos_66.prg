@@ -1,0 +1,207 @@
+FUNCTION FieldRuleFor_eventos_66_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_GRUPO_SUST
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(GRUPO_SUST,'1','2','3','4','5','6','7','8')) AND ( .NOT. EMPTY(GRUPO_SUST)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_COD_SUST
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUST))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_NOM_PRO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NOM_PRO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_TIP_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_EXP,'1','2','4','6','8','9','10','11')) AND ( .NOT. EMPTY(TIP_EXP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_LUGAR_EXPO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LUGAR_EXPO,'1','2','3','4','5','6','7','8')) AND ( .NOT. EMPTY(LUGAR_EXPO)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_FEC_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_EXP))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_HOR_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(HOR_EXP))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_VIA_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VIA_EXP,'1','2','3','4','5','6','8')) AND ( .NOT. EMPTY(VIA_EXP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_ESCOLARIDA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ESCOLARIDA,'1','2','3','4','5','6','7','8','9','10','11','12','13','14')) AND ( .NOT. EMPTY(ESCOLARIDA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_AFI_ARP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AFI_ARP,'1','2')) AND ( .NOT. EMPTY(AFI_ARP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_EST_CIV
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(EST_CIV,'1','2','3','4','5')) AND ( .NOT. EMPTY(EST_CIV)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_PARTE_BROT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARTE_BROT,'1','2')) AND ( .NOT. EMPTY(PARTE_BROT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_SIT_ALE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SIT_ALE,'1','2')) AND ( .NOT. EMPTY(SIT_ALE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_MUEST_TOXI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(MUEST_TOXI,'1','2')) AND ( .NOT. EMPTY(MUEST_TOXI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_TIPO_MUEST
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIPO_MUEST,'1','2','4','13','15','17','18','23','25','26','27','28','29','30','32')) OR ( EMPTY(TIPO_MUEST)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_66_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','3','4','5','6','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+

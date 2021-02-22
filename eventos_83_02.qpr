@@ -1,0 +1,19 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.pri_nom_ma, Recordsource.seg_nom_ma,;
+  Recordsource.pri_ape_ma, Recordsource.seg_ape_ma,;
+  Recordsource.tip_ide_ma, Recordsource.num_ide_ma,;
+  Recordsource.niv_educat, Recordsource.estrato, Recordsource.menores,;
+  Recordsource.peso_nac, Recordsource.talla_nac, Recordsource.edad_ges,;
+  Recordsource.t_lechem, Recordsource.e_complem, Recordsource.crec_dllo,;
+  Recordsource.esq_vac, Recordsource.carne_vac, Recordsource.peso_act,;
+  Recordsource.talla_act, Recordsource.per_braqui, Recordsource.imc,;
+  Recordsource.zscore_pt, Recordsource.clas_peso, Recordsource.zscore_te,;
+  Recordsource.clas_talla, Recordsource.edema, Recordsource.delgadez,;
+  Recordsource.piel_rese, Recordsource.hiperpigm, Recordsource.les_cabel,;
+  Recordsource.palidez, Recordsource.ruta_atenc, Recordsource.tipo_manej,;
+  Recordsource.dias_hosp, Recordsource.tratamient,;
+  Recordsource.seguimient, Recordsource.efectivida, Recordsource.ajuste,;
+  Recordsource.fec_aju, Recordsource.diag_medic;
+ FROM ;
+     Eventos_83 Recordsource

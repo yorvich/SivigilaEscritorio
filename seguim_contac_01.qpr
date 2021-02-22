@@ -1,0 +1,9 @@
+SELECT Recordsource.inmediata, Recordsource.id,;
+  Recordsource.id_persona, Recordsource.dia_seguim, Recordsource.fec_segumi,;
+  Recordsource.hora_segui, Recordsource.sintomatic, "SEGUIMIENTO_CONTACTOS" AS Control,;
+  Recordsource.hospitaliz, Recordsource.tos,;
+  Recordsource.fiebre, Recordsource.dif_res, Recordsource.odinofagia,;
+  Recordsource.adinamia, Recordsource.ajuste,; 
+  Recordsource.fec_aju, Recordsource.est_ingr, Recordsource.estadotran, Recordsource.fecini_gra;
+ FROM ; 
+ Seguimientocontactos Recordsource

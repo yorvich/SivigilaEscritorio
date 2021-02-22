@@ -1,0 +1,17 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.cla_ini, Recordsource.nom_mad_tu,;
+  Recordsource.mun_nac, Recordsource.fue_not, Recordsource.nom_mad,;
+  Recordsource.edad, Recordsource.num_emb, Recordsource.viajes,;
+  Recordsource.se_via, Recordsource.codpais, Recordsource.mun_via,;
+  Recordsource.apgar, Recordsource.bpn, Recordsource.peso,;
+  Recordsource.peq_eda, Recordsource.semanas, Recordsource.cataratas,;
+  Recordsource.glaucoma, Recordsource.retinopati, Recordsource.otr_ojo,;
+  Recordsource.per_con, Recordsource.est_art, Recordsource.otr_cor,;
+  Recordsource.sordera, Recordsource.otr_oid, Recordsource.microcefal,;
+  Recordsource.ret_des, Recordsource.purpura, Recordsource.hepatomega,;
+  Recordsource.ict_nac, Recordsource.esplenomeg, Recordsource.ost_rad,;
+  Recordsource.meningoenc, Recordsource.otro, Recordsource.fec_ini_in,;
+  Recordsource.dx_fin, Recordsource.investigad, Recordsource.tel_invest;
+ FROM ;
+     Eventos_10 Recordsource

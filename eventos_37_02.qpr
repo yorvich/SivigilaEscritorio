@@ -1,0 +1,20 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.tipo_leuce, Recordsource.infeccion,;
+  Recordsource.slisis_tum, Recordsource.trombosis,;
+  Recordsource.hemorragia, Recordsource.cconvulsiv,;
+  Recordsource.desconocid, Recordsource.otras, Recordsource.cual,;
+  Recordsource.ch_fec_tom, Recordsource.ch_fec_rec,;
+  Recordsource.ch_fec_res, Recordsource.ch_por_bll,;
+  Recordsource.fs_fec_tom, Recordsource.fs_fec_rec,;
+  Recordsource.fs_fec_res, Recordsource.fs_por_bll,;
+  Recordsource.em_fec_tom, Recordsource.em_fec_rec,;
+  Recordsource.em_fec_res, Recordsource.em_por_bll, Recordsource.sit_def,;
+  Recordsource.otro_cual, Recordsource.causa_dire,;
+  Recordsource.caus_mue_d, Recordsource.causa_ante,;
+  Recordsource.fec_ini_tr, Recordsource.tpor_dias,;
+  Recordsource.tpor_meses, Recordsource.tpod_dias,;
+  Recordsource.tpod_meses, Recordsource.tpoi_dias,;
+  Recordsource.tpoi_meses;
+ FROM ;
+     Eventos_37 Recordsource

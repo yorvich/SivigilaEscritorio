@@ -1,0 +1,206 @@
+IF OCCURS('0',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 0 que limita sus valores admisibles a un conjunto
+	IF OCCURS(',' + valueToValidate + ',', ',' + THIS.referenceValues + ',' )=0 THEN
+	   MESSAGEBOX( 'Digite un valor del conjunto de valors admitidos para el ítem', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+	   RETURN 0
+	ENDIF
+ENDIF
+
+IF OCCURS('1',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 1 que limita sus valores admisibles a un rango
+
+	IF EMPTY(valueToValidate) THEN
+		IF INT(this.initValue)=this.initValue THEN
+			MESSAGEBOX( 'Digite un valor entre '+ALLTRIM(STR(this.initValue))+' y '+ALLTRIM(STR(this.endValue)), 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		ELSE
+			MESSAGEBOX( 'Digite un valor entre '+ALLTRIM(STR(this.initValue,11,3))+' y '+ALLTRIM(STR(this.endValue,11,3)), 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		ENDIF
+		RETURN 0
+	ENDIF
+
+	IF !BETWEEN(val(valueToValidate),THIS.initValue,THIS.endValue) THEN
+		IF INT(this.initValue)=this.initValue THEN
+			MESSAGEBOX( 'Digite un valor entre '+ALLTRIM(STR(this.initValue))+' y '+ALLTRIM(STR(this.endValue)), 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		ELSE
+			MESSAGEBOX( 'Digite un valor entre '+ALLTRIM(STR(this.initValue,11,3))+' y '+ALLTRIM(STR(this.endValue,11,3)), 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		ENDIF
+		RETURN 0
+	ENDIF
+ENDIF
+
+IF OCCURS('2',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 2 que exige un valor diferente de nulo
+
+	IF EMPTY(valueToValidate) THEN
+		MESSAGEBOX( 'Digite el texto Requerido', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		RETURN 0
+	ENDIF
+ENDIF
+
+IF OCCURS('3',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 3 que exige un valor mayor que 0
+
+	IF !(VAL(valueToValidate)>0) THEN
+		MESSAGEBOX( 'Digite un valor mayor de cero (0)', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		RETURN 0
+	ENDIF
+ENDIF
+
+IF OCCURS('4',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 4 que exige un valor anterior a la fecha del sistema
+
+	IF valueToValidate>DATE() THEN
+		MESSAGEBOX( 'La fecha digitada no puede ser mayor a la fecha del Sistema', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		valueToValidate=CTOD('')
+		RETURN 0
+	ENDIF
+ENDIF
+
+IF OCCURS('5',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la pseudo-regla 5 que elimina cualquier caracter espècial que contenga
+	*Comentado por: Wilson Aguilar	07/09/2013
+	*Actualmente descartada (en desuso) por cuanto el método la aplica automáticamente como parte inicial de la validación
+	specialChars = "+.\/:*?',<>_()=" + '"' 
+	valueToValidate=CHRTRAN(valueToValidate,specialChars,'')
+	This.Value=valueToValidate
+ENDIF
+
+IF OCCURS('6',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 6 que exige un valor mayor o igual que 0
+
+	IF !(VAL(valueToValidate)>=0) THEN
+		MESSAGEBOX( 'Digite un valor mayor o igual a cero (0)', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		RETURN 0
+	ENDIF
+ENDIF
+
+
+IF OCCURS('7',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 7 creada específicamente para validar tipos de documento de identidad
+
+	valueToValidate=UPPER(valueToValidate)
+	IF valueToValidate!='RC' and valueToValidate!='TI' and valueToValidate!='CC' and valueToValidate!='CE' ;
+		and valueToValidate!='PA' and valueToValidate!='MS' and valueToValidate!='AS' THEN
+		MESSAGEBOX( 'El tipo de documento de identidad es inválido', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		RETURN 0
+	ELSE
+		This.Value=valueToValidate
+	ENDIF
+ENDIF
+
+
+IF OCCURS('8',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 8 creada específicamente para validar horas
+	IF !BETWEEN(VAL(SUBSTR(valueToValidate,1,2)),0,24)
+	   MESSAGEBOX( 'La hora debe ser un valor entre 0 y 24', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+	   RETURN 0
+	ENDIF
+ENDIF
+
+IF OCCURS('9',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla 9 creada específicamente para validar minutos
+	IF !BETWEEN(VAL(SUBSTR(valueToValidate,4,2)),0,59)
+	   MESSAGEBOX( 'Los minutos deben ser un valor entre 0 y 59', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+	   RETURN 0
+	ENDIF
+ENDIF
+
+IF OCCURS('A',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla A que exige un valor mayor que 0 o NULL
+
+	IF !EMPTY(valueToValidate) THEN
+		IF !(VAL(valueToValidate)>0) THEN
+			MESSAGEBOX( 'Digite un valor mayor de cero (0)', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+			RETURN 0
+		ENDIF
+	ELSE
+		RETURN
+	ENDIF
+ENDIF
+
+IF OCCURS('B',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla B que limita sus valores admisibles a un rango o admite NULL
+
+	IF !EMPTY(valueToValidate) THEN
+		IF !BETWEEN(val(valueToValidate),THIS.initValue,THIS.endValue) THEN
+			MESSAGEBOX( 'Digite un valor entre '+ALLTRIM(STR(this.initValue))+' y '+ALLTRIM(STR(this.endValue)), 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+			RETURN 0
+		ENDIF
+	ELSE
+		RETURN
+	ENDIF
+ENDIF
+
+IF OCCURS('C',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla C que exige un valor anterior a la fecha del sistema o NULL
+
+	IF !EMPTY(valueToValidate) THEN
+		IF valueToValidate>DATE() THEN
+			MESSAGEBOX( 'La fecha digitada no puede ser mayor a la fecha del Sistema', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+			valueToValidate=CTOD('')
+			RETURN 0
+		ENDIF
+	ELSE
+		RETURN
+	ENDIF
+ENDIF
+
+IF OCCURS('D',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla D que exige un valor mayor o igual que una constante (initValue)
+
+	IF VAL(valueToValidate)<This.initValue THEN
+		MESSAGEBOX( 'Digite un valor mayor o igual a ' + ALLTRIM(STR(This.initValue)), 0 + 48 + 256, 'Violación de validación SIVIGILA')
+		valueToValidate=CTOD('')
+		RETURN 0
+	ENDIF
+ENDIF
+
+
+IF OCCURS('E',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla E que limita sus valores admisibles a un rango o admite cero 0
+
+	IF VAL(valueToValidate)!=0 THEN
+		IF !BETWEEN(val(valueToValidate),THIS.initValue,THIS.endValue) THEN
+			MESSAGEBOX( 'Digite un valor entre '+ALLTRIM(STR(this.initValue))+' y '+ALLTRIM(STR(this.endValue)), 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+			RETURN 0
+		ENDIF
+	ELSE
+		RETURN
+	ENDIF
+ENDIF
+
+
+IF OCCURS('F',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla F que limita sus valores admisibles a 0 o un rango que no contiene al cero
+
+	IF !EMPTY(valueToValidate) THEN
+		IF !BETWEEN(val(valueToValidate),THIS.initValue,THIS.endValue) AND val(valueToValidate)!=0 THEN
+			MESSAGEBOX( 'Digite un valor entre '+ALLTRIM(STR(this.initValue))+' y '+ALLTRIM(STR(this.endValue)), 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+			RETURN 0
+		ENDIF
+	ELSE
+		RETURN
+	ENDIF
+ENDIF
+
+IF OCCURS('G',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla G que exige un valor mayor o igual que 0 y no admite vacíos
+
+	IF EMPTY(valueToValidate) OR !(VAL(valueToValidate)>=0) THEN
+		MESSAGEBOX( 'Digite un valor mayor o igual a cero (0)', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		RETURN 0
+	ENDIF
+ENDIF
+
+IF OCCURS('H',THIS.applicableRules)>0 THEN
+	*El objeto debe ser sometido a la regla H que limita sus valores admisibles a un conjunto o admite nulo
+	IF !EMPTY(valueToValidate) THEN
+		IF OCCURS(',' + valueToValidate + ',', ',' + THIS.referenceValues + ',' )=0 THEN
+		   MESSAGEBOX( 'Digite un valor del conjunto de valors admitidos para el ítem', 0 + 48 + 256, 'Violación de validación SIVIGILA' )
+		   RETURN 0
+		ENDIF
+	ELSE
+		RETURN
+	ENDIF
+ENDIF
+

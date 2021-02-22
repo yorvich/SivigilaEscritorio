@@ -1,0 +1,279 @@
+FUNCTION FieldRuleFor_eventos_02_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_COD_SUST
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUST))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_NOM_PRO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NOM_PRO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_TIP_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_EXP,'1','2','3','4','6','8','9','10')) AND ( .NOT. EMPTY(TIP_EXP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_PFS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PFS,'1','2')) AND ( .NOT. EMPTY(PFS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_ADE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ADE,'1','2')) AND ( .NOT. EMPTY(ADE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_APLI_AGR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(APLI_AGR,'1','2')) AND ( .NOT. EMPTY(APLI_AGR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_APL_DOM
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(APL_DOM,'1','2')) AND ( .NOT. EMPTY(APL_DOM)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_APL_SP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(APL_SP,'1','2')) AND ( .NOT. EMPTY(APL_SP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_USO_INDUST
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(USO_INDUST,'1','2')) AND ( .NOT. EMPTY(USO_INDUST)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_TRA_HUM
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TRA_HUM,'1','2')) AND ( .NOT. EMPTY(TRA_HUM)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_TRA_VET
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TRA_VET,'1','2')) AND ( .NOT. EMPTY(TRA_VET)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_ACT_SOCIAL
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ACT_SOCIAL,'1','2')) AND ( .NOT. EMPTY(ACT_SOCIAL)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_DESCONOCID
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DESCONOCID,'1','2')) AND ( .NOT. EMPTY(DESCONOCID)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_OTROS
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(OTROS,'1','2')) AND ( .NOT. EMPTY(OTROS)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_FEC_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(FEC_EXP))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_HOR_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(HOR_EXP))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_VIA_EXP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(VIA_EXP,'1','2','3','4','5','6','7')) AND ( .NOT. EMPTY(VIA_EXP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_ESCOLARIDA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ESCOLARIDA,'1','2','3','4')) AND ( .NOT. EMPTY(ESCOLARIDA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_EMBARAZADA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(EMBARAZADA,'1','2')) OR ( EMPTY(EMBARAZADA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_AFI_ARP
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AFI_ARP,'1','2')) AND ( .NOT. EMPTY(AFI_ARP)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_EST_CIV
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(EST_CIV,'1','2','3','4','5')) AND ( .NOT. EMPTY(EST_CIV)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_PARTE_BROT
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(PARTE_BROT,'1','2')) AND ( .NOT. EMPTY(PARTE_BROT)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_INV_EPI
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(INV_EPI,'1','2')) OR ( EMPTY(INV_EPI)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_02_SIT_ALE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(SIT_ALE,'1','2')) AND ( .NOT. EMPTY(SIT_ALE)))
+	ENDIF
+ENDFUNC
+
+

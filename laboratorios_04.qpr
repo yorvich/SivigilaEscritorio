@@ -1,0 +1,11 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.control, Recordsource.pri_nom,;
+  Recordsource.seg_nom, Recordsource.pri_ape, Recordsource.seg_ape,;
+  Recordsource.fec_exa, Recordsource.fec_rec, Recordsource.muestra,;
+  Recordsource.prueba, Recordsource.agente, Recordsource.resultado,;
+  Recordsource.fec_exp, Recordsource.valor, Recordsource.telefono,;
+  Recordsource.direccion, Recordsource.tip_reg_sa, Recordsource.cod_ase,;
+  Recordsource.ajuste, Recordsource.fec_aju, Recordsource.estadotran;
+ FROM ;
+     Laboratorios Recordsource

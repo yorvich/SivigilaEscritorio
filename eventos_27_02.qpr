@@ -1,0 +1,10 @@
+Select RecordSource.SEMANA,RecordSource.AÑO,RecordSource.COD_PRE,RecordSource.COD_SUB,RecordSource.COD_EVE,RecordSource.TIP_IDE,;
+RecordSource.NUM_IDE,RecordSource.PITOS,RecordSource.REC_TRANSF,RecordSource.TRANSPLANT,RecordSource.FAM_CHAGAS,RecordSource.HIJ_MAD_CE,;
+RecordSource.EMBARAZO,RecordSource.SEMANAS,RecordSource.DONANTE,RecordSource.TIP_TEC,RecordSource.TIP_PAR,RecordSource.ESTRATO,	;
+RecordSource.EST_CLINIC,RecordSource.CLAS_CASO,RecordSource.FIEBRE_AG,RecordSource.TORAC_AG,RecordSource.DISNEA_AG,RecordSource.PALPIT_AG,	;
+RecordSource.MIALG_AG,RecordSource.ARTRA_AG,RecordSource.EDE_FAC_AG,RecordSource.ED_MI_AG,RecordSource.DER_PERI,RecordSource.HEP_AG,	;
+RecordSource.ADENO_AG,RecordSource.ROMAÑA_AG,RecordSource.CHAGOMA_AG,RecordSource.F_CARD_CR,RecordSource.PALPIT_CR,RecordSource.TORAC_CR, ;
+RecordSource.BRADI_CR,RecordSource.SINCO_CR,RecordSource.HIPOT_CR,RecordSource.DISFAG_CR,RecordSource.CONST_CR,RecordSource.GOTA_GRUE,	;
+RecordSource.MICRO_HEM,RecordSource.STROUT,RecordSource.ELISA,RecordSource.ELISA_RES,RecordSource.INMUNOFLUO,RecordSource.IFI_RES,	;
+RecordSource.SEROLOGICA,RecordSource.ELECTROCAR,RecordSource.ECOCARDIO,	RecordSource.RX_TORAX,RecordSource.HOLTER,	;
+RecordSource.TRATAMIENT,RecordSource.TRAT_SINT,RecordSource.PROB_VIA FROM eventos_27 RecordSource

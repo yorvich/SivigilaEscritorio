@@ -1,0 +1,3 @@
+SELECT recordSource.cod_pre, recordSource.cod_sub, recordSource.cod_art, recordSource.valor;
+ FROM ;
+     Tal_hum as recordSource

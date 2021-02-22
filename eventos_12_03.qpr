@@ -1,0 +1,27 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.nom_mad, Recordsource.eda_mad,;
+  Recordsource.lla_nac, Recordsource.mam_nor, Recordsource.dej_mam,;
+  Recordsource.fecha, Recordsource.hipertermi, Recordsource.fon_abo,;
+  Recordsource.rig_nuc, Recordsource.trismus, Recordsource.convulsion,;
+  Recordsource.espasmos, Recordsource.contraccio,;
+  Recordsource.opistotono, Recordsource.lla_exc, Recordsource.sep_umb,;
+  Recordsource.num_emb, Recordsource.con_pre, Recordsource.justifique,;
+  Recordsource.ate_med, Recordsource.ate_enf, Recordsource.ate_aux,;
+  Recordsource.ate_pro, Recordsource.ate_otr, Recordsource.otro,;
+  Recordsource.num_con, Recordsource.ult_con, Recordsource.viv_mis,;
+  Recordsource.mun_viv, Recordsource.vac_ant, Recordsource.dos_dpt,;
+  Recordsource.exp_cau, Recordsource.dos_td1, Recordsource.dos_td2,;
+  Recordsource.dos_td3, Recordsource.dos_td4, Recordsource.lug_par,;
+  Recordsource.institucio, Recordsource.ing_par, Recordsource.egr_pos,;
+  Recordsource.ate_par, Recordsource.ins_uti, Recordsource.met_est,;
+  Recordsource.rec_inf, Recordsource.apl_muñ, Recordsource.cua_sus,;
+  Recordsource.dis_min, Recordsource.fec_inv, Recordsource.fec_vac,;
+  Recordsource.dos_mef1, Recordsource.dos_ges1, Recordsource.dos_mef2,;
+  Recordsource.dos_ges2, Recordsource.dos_mef3, Recordsource.dos_ges3,;
+  Recordsource.dos_mef4, Recordsource.dos_ges4, Recordsource.dos_mef5,;
+  Recordsource.dos_ges5, Recordsource.cob_log, Recordsource.diligencia,;
+  Recordsource.fec_diligi,;
+  RecordSource.Ajuste, RecordSource.Fec_aju;
+ FROM ;
+     Eventos_12 Recordsource

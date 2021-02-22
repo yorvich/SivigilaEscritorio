@@ -1,0 +1,18 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.pes_agr, recordSource.tip_agr,;
+  recordSource.cual_agr, recordSource.agr_pro, recordSource.tip_les,;
+  recordSource.profun, recordSource.ccc, recordSource.man_ded, recordSource.tronco,;
+  recordSource.mie_sup, recordSource.mie_inf, recordSource.fec_exp,;
+  recordSource.esp_ani, recordSource.ant_vac, recordSource.fecha_vac,;
+  recordSource.car_vac, recordSource.nom_pro, recordSource.dir_pro,;
+  recordSource.tel_pro, recordSource.est_ma, recordSource.ubicacion,;
+  recordSource.tip_exp, recordSource.sue_ant, recordSource.fec_apl,;
+  recordSource.vac_ant, recordSource.num_dos, recordSource.f_ult_dos,;
+  recordSource.le_agu_jab, recordSource.sut_her, recordSource.apl_sa,;
+  recordSource.apl_vac, recordSource.f_apl_sa, recordSource.num_fcos,;
+  recordSource.reac_apl, recordSource.fa_pd, recordSource.fa_sd,;
+  recordSource.fa_td, recordSource.fa_cd, recordSource.fa_qd,;
+  recordSource.rea_apli, recordSource.sus_tra, recordSource.num_dia,;
+  recordSource.lug_obs, recordSource.est_ani_lo, recordSource.fec_mue;
+ FROM Eventos_05 AS recordSource

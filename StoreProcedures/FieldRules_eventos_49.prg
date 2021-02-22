@@ -1,0 +1,225 @@
+FUNCTION FieldRuleFor_eventos_49_SEMANA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(SEMANA))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_AÑO
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(AÑO))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_COD_PRE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_PRE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_COD_SUB
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_SUB))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_COD_EVE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(COD_EVE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_TIP_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(TIP_IDE,'RC','TI','CC','CE','PA','MS','AS','PE','CN')) AND ( .NOT. EMPTY(TIP_IDE)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_NUM_IDE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN ( .NOT. EMPTY(NUM_IDE))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_16
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_16,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_16)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_15
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_15,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_15)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_13
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_13,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_13)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_12
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_12,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_12)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_11
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_11,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_11)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_21
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_21,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_21)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_22
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_22,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_22)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_23
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_23,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_23)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_25
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_25,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_25)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_26
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_26,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_26)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_36
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_36,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_36)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_DEAN_46
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(DEAN_46,'0','1','2','3','4','5','9')) AND ( .NOT. EMPTY(DEAN_46)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_CLAS_LES
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CLAS_LES,'0','1','2','3','4','5')) AND ( .NOT. EMPTY(CLAS_LES)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_CONS_AGUA
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(CONS_AGUA,'1','2','3','4','5')) AND ( .NOT. EMPTY(CONS_AGUA)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_ING_CREM
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(ING_CREM,'1','2')) AND ( .NOT. EMPTY(ING_CREM)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_T_FLOUR
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(T_FLOUR,'1','2')) AND ( .NOT. EMPTY(T_FLOUR)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_LACT_MATER
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(LACT_MATER,'1','2','3')) OR ( EMPTY(LACT_MATER)))
+	ENDIF
+ENDFUNC
+
+
+FUNCTION FieldRuleFor_eventos_49_AJUSTE
+	IF DoNotApplyRules() THEN
+		RETURN .T.
+	ELSE
+		RETURN (( INLIST(AJUSTE,'0','3','4','5','6','7','D')) OR ( EMPTY(AJUSTE)))
+	ENDIF
+ENDFUNC
+
+

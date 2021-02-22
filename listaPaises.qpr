@@ -1,0 +1,1 @@
+SELECT Paises.Pais, Paises.CodNumPais  FROM Paises WHERE !EMPTY(Paises.Pais) ORDER BY Paises.Pais INTO CURSOR cursor_ListaPaises

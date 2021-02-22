@@ -1,0 +1,10 @@
+SELECT *;
+ FROM ;
+     eventos;
+ WHERE ( ( ( (  ( cod_eve ) = ( "650" );
+   OR  ( cod_eve ) = ( "652" ) );
+   OR  ( cod_eve ) = ( "860" ) );
+   OR  ( cod_eve ) = ( "870" ) );
+   OR  ( cod_eve ) = ( "890" ) );
+   OR  ( cod_eve ) = ( "680" );
+ INTO CURSOR rsEventosSeguimiento READWRITE NOFILTER

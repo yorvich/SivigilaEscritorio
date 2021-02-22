@@ -1,0 +1,29 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.tipo_uci, Recordsource.comp_espac,;
+  Recordsource.fec_egr_in, Recordsource.fec_inguci,;
+  Recordsource.fec_egruci, Recordsource.num_cama, Recordsource.reingreso,;
+  Recordsource.remitido, Recordsource.caso_extra, Recordsource.nom_inst,;
+  Recordsource.peso_nac, Recordsource.dx_ppal, Recordsource.tipo_iad,;
+  Recordsource.crit_nav, Recordsource.crit_itsac,;
+  Recordsource.crit_istua, Recordsource.fec_diag, Recordsource.fec_alta,;
+  Recordsource.iad_polim, Recordsource.rep_cultiv,;
+  Recordsource.ventilador, Recordsource.fec_in_ven,;
+  Recordsource.fec_re_ven, Recordsource.cat_centra,;
+  Recordsource.fec_in_cc, Recordsource.fec_re_cc,;
+  Recordsource.cat_urinar, Recordsource.fec_in_cu,;
+  Recordsource.fec_re_cu, Recordsource.cancer, Recordsource.corticoter,;
+  Recordsource.desnutric, Recordsource.diabetes, Recordsource.dialisis,;
+  Recordsource.edad, Recordsource.enf_renal, Recordsource.epoc,;
+  Recordsource.inmunosupr, Recordsource.paralisis, Recordsource.vih_sida,;
+  Recordsource.infec_prev, Recordsource.quimiotera,;
+  Recordsource.traumatism, Recordsource.obesidad,;
+  Recordsource.prematurez, Recordsource.otro_fact,Recordsource.cual_fact, Recordsource.antib_1,;
+  Recordsource.antib_2, Recordsource.antib_3, Recordsource.antib_4,;
+  Recordsource.dias_prein,;
+  Recordsource.dias_es_as, Recordsource.dias_estan,;
+  Recordsource.mort_asoc, Recordsource.mort_atrib, Recordsource.ajuste,;
+  Recordsource.fec_aju;
+ FROM ;
+     EVENTOS_87 Recordsource
+

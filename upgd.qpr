@@ -1,0 +1,7 @@
+SELECT recordSource.fec_car, recordSource.cod_pre, recordSource.cod_sub, recordSource.raz_soc, recordSource.dir,;
+  recordSource.rep_leg, recordSource.cor_ele, recordSource.res_not, recordSource.tel, recordSource.fec_con,;
+  recordSource.nat_jur, recordSource.niv, recordSource.not_act, recordSource.uni_ana, recordSource.cov, recordSource.tal_hum,;
+  recordSource.tec_dis, recordSource.com, recordSource.fax_mod, recordSource.tie_cor, recordSource.int, recordSource.tel_fax,;
+  recordSource.rad_tel, recordSource.act_siv, recordSource.nit_upgd ;
+ FROM ;
+     UPGD AS recordSource

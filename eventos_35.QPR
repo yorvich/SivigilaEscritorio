@@ -1,0 +1,24 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.tip_agr, recordSource.cual_agr,;
+  recordSource.tip_les, recordSource.profun, recordSource.ccc,;
+  recordSource.man_ded, recordSource.tronco, recordSource.mie_sup,;
+  recordSource.mie_inf, recordSource.desconocid, recordSource.fec_exp,;
+  recordSource.lug_exp, recordSource.esp_ani, recordSource.conf_lab,;
+  recordSource.conf_por, recordSource.conf_cual, recordSource.fiebre,;
+  recordSource.hiporexia, recordSource.cefalea, recordSource.vomito,;
+  recordSource.paresias, recordSource.parestesia, recordSource.dneuropáti,;
+  recordSource.disfagia, recordSource.odinofagia, recordSource.arreflexia,;
+  recordSource.psicosis, recordSource.fascies, recordSource.cr_llanto,;
+  recordSource.sialorrea, recordSource.aerofobia, recordSource.hidrofobia,;
+  recordSource.disnea, recordSource.dif_respir, recordSource.otro,;
+  recordSource.cual_otro, recordSource.tip_mu_env, recordSource.cual_tip_m,;
+  recordSource.d_muestra, recordSource.otro_d_cua, recordSource.pr_diag_co,;
+  recordSource.cual_pr_di, recordSource.resultado, recordSource.id_variant,;
+  recordSource.var_identi, recordSource.otra_v_cua, recordSource.apli_suero,;
+  recordSource.fecha_as, recordSource.apli_vacun, recordSource.num_dosis,;
+  recordSource.fecha_prim, recordSource.fecha_ult, recordSource.per_salud,;
+  recordSource.familiares, recordSource.amigos, recordSource.otros,;
+  recordSource.exp_leves, recordSource.exp_graves, recordSource.num_expoci,;
+  recordSource.sueros, recordSource.vacuna;
+ FROM Eventos_35 AS recordSource 

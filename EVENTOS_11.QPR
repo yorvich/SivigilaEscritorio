@@ -1,0 +1,14 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.sifilprev, recordSource.numgestac,;
+  recordSource.vivos, recordSource.abortos, recordSource.mortinatos,;
+  recordSource.otr_its, recordSource.ale_pen, ;
+  IIF(EMPTY(recordSource.condendiag),recordSource.con_mdx,recordSource.condendiag) as condendiag,;
+  recordSource.atencparto, recordSource.con_pre, recordSource.numcontrol,;
+  recordSource.eda_ges, recordSource.eg_pri_s, recordSource.resultsero,;
+  recordSource.resservdrl, recordSource.pruetrepon, recordSource.resultrepo,;
+  recordSource.rec_tto, recordSource.tip_tto, recordSource.semgestin,;
+  recordSource.motvnotrai, recordSource.med_adm, recordSource.cual_med_a,;
+  recordSource.niveicompi, recordSource.clasiffins, recordSource.dx_con,;
+  recordSource.tto_con;
+ FROM Eventos_11 AS recordSource 

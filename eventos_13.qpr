@@ -1,0 +1,16 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.tip_tub, recordSource.loctbrextr,;
+  recordSource.clascaso, recordSource.sgntporesi, recordSource.cic_vcg,;
+  recordSource.vcnbcgcn, recordSource.embarazo, recordSource.numsemgest,;
+  recordSource.consprevih, recordSource.pruebdiagn, recordSource.aso_vih,;
+  recordSource.baciloscop, recordSource.fchbaci, recordSource.res_bk,;
+  recordSource.fch_rebac, recordSource.rea_cul, recordSource.fchcultivo,;
+  recordSource.rescultivo, recordSource.fch_recul, recordSource.histopatol,;
+  recordSource.fchthisto, recordSource.reshistopa, recordSource.fch_rehis,;
+  recordSource.cli_pta, recordSource.nex_epi, recordSource.rediologic,;
+  recordSource.ada, recordSource.tuberculin, recordSource.met_hall,;
+  recordSource.posftecntc, recordSource.invescampo, recordSource.fch_invcmp,;
+  recordSource.numcntcidn, recordSource.numsntmido, recordSource.numsntmpos,;
+  recordSource.observsegc;
+ FROM Eventos_13 AS recordSource 

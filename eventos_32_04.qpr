@@ -1,0 +1,25 @@
+SELECT Recordsource.mes, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.cod_dep,;
+  Recordsource.cod_mun, Recordsource.fec_not, Recordsource.vac_exi,;
+  Recordsource.vac_rec, Recordsource.vac_dis, Recordsource.vac_per,;
+  Recordsource.vac_sal, Recordsource.per_venc, Recordsource.per_exp_ca,;
+  Recordsource.per_cong, Recordsource.per_rupt, Recordsource.per_hurto,;
+  Recordsource.per_pol, Recordsource.per_err, Recordsource.per_reac,;
+  Recordsource.censo_pc, Recordsource.perros_vac,;
+  Recordsource.vacpriperr, Recordsource.cobmenperr,;
+  Recordsource.cob_acu_vc, Recordsource.censo_pf, Recordsource.gatos_vac,;
+  Recordsource.vac_prigat, Recordsource.cob_mengat,;
+  Recordsource.cob_acu_vf, Recordsource.perros_eli,;
+  Recordsource.gatos_eli, Recordsource.hembp_est,;
+  Recordsource.machop_est, Recordsource.hembg_est,;
+  Recordsource.machog_est, Recordsource.per_ob_doc,;
+  Recordsource.per_ob_cli, Recordsource.per_ob_cen,;
+  Recordsource.gat_ob_doc, Recordsource.gat_ob_cli,;
+  Recordsource.gat_ob_cen, Recordsource.per_con_ra,;
+  Recordsource.per_sin_ra, Recordsource.per_muerto,;
+  Recordsource.gat_con_ra, Recordsource.gat_sin_ra,;
+  Recordsource.gat_muerto, Recordsource.nom_dil_fi,;
+  Recordsource.tel_dil_fi, Recordsource.fec_dilige, Recordsource.ajuste,;
+  Recordsource.fec_aju;
+ FROM ;
+     Eventos_32 Recordsource

@@ -1,0 +1,14 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.condendiag, Recordsource.con_pre,;
+  Recordsource.eda_ges, Recordsource.tomaserolo, Recordsource.eg_pri_s,;
+  Recordsource.resservdrl, Recordsource.pruetrepon,;
+  Recordsource.eg_pr_trep, Recordsource.que_pr_tre,;
+  Recordsource.resultrepo, Recordsource.tratamient,;
+  Recordsource.semgestin, Recordsource.pen_benzat, Recordsource.tto_con,;
+  Recordsource.nom_madre, Recordsource.tip_ide_ma,;
+  Recordsource.num_ide_ma, Recordsource.res_gestac,;
+  Recordsource.no_product, Recordsource.eda_ges_na,;
+  Recordsource.res_ser_mp, Recordsource.resultsero;
+ FROM ;
+     Eventos_44 Recordsource

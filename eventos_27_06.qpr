@@ -1,0 +1,16 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.semanas, Recordsource.clas_caso,;
+  Recordsource.fiebre_ag, Recordsource.disnea_ag,;
+  Recordsource.ede_fac_ag, Recordsource.ed_mi_ag, Recordsource.der_peri,;
+  Recordsource.hep_ag, Recordsource.adeno_ag, Recordsource.romaña_ag,;
+  Recordsource.chagoma_ag, Recordsource.f_card_cr, Recordsource.torac_cr,;
+  Recordsource.bradi_cr, Recordsource.disfag_cr, Recordsource.arritmia,;
+  Recordsource.gota_grue, Recordsource.micro_hem, Recordsource.strout,;
+  Recordsource.elisa, Recordsource.elisa_res, Recordsource.inmunofluo,;
+  Recordsource.ifi_res, Recordsource.serologica, Recordsource.tratamient,;
+  Recordsource.trat_sint, Recordsource.prob_via, Recordsource.ajuste,;
+  Recordsource.fec_aju, Recordsource.inmonoblot, Recordsource.reactivaci,;
+  Recordsource.elisa_noco, Recordsource.micrometod;
+ FROM ;
+     eventos_27 Recordsource

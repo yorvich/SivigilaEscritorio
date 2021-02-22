@@ -1,0 +1,7 @@
+SELECT RecordSource.SEMANA,	RecordSource.AÑO,	RecordSource.COD_PRE,	RecordSource.COD_SUB,	RecordSource.COD_EVE,	RecordSource.TIP_IDE,;
+RecordSource.NUM_IDE,	RecordSource.DIARREA,	RecordSource.NAUSEAS,	RecordSource.VOMITO,	RecordSource.DESHIDRATA,	RecordSource.CALAMBRES ,	;
+RecordSource.OTROS,	RecordSource.CUAL,	RecordSource.HORA_INI,	RecordSource.ALI_IN_NA1,	RecordSource.ALI_IN_HM1,	RecordSource.ALI_IN_LC1,	;
+RecordSource.ALI_IN_NA2,	RecordSource.ALI_IN_HM2,	RecordSource.ALI_IN_LC2,	RecordSource.ALI_IN_NA3,	RecordSource.ALI_IN_HM3,	;
+RecordSource.ALI_IN_LC3,	RecordSource.AI_ANT_NA1,	RecordSource.AI_ANT_HM1,	RecordSource.AI_ANT_LC1,	RecordSource.AI_ANT_NA2,	;
+RecordSource.AI_ANT_HM2,	RecordSource.AI_ANT_LC2,	RecordSource.NOM_LUG,	RecordSource.DIR_LUG,	RecordSource.CAPTADO,	RecordSource.DESP,	;
+RecordSource.DONDE,	RecordSource.CONT_SS,	RecordSource.CONT_POST,	RecordSource.MTRA_HECES, RecordSource.AGENTE FROM EVENTOS_46 RecordSource

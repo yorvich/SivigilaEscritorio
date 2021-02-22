@@ -1,0 +1,14 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.vih, Recordsource.hepat_cron,;
+  Recordsource.anemia_fal, Recordsource.diabetes, Recordsource.lupus,;
+  Recordsource.hipertensi, Recordsource.obesidad, Recordsource.artritis,;
+  Recordsource.artrosis, Recordsource.falla_rena,;
+  Recordsource.drogadicci, Recordsource.alcoholism,;
+  Recordsource.tabaquismo, Recordsource.insuf_card, Recordsource.cancer,;
+  Recordsource.epoc, Recordsource.piel, Recordsource.higado,;
+  Recordsource.bazo, Recordsource.pulmon, Recordsource.cerebro,;
+  Recordsource.miocardio, Recordsource.medula, Recordsource.riñon,;
+  Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_86 Recordsource

@@ -1,0 +1,12 @@
+SELECT P.* FROM (SELECT Plano_pacientes.*, RECNO() AS nReg FROM plano_pacientes) as P ;
+    LEFT OUTER JOIN  (SELECT * FROM plano_eventos WHERE !("LABORATORIO" $ Plano_Eventos.Control)) as B ;
+   ON ( ( ( ( (  (P.año = B.año;
+   AND  P.semana = B.semana );
+   AND  P.cod_eve = B.cod_eve );
+   AND  P.tip_ide = B.tip_ide );
+   AND  P.num_ide = B.num_ide );
+   AND  P.cod_pre = B.cod_pre );
+   AND  P.cod_sub = B.cod_sub);
+ WHERE B.cod_eve IS NULL ;
+   AND  P.Ajuste='0' AND ;
+   P.cod_eve NOT IN (SELECT Eventos.cod_eve FROM eventos WHERE EMPTY(Eventos.formulario) OR DATE() <= Eventos.FEC_OBLIGA)

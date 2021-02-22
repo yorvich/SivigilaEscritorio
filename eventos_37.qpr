@@ -1,0 +1,16 @@
+SELECT recordSource.semana, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.tip_ide,;
+  recordSource.num_ide, recordSource.tipo_leuce, recordSource.infeccion,;
+  recordSource.slisis_tum, recordSource.trombosis, recordSource.hemorragia,;
+  recordSource.cconvulsiv, recordSource.desconocid, recordSource.otras,;
+  recordSource.cual, recordSource.ch_fec_tom, recordSource.ch_fec_rec,;
+  recordSource.ch_fec_res, recordSource.ch_por_bll, recordSource.fs_fec_tom,;
+  recordSource.fs_fec_rec, recordSource.fs_fec_res, recordSource.fs_por_bll,;
+  recordSource.em_fec_tom, recordSource.em_fec_rec, recordSource.em_fec_res,;
+  recordSource.em_por_bll, recordSource.sit_def, recordSource.otro_cual,;
+  recordSource.causa_dire, recordSource.caus_mue_d, recordSource.causa_ante,;
+  recordSource.fec_ini_tr, recordSource.tpor_dias, recordSource.tpor_meses,;
+  recordSource.tpod_dias, recordSource.tpod_meses, recordSource.tpoi_dias,;
+  recordSource.tpoi_meses, recordSource.nom_profes, recordSource.tel_profes,;
+  recordSource.observacio;
+ FROM Eventos_37 AS recordSource 

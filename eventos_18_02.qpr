@@ -1,0 +1,24 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.viajo, Recordsource.municipio,;
+  Recordsource.pad_mal, Recordsource.fec_apr, Recordsource.automedica,;
+  Recordsource.ant_tra, Recordsource.fec_ant, Recordsource.com_cerebr,;
+  Recordsource.com_renal, Recordsource.com_hepati,;
+  Recordsource.com_pulmon, Recordsource.com_hemato,;
+  Recordsource.com_otras, Recordsource.fiebre, Recordsource.cefalea,;
+  Recordsource.escalofrío, Recordsource.sudoración,;
+  Recordsource.mialgias, Recordsource.hiperemesi, Recordsource.nauseas,;
+  Recordsource.astenia, Recordsource.adinamia, Recordsource.hemoglob,;
+  Recordsource.plaqueta, Recordsource.hemorragia, Recordsource.cid,;
+  Recordsource.hepatomega, Recordsource.esplenomeg, Recordsource.ede_pul,;
+  Recordsource.hipotensió, Recordsource.renal, Recordsource.respirator,;
+  Recordsource.hepática, Recordsource.confusión, Recordsource.somnolenci,;
+  Recordsource.convulsión, Recordsource.coma, Recordsource.choque,;
+  Recordsource.esp_pla, Recordsource.embarazo, Recordsource.cloroquina,;
+  Recordsource.amodiaquin, Recordsource.sulfapirim,;
+  Recordsource.primaquina, Recordsource.quinina_o,;
+  Recordsource.quinina_i, Recordsource.mefloquina,;
+  Recordsource.artesunato, Recordsource.coartem, Recordsource.clindamici,;
+  Recordsource.otro, Recordsource.cual_otr_t, Recordsource.EstadoTran;
+ FROM ;
+     Eventos_18 Recordsource

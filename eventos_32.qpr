@@ -1,0 +1,21 @@
+SELECT recordSource.mes, recordSource.año, recordSource.cod_pre,;
+  recordSource.cod_sub, recordSource.cod_eve, recordSource.cod_dep,;
+  recordSource.cod_mun, recordSource.fec_not, recordSource.vac_exi,;
+  recordSource.vac_rec, recordSource.vac_dis, recordSource.vac_per,;
+  recordSource.vac_sal, recordSource.vah_exi, recordSource.vah_rec,;
+  recordSource.vah_dis, recordSource.vah_per, recordSource.vah_sal,;
+  recordSource.fsa_exi, recordSource.fsa_rec, recordSource.fsa_dis,;
+  recordSource.fsa_per, recordSource.fsa_sal, recordSource.censo_pc,;
+  recordSource.perros_vac, recordSource.cob_acu_vc, recordSource.censo_pf,;
+  recordSource.gatos_vac, recordSource.cob_acu_vf, recordSource.perros_eli,;
+  recordSource.gatos_eli, recordSource.murcie_eli, recordSource.zorros_eli,;
+  recordSource.otros_eli, recordSource.perr_est, recordSource.gatos_est,;
+  recordSource.per_ob_doc, recordSource.per_ob_cli, recordSource.per_ob_cen,;
+  recordSource.gat_ob_doc, recordSource.gat_ob_cli, recordSource.gat_ob_cen,;
+  recordSource.per_con_ra, recordSource.per_sin_ra, recordSource.per_muerto,;
+  recordSource.gat_con_ra, recordSource.gat_sin_ra, recordSource.gat_muerto,;
+  recordSource.tot_fra_su, recordSource.vac_ap_pob, recordSource.vac_ap_rie,;
+  recordSource.vac_ap_pre, recordSource.cons_compl, recordSource.cons_incom,;
+  recordSource.per_fr_sue, recordSource.per_do_vac, recordSource.causa_perd,;
+  recordSource.nom_dil_fi, recordSource.fec_dilige;
+ FROM Eventos_32 AS recordSource 

@@ -1,0 +1,18 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.clas_final, Recordsource.hij_mad,;
+  Recordsource.com_sex_in, Recordsource.hemofílico,;
+  Recordsource.multitrans, Recordsource.hemodializ, Recordsource.tra_sal,;
+  Recordsource.dro_par, Recordsource.con_por, Recordsource.con_sex,;
+  Recordsource.pob_cau, Recordsource.met_tra, Recordsource.don_san,;
+  Recordsource.con_pre, Recordsource.sem_ges, Recordsource.sem_ges_in,;
+  Recordsource.vac_ant, Recordsource.num_dos, Recordsource.fec_ter_do,;
+  Recordsource.fuente, Recordsource.pres_sys, Recordsource.ictericia,;
+  Recordsource.fiebre, Recordsource.hepatoespl, Recordsource.coluria,;
+  Recordsource.mial_artra, Recordsource.nauseas, Recordsource.vómito,;
+  Recordsource.dolor_abdo, Recordsource.complicaci,;
+  Recordsource.cuales_com, Recordsource.nom_madre,;
+  Recordsource.tip_ide_ma, Recordsource.num_ide_ma,;
+  Recordsource.vac_rec_na, Recordsource.gam_rec_na;
+ FROM ;
+     Eventos_16 Recordsource

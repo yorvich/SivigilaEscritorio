@@ -1,0 +1,1 @@
+Do permutateFieldValues with 'PACIENTE','PRI_NOM,SEG_NOM,PRI_APE,SEG_APE' IN Utilities

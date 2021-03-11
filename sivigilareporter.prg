@@ -1546,7 +1546,7 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 	
 	LOCAL sOldExclusive
 	sOldExclusive = SET("Exclusive")
-	SET EXCLUSIVE ON 
+	*SET EXCLUSIVE ON 
 	
 	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\QueriesHandler') ADDITIVE
 	SET PROCEDURE TO SivigilaUtilities ADDITIVE
@@ -1774,7 +1774,7 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 	RELEASE gsXLSFilter,oCurrentEvent 
 	
 	SET TALK &sOldTalk 
-	SET EXCLUSIVE &sOldExclusive 
+	*SET EXCLUSIVE &sOldExclusive 
 	WAIT CLEAR 
 ENDPROC 
 

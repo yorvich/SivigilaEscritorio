@@ -281,3 +281,41 @@ PROCEDURE crossTablesTst
 	?SQLClause
 	&SQLClause
 ENDPROC
+
+
+FUNCTION concatFields(sFieldsList1 As String,  sQualifier1 As String, sFieldsList2 As String,  sQualifier2 As String, ;
+						sSeparatorChar As String)
+
+	*Sean sFieldsList1 = FieldName_11,...,FieldName_1n y sFieldsList2 = FieldName_21,...,FieldName_2n listas de campos ;
+	y sean sQualifier1 y sQualifier2  dos cualificadores, entonces, la función retorna un matching entre las dos listas ;
+	de campos de la siguiente forma: ;
+		sQualifier1.FieldName_11 + ... + sQualifier1.FieldName_1n = sQualifier2.FieldName_21 + ... + sQualifier2.FieldName_2n
+		
+	*sSeparatorChar es el caracter separador de los campos en las listas sFieldsList1 y sFieldsList2; es decir, el separador ;
+	de campos en esas listas NO necesariamente tiene que ser una ","
+	
+   
+	sSetProcCmd = "SET PROCEDURE TO " + PATH_TO_DEVELOPMENT_ENVIRONMENT + "\SIVIGILAUtilities ADDITIVE"
+	&sSetProcCmd
+    sQualifiedList1 = qualifyFields(sFieldsList1, sSeparatorChar, sQualifier1)
+    sQualifiedList2 = qualifyFields(sFieldsList2, sSeparatorChar, sQualifier2)
+    
+    sMatchedList = STRTRAN(sQualifiedList1 ,sSeparatorChar,'+') + " = " +  STRTRAN(sQualifiedList2,sSeparatorChar,'+')
+        
+    RETURN sMatchedList
+ENDFUNC
+
+PROCEDURE ConcatFieldsTst
+
+   sFieldList1 = "AÑO+SEMANA+COD_EVE+TIP_IDE+NUM_IDE+COD_PRE+COD_SUB" &&"semana, año, cod_pre, cod_sub"
+   sFieldList2 = "AÑO+SEMANA+COD_EVE+TIP_IDE+NUM_IDE+COD_PRE+COD_SUB" &&"semana, año, cod_pre, cod_sub"
+   sQualifier1 = "Paciente"
+   sQualifier2 = "Recordsource"
+   
+   LOCAL sResult As String
+
+   sResult = ConcatFields(sFieldList1, sQualifier1, sFieldList2, sQualifier2, '+')
+   ?sResult
+
+ENDPROC
+

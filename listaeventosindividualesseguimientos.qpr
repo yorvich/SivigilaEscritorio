@@ -76,6 +76,7 @@ SELECT Eventos.cod_eve, Eventos.nom_eve, Eventos.inicio_sin, Eventos.FechaInacti
    AND  Eventos.cod_eve <>  "362"  ;
    AND  Eventos.cod_eve <>  "351"  ;
    AND  Eventos.cod_eve <>  "621"  ;
+   AND  Eventos.cod_eve <>  "202"  ;
    AND (date()<Eventos.FechaInactivacion or EMPTY(Eventos.FechaInactivacion) ) ;
  ORDER BY Eventos.nom_eve;
  INTO CURSOR cursor_listaEventosIndividualesSeguimientos

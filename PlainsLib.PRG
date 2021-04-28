@@ -2023,7 +2023,10 @@ FUNCTION ExportFromQry
 			IF nSourceWithDuplicates>9 THEN
 				* Existen registros duplicados en la fuente de exportación
 				xlsFileName=duplicatesFilePath + ALLTRIM(tableName(1,1)) + '_DUPLICADOS'
-				COPY TO (xlsFileName) XL5
+				TRY 
+					COPY TO (xlsFileName) XL5
+				CATCH TO oException
+				ENDTRY 
 				bSuccess = .F.
 			ENDIF
 			RELEASE PROCEDURE IMPORTAR_CLICK 

@@ -861,20 +861,18 @@ FUNCTION isValidAge
 ENDFUNC
 
 
-FUNCTION isValidIdentificationDoc
-
-	LPARAMETERS sIdentificationKind as String, sUnitOfMeasure as string, sAge as String, sErrMsg as sgtring	
+FUNCTION isValidIdentificationDoc(sIdentificationKind as String, sUnitOfMeasure as string, sAge as String, sErrMsg as sgtring)
 	
 	*Establece la consistencia entre el tipo de identifcación sIdentificationKind y la edad determinada por el par (sUnitOfMeasure, sAge );
 	Devuelve .T. si hay consistencia; en caso contrario decuelve .F. ;
 	En el parámetro opcional sErrMsg, se retorna un aviso indicativo de la inconsistencia encontrada
 	
+	sErrMsg=''
+
 	IF sUnitOfMeasure ='1' AND (VAL(sAge)<18 OR VAL(sAge)>132)
 		*sUnitOfMeasure es 1 = Años
-		IF sIdentificationKind ='CC' OR sIdentificationKind ='CE' OR sIdentificationKind ='AS'
-			IF VARTYPE(sErrMsg)='C' THEN
-				sErrMsg = "Edad inválida para el tipo de documento"
-			ENDIF
+		IF sIdentificationKind ='CC' OR sIdentificationKind ='AS'
+			sErrMsg = "Edad inválida para el tipo de documento"
 	    	RETURN .F.
 		ENDIF
 	ENDIF
@@ -882,35 +880,29 @@ FUNCTION isValidIdentificationDoc
 	IF sUnitOfMeasure !='1'
 		*sUnitOfMeasure es una de las unidades 0 = No aplica 2 = Meses 3 = Días 4 = Horas 5 = Minutos
 		IF sIdentificationKind ='CC' OR sIdentificationKind ='CE' OR sIdentificationKind ='AS'
-			IF VARTYPE(sErrMsg)='C' THEN
-				sErrMsg = "Edad inválida para el tipo de documento"
-			ENDIF
+			sErrMsg = "Edad inválida para el tipo de documento"
 	    	RETURN .F.
 		ENDIF
 	ENDIF
 	
 	IF sUnitOfMeasure ='1' AND VAL(sAge)<7
 		*sUnitOfMeasure es 1 = Años
-		IF sIdentificationKind!='MS' AND sIdentificationKind!='RC' AND sIdentificationKind!='PA'  AND sIdentificationKind!='PE'
-			IF VARTYPE(sErrMsg)='C' THEN
-				sErrMsg = "Edad inválida para el tipo de documento"
-			ENDIF
+		IF sIdentificationKind!='MS' AND sIdentificationKind!='RC' AND sIdentificationKind!='PA'  ;
+			AND sIdentificationKind!='PE' AND sIdentificationKind!='SC' AND sIdentificationKind!='CD' ;
+			AND sIdentificationKind!='DE' THEN 
+			sErrMsg = "Edad inválida para el tipo de documento"
 	    	RETURN .F.
 		ENDIF
 	ENDIF
 
 	IF INLIST(ALLTRIM(sIdentificationKind),'CC','TI','CE') AND sUnitOfMeasure  !='1' THEN
-		IF VARTYPE(sErrMsg)='C' THEN
-			sErrMsg = 'Si selecciona  CC, TI o CE  en documento de identidad, unidad de medida solo puede ser 1'
-		ENDIF
+		sErrMsg = 'Si selecciona  CC, TI o CE  en documento de identidad, unidad de medida solo puede ser 1'
 		RETURN .F.
 	ENDIF
 
 	IF sUnitOfMeasure ='1' AND VAL(sAge)>17 
 		IF sIdentificationKind ='MS' OR sIdentificationKind ='RC' OR sIdentificationKind ='TI'
-			IF VARTYPE(sErrMsg)='C' THEN
-				sErrMsg = "Edad inválida para el tipo de documento"
-			ENDIF
+			sErrMsg = "Edad inválida para el tipo de documento"
 	    	RETURN .F.
 		ENDIF
 	ENDIF
@@ -925,6 +917,15 @@ FUNCTION isValidIdentificationDoc
 		ENDIF
 	ENDIF
 	
+	IF ALLTRIM(sIdentificationKind) = 'CE' THEN
+		sErrMsg = 'Si selecciona  CE en documento de identidad, la edad debe ser mayor o igual a siete años'
+		IF EMPTY(sAge) OR EMPTY(sUnitOfMeasure) then
+			RETURN .F.
+		ELSE
+			RETURN (ageIsGreaterThan('&sAge,&sUnitOfMeasure','6,1'))
+		ENDIF
+	ENDIF
+
 	RETURN .T.
 ENDFUNC
 

@@ -1132,3 +1132,34 @@ PROCEDURE createCRUDForm()
 	RELEASE oHelpIniMgr
 
 ENDPROC 
+
+
+PROCEDURE connectToSQLServer()
+
+	lcStringCnxRemoto = "DRIVER={SQL Server};" + ;
+	                    "SERVER=10.10.100.25\DESARROLLO;" + ;
+	                    "PORT=3306;" + ;
+	                    "UID=SivigilaDesktop;" + ;
+	                    "PWD=RailwayStat3167;" + ;
+	                    "DATABASE=sivigila;" 
+SET STEP ON 
+
+	SQLSETPROP(0,"DispLogin" , 3 )
+	lnHandle = SQLSTRINGCONNECT(lcStringCnxRemoto)
+	IF lnHandle > 0
+		cmd = SQLEXEC(lnHandle,"SELECT top 500 * FROM Eventos","rsDB")
+		IF cmd > 0
+			BROWSE
+		ELSE
+			AERROR(laErr)
+			MESSAGEBOX("No se pudo conectar a SQL Server. Error: " + CHR(13) + laErr[2])
+		ENDIF
+		IF cmd > 0
+			USE IN rsDB
+		ENDIF 
+		SQLDISCONNECT(lnHandle)
+	ELSE
+		AERROR(laErr)
+		MESSAGEBOX("No se pudo conectar a SQL Server. Error: " + CHR(13) + laErr[2])
+	ENDIF
+ENDPROC

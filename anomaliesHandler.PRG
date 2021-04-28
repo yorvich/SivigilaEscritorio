@@ -1419,3 +1419,35 @@ PROCEDURE detectDelays_362(nAnomalies AS Number, sXLSPath as String)
 	
 	RELEASE oCurrentEvent
 ENDPROC
+
+
+PROCEDURE compactMemoFields()
+	*Compacta los campos Memo de la tabla de datos básicos, eliminando espacios en blanco a derecha
+	
+	LOCAL sSQLCmd as String
+	
+	SET PROCEDURE TO (PATH_TO_DEVELOPMENT_ENVIRONMENT + '\SIVIGILAMessenger') ADDITIVE
+
+	=showProgressMessage('Eliminando espacios innecesarios...') 
+	glDisableRules = .T.
+	
+	SELECT field_name FROM SivigilaTablesStruc WHERE table_name = 'PACIENTE' AND field_type = 'M' INTO CURSOR rsFieldNames
+	IF _TALLY > 0 THEN
+		SELECT 'rsFieldNames'
+		sSQLCmd = 'UPDATE PACIENTE SET '
+		
+		SCAN
+			sSQLCmd = sSQLCmd + ALLTRIM(rsFieldNames.field_name) + '=ALLTRIM(' +  ALLTRIM(rsFieldNames.field_name) + '),'
+		ENDSCAN
+		sSQLCmd = LEFT(sSQLCmd,LEN(sSQLCmd)-1)
+		&sSQLCmd 
+		
+		=showProgressMessage('Compactando...')
+		SELECT PACIENTE 
+		PACK 
+		USE
+	ENDIF 
+
+	glDisableRules = .F.
+	=hideProgressMessage()
+ENDPROC 

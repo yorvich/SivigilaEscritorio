@@ -937,8 +937,10 @@ PROCEDURE execExclusive(sProcName as String, sCommomName as String)
 	LOCAL bContinue as Boolean 
 	bContinue = .T.
 	
-	CLOSE ALL
-	
+	LOCAL sdOnError as String 
+	sOldOnError = ON('ERROR')
+	ON ERROR DO ErrHandler WITH ERROR(), MESSAGE(), PROGRAM(), ''	&& (sOldOnError) 
+	*ON ERROR DO (PATH_TO_COMMON_LIB + '\SimpleErrorHandler') WITH MESSAGE(),MESSAGE(1),PROGRAM(),LINENO(),.T.
 	
 	vExclusiveState=SET("Exclusive")
 	vTalkState=SET("Talk")
@@ -947,14 +949,12 @@ PROCEDURE execExclusive(sProcName as String, sCommomName as String)
 	SET EXCLUSIVE ON
 	SET TALK ON
 	SET SAFETY OFF
-*SET STEP ON 
+
+	CLOSE ALL
 	
 	* Dado que la sesión de datos 2 mantiene las tablas de registro de errores del manejador de errores del SIVIGILA;
 	y por tanto los archivos de la base de datos BDSIVIGILA están abiertos, es necesario cerrarlos y restablecer la sesión de datos ;
 	tal como se encontraba antes del cierre 
-	LOCAL sOldOnError as String 
-	sOldOnError = ON('ERROR')
-	ON ERROR DO ErrHandler WITH ERROR(), MESSAGE(), PROGRAM(), sOldOnError 
 			
 	SET DATASESSION TO 2
 	sOldSafety = SET("Safety")
@@ -1004,3 +1004,93 @@ PROCEDURE execExclusive(sProcName as String, sCommomName as String)
 	SET DATASESSION TO 1
 	ON ERROR &sOldOnError
 ENDPROC
+
+
+PROCEDURE restoreTempDB
+	
+	*Restaura los archivos de la BD temporal SivigilaTemp y limpia la carpeta temporal de reportes REPORTES\Tmp y los archivos rs*.DBF que corresponden;
+	a recordsets temporales
+	
+	LOCAL bContinue as Boolean 
+	LOCAL sErrorMsg  AS String, sResult  as String, sTmpDirName  as String, sSOCmd as String  
+	
+	SET PROCEDURE TO (PATH_TO_DEVELOPMENT_ENVIRONMENT + '\SIVIGILAMessenger') ADDITIVE
+
+	sOldSafety = SET("Safety")
+	SET SAFETY OFF
+
+	SET LIBRARY TO LOCFILE("vfpcompression.fll")
+	sTmpDirName = ADDBS(SYS(2023)) + SYS(2015)
+	IF UnzipQuick("SivigilaTemp.zip", sTmpDirName, .F.) THEN
+		
+		sSOCmd = 'XCOPY "' + sTmpDirName + '\*.*" . /s /y' + CrLf
+		=STRTOFILE(sSOCmd,"RESTAURAR.bat") 
+		sSOCmd = "ECHO %ERRORLEVEL% > " + sTmpDirName + "\Result.txt "
+		=STRTOFILE(sSOCmd,"RESTAURAR.bat",1)  
+		RUN RESTAURAR.bat
+		DELETE FILE RESTAURAR.bat
+		
+		sResult = FILETOSTR(sTmpDirName + "\Result.txt ")
+		IF '4' $ sResult THEN 
+			*El comando XCOPY terminó con un error del tipo 'infracción al compartir'
+			sErrorMsg = ERR_IMPOSIBLE_RESTORE_DB_MESSSAGE
+		ELSE
+			sErrorMsg = NOTIFICATION_DB_RESTORED_MESSSAGE 
+		ENDIF
+		
+		WAIT  "Eliminando archivos temporales" WINDOW NOWAIT TIMEOUT 5
+		sSOCmd = "RUN RD " + sTmpDirName + " /q /s"
+		&sSOCmd
+		WAIT CLEAR 
+	ELSE
+		sErrorMsg = ERR_IMPOSIBLE_RESTORE_DB_MESSSAGE
+	ENDIF
+	
+	TRY 
+		DELETE FILE rs*.DBF
+		DELETE FILE Reportes\Tmp\*.*
+	CATCH TO oException
+	ENDTRY 
+	
+	SET SAFETY &sOldSafety
+	=showErrorMessage(sErrorMsg,0)
+ENDPROC
+
+
+FUNCTION launchSivigilaCrypto_V01(sSourcePath as String, sTargetPath as String, sFileMask as String ) as boolean 
+	*Decodifica los archivos que obedezcan el patrón sFileMask que se encuentren en sSourcePath y los deja decodificados en sTargetPath. ;
+	Por default sFileMask = '*.txt'
+	
+	LOCAL oCodifier as Object 
+	LOCAL sDecodifiedFilesFolder  as String, sSivigilaCryptoFileNameAndPath as String 
+	LOCAL returnedValue as Boolean 
+	
+	IF !(VARTYPE(sFileMask)='C' AND !EMPTY(sFileMask)) THEN 
+		sFileMask = '*.txt'
+	ENDIF 
+	
+	sSivigilaCryptoFileNameAndPath = PATH_TO_SIVIGILACRYPTO + "SivigilaCrypto.prg"
+	oCodifier  = NEWOBJECT( "SivigilaCrypto", sSivigilaCryptoFileNameAndPath, .NULL., sSourcePath, sFileMask, sTargetPath)
+	oCodifier.BatchDecodify
+	
+	returnedValue = oCodifier.getSivigilaCryptoStatus()
+
+	RELEASE oCodifier
+	
+	RETURN returnedValue 
+ENDPROC 
+
+
+FUNCTION launchSivigilaCrypto(sSourcePath as String, sTargetPath as String, sFileMask as String ) as boolean 
+	*Decodifica los archivos que obedezcan el patrón sFileMask que se encuentren en sSourcePath y los deja decodificados en sTargetPath. ;
+	Por default sFileMask = '*.txt'
+ 	
+	IF !(VARTYPE(sFileMask)='C' AND !EMPTY(sFileMask)) THEN 
+		sFileMask = '*.txt'
+	ENDIF 
+
+	sCmd = 'RUN SivigilaCrypto.exe "' + sSourcePath + '" "' + sTargetPath + '" "' + sFileMask + '"'
+	&sCmd
+	RETURN .T.
+ENDPROC 
+

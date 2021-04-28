@@ -1,10 +1,8 @@
 #INCLUDE SIVIGILA.H
 
-PROCEDURE addBasicData
-
-	LPARAMETERS candidatesRSName, duplicatesRSName, sourceFilePath, sourceFileName, ;
-				existentsFilePath, existentsFileName, duplicatesFilePath, sResult as Boolean, ;
-				sErrorMsg as String, sNotificationWeek as Number, bTraceNewRecs as boolean
+PROCEDURE addBasicData(candidatesRSName, duplicatesRSName, sourceFilePath, sourceFileName, ;
+						existentsFilePath, existentsFileName, duplicatesFilePath, sResult as Boolean, ;
+						sErrorMsg as String, sNotificationWeek as Number, bTraceNewRecs as boolean)
 
 	* candidatesRSName: nombre de una tabla o cursor que contiene los registros que son candidatos a ;
 		ser almacenados en la tabla maestra de Pacientes. Un registrto es candidato si ;
@@ -29,7 +27,13 @@ PROCEDURE addBasicData
 	de todos los registros nuevos que se adicionaron a la tabla maestra de pacientes. El valor por defecto es .F.
 
 	LOCAL bINGR_X_NI_IsField as Boolean, sQueryFields as String
-	
+
+	LOCAL masterTableName AS String 
+	masterTableName = 'PACIENTE'
+
+	LOCAL sErrorMsg as String 
+	sErrorMsg = ''
+
 	IF TOT_PTE >= 1
 		
 		IF VARTYPE(sNotificationWeek)='L' THEN
@@ -38,124 +42,135 @@ PROCEDURE addBasicData
 		
 		* Configura las areas de trabajo con las tablas necesarias para llevar a cabo la operación
 		SET PROCEDURE TO SIVIGILAUtilities ADDITIVE
+		SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\QueriesHandler') ADDITIVE
 		
-		IF !USED('PACIENTE') THEN
-			USE PACIENTE ORDER 4 IN 0
+		IF !USED(masterTableName) THEN
+			USE (masterTableName) IN 0
 		ENDIF
 		bContinue = UseTable(sourceFilePath + '\' + sourceFileName) AND UseTable(existentsFilePath + '\' + existentsFileName) 
-		
+
 		IF bContinue THEN
-			CON_PTE=0
+			CON_PTE = 0
 			sResult = .T.
 			
-			masterTableName='PACIENTE'
-			nMasterTableRecords=RECCOUNT(masterTableName)
 			nExistentRecords1 = 0
 			nExistentRecords2 = 0
 
-			*Descarta como registros candidatos a agregar a la tabla maestra de pacientes todos aquellos que no ;
-			correspondan a notificaciones negativas (cod_eve<>'000'), que correspondan a ajustes <> '7' y que ya ;
-			existan en la tabla maestra. Se considera que un registro candidato existe en la tabla maestra si la clave ;
-			{AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB, INGR_X_NI} ya se encuentra en la tabla maestra
-			bINGR_X_NI_IsField = isField(candidatesRSName,"INGR_X_NI")									
-
-			sSetProcCmd = "SET PROCEDURE TO '" + PATH_TO_COMMON_LIB + "QueriesHandler' ADDITIVE"
-			&sSetProcCmd 
-
-			sQueryFields = "AJUSTE , AÑO , SEMANA , COD_EVE , TIP_IDE , NUM_IDE , COD_PRE , COD_SUB"
-			sSQLCmd = "SELECT DISTINCT " + qualifyFields(sQueryFields, ',', candidatesRSName)
-			IF bINGR_X_NI_IsField THEN
-				sSQLCmd = sSQLCmd + "," + candidatesRSName + ".INGR_X_NI "
-			ENDIF
-			sSQLCmd = sSQLCmd + " FROM " + candidatesRSName + " INNER JOIN PACIENTE ON " + ;
-						matchFields(sQueryFields, candidatesRSName, sQueryFields, "PACIENTE", ",") + " "
+			* Agrega a la tabla maestra todos los registros candidatos nuevos que no ;
+			correspondan a notificaciones negativas (cod_eve<>'000'). Un registro candidato es nuevo ;
+			si su clave {AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB} no se encuentra en ;
+			la tabla maestra
+			setNewRecsClause = "SELECT A.* FROM (SELECT *, " + ALLTRIM(STR(sNotificationWeek)) + " AS NOTIFICA FROM " + (candidatesRSName) ;
+								+ " WHERE A.cod_eve!= '000') AS A LEFT OUTER JOIN paciente B ON "  ;
+								+ " A.año+A.semana+A.cod_eve+A.tip_ide+A.num_ide+A.cod_pre+A.cod_sub+A.Ajuste = " ;
+								+ " B.año+B.semana+B.cod_eve+B.tip_ide+B.num_ide+B.cod_pre+B.cod_sub+B.Ajuste" ;
+								+ " WHERE B.cod_eve IS NULL " ;
+								+ " INTO TABLE tmppacientes_a_importar.dbf"
+			&setNewRecsClause
 			
-			IF bINGR_X_NI_IsField THEN
-				sSQLCmd = sSQLCmd + " AND TRANSFORM(" + candidatesRSName + ".INGR_X_NI,'Y') = TRANSFORM(PACIENTE.INGR_X_NI,'Y') "
-			ENDIF
+			nMasterTableRecords = RECCOUNT(masterTableName)
+			nRemainingRecords = RECCOUNT(candidatesRSName)
+			nRemainingDuplicatesRecords = CountTableRecords(duplicatesRSName)
 
-			sSQLCmd = sSQLCmd +	" WHERE " + candidatesRSName + ".COD_EVE!= '000'  AND " + ;
-						"ALLTRIM(STR(VAL(" + candidatesRSName + ".AJUSTE))) $ '" + CHANGE_PATIENT_STATE_ADJUSTMENTS + "'" + ;
-						" INTO CURSOR rsExistentRecords NOFILTER"
-
-			&sSQLCmd 
-			nExistentRecords1 = _TALLY
-			
-			nRemainingRecords=RECCOUNT(candidatesRSName)
-			IF nExistentRecords1>0 THEN
-				* Marca los registros descartados de tal manera que no se tengan en cuenta en procesos posteriores
-				IF bINGR_X_NI_IsField THEN
-					=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", "rsExistentRecords", sQueryFields + ", INGR_X_NI")
-				ELSE
-					=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", "rsExistentRecords", sQueryFields)
-				ENDIF
+			SELECT (masterTableName)
+			TRY
+				APPEND FROM tmppacientes_a_importar
+			CATCH TO oException
+				sResult=.F.
+				sErrorMsg = sErrorMsg + oException.Message
+			ENDTRY
+				
+			IF sResult THEN
+				CON_PTE = CON_PTE  + CountTableRecords("tmppacientes_a_importar")	&&CON_PTE = CON_PTE + _TALLY
+				* Incrementa el contador con la cantidad de registros agregados por el último Append
+				
+				nRemainingRecords = nRemainingRecords - CountTableRecords("tmppacientes_a_importar")	&&nRemainingRecords = nRemainingRecords - _TALLY
+				
+				* Marca los registros recien subidos a la tabla maestra de tal manera que no se tengan en cuenta ;
+				en procesos posteriores
+				=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", "tmpPacientes_a_Importar", ;
+									"AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB")
 				=TABLEUPDATE(1,.T.,sourceFileName)
-				nRemainingRecords=nRemainingRecords - nExistentRecords1
-			ENDIF		
 
-			IF nRemainingRecords > 0 THEN
-				*Descarta como registros candidatos a agregar a la tabla maestra de pacientes todos aquellos que no ;
-				correspondan a notificaciones negativas (cod_eve<>'000'), que correspondan a ajustes '7' y que ya ;
-				existan en la tabla maestra. Se considera que un registro candidato existe en la tabla maestra si la clave ;
-				{AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB, FEC_AJU} ya se encuentra en la tabla maestra
-				sQueryFields = "AJUSTE , AÑO , SEMANA , COD_EVE , TIP_IDE , NUM_IDE , COD_PRE , COD_SUB , FEC_AJU"
-				sSQLCmd = "SELECT DISTINCT " + qualifyFields(sQueryFields, ',', candidatesRSName)
-				sSQLCmd = sSQLCmd + " FROM " + candidatesRSName + " INNER JOIN " + masterTableName + " ON " + ;
-							matchFields(sQueryFields, candidatesRSName, sQueryFields, "PACIENTE", ",") + ;
-							" WHERE " + candidatesRSName + ".COD_EVE!= '000'  AND " + ;
-							candidatesRSName + ".AJUSTE = '7' INTO CURSOR rsExistentRecords NOFILTER"
-				&sSQLCmd 
-
-   				nExistentRecords2=CountTableRecords("rsExistentRecords")
+				IF nRemainingRecords > 0 OR nRemainingDuplicatesRecords > 0 THEN
 				
-				IF nExistentRecords2>0 THEN
-					* Marca los registros descartados de tal manera que no se tengan en cuenta en procesos posteriores
-					=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", "rsExistentRecords", sQueryFields)
-					=TABLEUPDATE(1,.T.,sourceFileName)
-					nRemainingRecords=nRemainingRecords - nExistentRecords2
-				ENDIF
-			ENDIF
-			
-		    *Agrega los registros descartados a la tabla de registros existentes
-		    IF nExistentRecords1 + nExistentRecords2 > 0 THEN
-				INSERT INTO (existentsFileName) (ARCHIVO, REG, DES_ARC, COD_PRE, COD_SUB, EVENTO, TIP_IDE, NUM_IDE, EXISTE_EN, SEMANA, AÑO) ;
-					SELECT 'N'+SUBSTR(ARC_MAE,2,7), RECNO(), 'Not. Individual', COD_PRE, COD_SUB, COD_EVE, TIP_IDE, NUM_IDE, masterTableName, SEMANA, AÑO ;
-					FROM plano_pacientes WHERE plano_pacientes.sube = 1
-			ENDIF
+					*Descarta como registros candidatos a agregar a la tabla maestra de pacientes todos aquellos que no ;
+					correspondan a notificaciones negativas (cod_eve<>'000'), que correspondan a ajustes <> '7' y que ya ;
+					existan en la tabla maestra. Se considera que un registro candidato existe en la tabla maestra si la clave ;
+					{AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB, INGR_X_NI} ya se encuentra en la tabla maestra
+					bINGR_X_NI_IsField = isField(candidatesRSName,"INGR_X_NI")									
+						
+					sSetProcCmd = "SET PROCEDURE TO '" + PATH_TO_COMMON_LIB + "QueriesHandler' ADDITIVE"
+					&sSetProcCmd 
 
-			IF nRemainingRecords > 0 THEN
-				* Agrega a la tabla maestra de Pacientes todos los registros candidatos nuevos que no ;
-				correspondan a notificaciones negativas (cod_eve<>'000'). Un registro candidato es nuevo ;
-				si su clave {AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB} no se encuentra en ;
-				la tabla maestra
-				setNewRecsClause = "SELECT A.*, " + ALLTRIM(STR(sNotificationWeek)) + " AS NOTIFICA FROM " + (candidatesRSName) ;
-									+ " A WHERE A.cod_eve!= '000'  AND " ;
-									+ "AJUSTE + AÑO + SEMANA + COD_EVE + TIP_IDE + NUM_IDE + COD_PRE + COD_SUB NOT IN " ;
-									+ " (SELECT AJUSTE + AÑO + SEMANA + COD_EVE + TIP_IDE + NUM_IDE + COD_PRE + COD_SUB FROM paciente)" ;
-									+ " INTO TABLE tmppacientes_a_importar.dbf"
-				&setNewRecsClause
-				SELECT PACIENTE 
-				SET ORDER TO TAG EVE
-				TRY
-					APPEND FROM tmppacientes_a_importar
-				CATCH TO oException
-					sResult=.F.
-					sErrorMsg = sErrorMsg + oException.Message
-				ENDTRY
-				
-				IF sResult THEN
-					CON_PTE = CON_PTE  + CountTableRecords("tmppacientes_a_importar")	&&CON_PTE = CON_PTE + _TALLY
-					* Incrementa el contador con la cantidad de registros agregados por el último Append
-					
-					nRemainingRecords = nRemainingRecords - CountTableRecords("tmppacientes_a_importar")	&&nRemainingRecords = nRemainingRecords - _TALLY
-					
-					* Marca los registros recien subidos a la tabla maestra de tal manera que no se tengan en cuenta ;
-					en procesos posteriores
-					=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", "tmpPacientes_a_Importar", ;
-										"AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB")
-					=TABLEUPDATE(1,.T.,sourceFileName)
+					sQueryFields = "AJUSTE , AÑO , SEMANA , COD_EVE , TIP_IDE , NUM_IDE , COD_PRE , COD_SUB"
 
-					IF nRemainingRecords > 0 THEN
+					sSQLCmd = "SELECT DISTINCT " + qualifyFields(sQueryFields, ',', 'TND')
+					IF bINGR_X_NI_IsField THEN
+						sSQLCmd = sSQLCmd + ",TND.INGR_X_NI "
+					ENDIF
+					sSQLCmd = sSQLCmd + " FROM (SELECT " + sQueryFields 
+					
+					IF bINGR_X_NI_IsField THEN
+						sSQLCmd = sSQLCmd + ",INGR_X_NI"
+					ENDIF
+					sSQLCmd = sSQLCmd + " FROM " + candidatesRSName +;
+							" WHERE COD_EVE!= '000' AND AJUSTE IN (' ','0','3','4','5','6','D')) AS TND " +;
+							" INNER JOIN " + masterTableName + " ON "  +;
+							matchFields(sQueryFields, 'TND', sQueryFields, masterTableName, ",") + " "
+							
+					IF bINGR_X_NI_IsField THEN
+						sSQLCmd = sSQLCmd + " AND TRANSFORM(" + candidatesRSName + ".INGR_X_NI,'Y') = TRANSFORM(" + masterTableName + ".INGR_X_NI,'Y') "
+					ENDIF
+					sSQLCmd = sSQLCmd +	" INTO CURSOR rsExistentRecords NOFILTER"
+
+					&sSQLCmd 
+					nExistentRecords1 = _TALLY
+
+					IF nExistentRecords1>0 THEN
+						* Marca los registros descartados de tal manera que no se tengan en cuenta en procesos posteriores
+						IF bINGR_X_NI_IsField THEN
+							=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", "rsExistentRecords", sQueryFields + ", INGR_X_NI")
+						ELSE
+							=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", "rsExistentRecords", sQueryFields)
+						ENDIF
+						=TABLEUPDATE(1,.T.,sourceFileName)
+						nRemainingRecords = nRemainingRecords - nExistentRecords1
+					ENDIF		
+
+					IF nRemainingRecords > 0 OR nRemainingDuplicatesRecords > 0 THEN
+					
+						*Descarta como registros candidatos a agregar a la tabla maestra de pacientes todos aquellos que no ;
+						correspondan a notificaciones negativas (cod_eve<>'000'), que correspondan a ajustes '7' y que ya ;
+						existan en la tabla maestra. Se considera que un registro candidato existe en la tabla maestra si la clave ;
+						{AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB, FEC_AJU} ya se encuentra en la tabla maestra
+						
+						sQueryFields = "AJUSTE , AÑO , SEMANA , COD_EVE , TIP_IDE , NUM_IDE , COD_PRE , COD_SUB , FEC_AJU"
+						sSQLCmd = "SELECT DISTINCT " + qualifyFields(sQueryFields, ',', 'TND')
+						sSQLCmd = sSQLCmd + " FROM (SELECT " + sQueryFields + " FROM " + candidatesRSName + " WHERE COD_EVE!= '000'  AND " + ;
+									"AJUSTE = '7') AS TND INNER JOIN " + masterTableName + " ON " + ;
+									matchFields(sQueryFields, 'TND', sQueryFields, "PACIENTE", ",") + ;
+									" INTO CURSOR rsExistentRecords NOFILTER"
+						&sSQLCmd 
+
+		   				nExistentRecords2 = CountTableRecords("rsExistentRecords")
+						
+						IF nExistentRecords2>0 THEN
+							* Marca los registros descartados de tal manera que no se tengan en cuenta en procesos posteriores
+							=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", "rsExistentRecords", sQueryFields)
+							=TABLEUPDATE(1,.T.,sourceFileName)
+							nRemainingRecords=nRemainingRecords - nExistentRecords2
+						ENDIF
+					ENDIF
+					
+				    *Agrega los registros descartados a la tabla de registros existentes
+				    IF nExistentRecords1 + nExistentRecords2 > 0 THEN
+						INSERT INTO (existentsFileName) (ARCHIVO, REG, DES_ARC, COD_PRE, COD_SUB, EVENTO, TIP_IDE, NUM_IDE, EXISTE_EN, SEMANA, AÑO) ;
+							SELECT 'N'+SUBSTR(ARC_MAE,2,7), RECNO(), 'Not. Individual', COD_PRE, COD_SUB, COD_EVE, TIP_IDE, NUM_IDE, masterTableName, SEMANA, AÑO ;
+							FROM plano_pacientes WHERE plano_pacientes.sube = 1
+					ENDIF
+
+					IF nRemainingRecords > 0 OR nRemainingDuplicatesRecords > 0 THEN
 						* Intenta agregar los registros restantes siempre y cuando cumplan ciertas condiciones
 						SELECT * FROM (sourceFileName) WHERE SUBE=0 INTO CURSOR remainingRecords NOFILTER
 						SELECT remainingRecords  
@@ -318,7 +333,8 @@ PROCEDURE addBasicData
 								UseTable("tmppacientes_a_importar")
 								SELECT tmppacientes_a_importar
 								sNewRecsExcelFileName = duplicatesFilePath + '\' + sourceFileName + '_REGISTROS_NUEVOS'
-								COPY TO [&sNewRecsExcelFileName ] XL5
+								sCmd = 'COPY TO "' + sNewRecsExcelFileName + '" XL5'
+								&sCmd
 							ENDIF
 						ENDIF
 					ENDIF
@@ -340,6 +356,38 @@ PROCEDURE addBasicData
 	DO DeleteTable WITH 'C_DUPS_Pacientes'
 ENDPROC
 
+
+FUNCTION addDuplicatesBasicData(sMasterTableName as String, sDuplicatesRSName as String, sNotificationWeek as String, sErrMsg as String ) as Boolean 
+	
+	LOCAL sOldTag as String 
+	
+	LOCAL bResult as Boolean 
+	bResult = .T.
+	
+	SELECT (sMasterTableName)
+	nLastRecNumber = RECCOUNT()
+	TRY
+		APPEND FROM (sDuplicatesRSName)
+		IF _TALLY > 0 THEN
+			*Asigna el valor del campo NOTIFICA a los registros recien agregados. El procesamiento es secuencial;
+			por cuanto debe evitarse un problema con el bloqueo de registros
+			sOldTag = TAG()
+			SET ORDER TO
+			GO (nLastRecNumber + 1)
+			DO WHILE !EOF()
+				sCmd = 'REPLACE NOTIFICA WITH ' + ALLTRIM(STR(sNotificationWeek)) 
+				&sCmd
+				SKIP 
+			ENDDO
+			SET ORDER TO TAG &sOldTag 
+		ENDIF
+	CATCH TO oException
+		bResult=.F.
+		sErrMsg = sErrMsg + oException.Message
+	ENDTRY
+
+	RETURN bResult
+ENDPROC 
 *-------------------------------------------------------------------------------------------------------------
 PROCEDURE addComplementaryData(candidatesRSName, duplicatesRSName, sourceFilePath, sourceFileName,;
 								existentsFilePath, existentsFileName, eventSuffix, duplicatesFilePath, sResult as Boolean, ;
@@ -407,7 +455,7 @@ PROCEDURE addComplementaryData(candidatesRSName, duplicatesRSName, sourceFilePat
 						+ ' AND A.num_con = B.num_con';
 						+ ' AND A.cod_pre = B.cod_pre';
 						+ ' AND A.cod_sub = B.cod_sub)';
-						+ ' WHERE ISNULL(B.cod_eve) INTO TABLE tmpEventos_a_importar.dbf'  
+						+ ' WHERE B.cod_eve IS NULL INTO TABLE tmpEventos_a_importar.dbf'  
 						
 				CASE EventSuffix = '31'
 					&& Vigilancia entomológica de la malaria
@@ -422,48 +470,41 @@ PROCEDURE addComplementaryData(candidatesRSName, duplicatesRSName, sourceFilePat
 						+ ' AND A.cod_mun    = B.cod_mun';
 						+ ' AND A.especie_ve = B.especie_ve';
 						+ ' AND A.ajuste     = B.ajuste)';
-						+ ' WHERE ISNULL(B.cod_eve) INTO TABLE tmpEventos_a_importar.dbf'  
+						+ ' WHERE B.cod_eve IS NULL INTO TABLE tmpEventos_a_importar.dbf'  
+
 				CASE EventSuffix = '32'
 					&& Informe mensual de actividades para la prevención y control de la rabia
 					setNewRecsClause='SELECT A.*, ' + ALLTRIM(STR(sNotificationWeek)) + ' AS NOTIFICA FROM ' ;
 						+ (candidatesRSName) + ' A LEFT OUTER JOIN ' + eventMasterTableName;
-						+ ' B ON ( A.mes  = B.mes';
-						+ ' AND A.año     = B.año';
-						+ ' AND A.cod_pre = B.cod_pre';
-						+ ' AND A.cod_sub = B.cod_sub';
-						+ ' AND A.cod_eve = B.cod_eve';
-						+ ' AND A.cod_dep = B.cod_dep';
-						+ ' AND A.cod_mun = B.cod_mun)';
-						+ ' WHERE ISNULL(B.cod_eve) INTO TABLE tmpEventos_a_importar.dbf'  
+						+ ' B ON A.mes+A.año+A.cod_pre+A.cod_sub+A.cod_eve+A.cod_dep+A.cod_mun = ' ;
+						+ ' B.mes+B.año+B.cod_pre+B.cod_sub+B.cod_eve+B.cod_dep+B.cod_mun ';
+						+ ' WHERE B.cod_eve IS NULL INTO TABLE tmpEventos_a_importar.dbf'  
+												
 				CASE EventSuffix = '80' OR EventSuffix = '81' OR EventSuffix = '88'  OR EventSuffix = '90' 
 					&& IAD - Infecciones asociadas a dispositivos
 					&& CAB - Infecciones asociadas consumo de antibioticos
 					&& Infecciones de sitio quirúrgico asociadas a procedimiento médico quirúrgico - Colectivo
 					setNewRecsClause='SELECT A.*, ' + ALLTRIM(STR(sNotificationWeek)) + ' AS NOTIFICA FROM ' ;
 						+ (candidatesRSName) + ' A LEFT OUTER JOIN ' + eventMasterTableName;
-						+ ' B ON ( A.mes  = B.mes';
-						+ ' AND A.año     = B.año';
-						+ ' AND A.cod_pre = B.cod_pre';
-						+ ' AND A.cod_sub = B.cod_sub';
-						+ ' AND A.cod_eve = B.cod_eve';
-						+ ' AND A.num_con = B.num_con)';
-						+ ' WHERE ISNULL(B.cod_eve) INTO TABLE tmpEventos_a_importar.dbf'  
-						
+						+ ' B ON A.mes+A.año+A.cod_pre+A.cod_sub+A.cod_eve+A.num_con = ';
+						+ ' B.mes+B.año+B.cod_pre+B.cod_sub+B.cod_eve+B.num_con ';
+						+ ' WHERE B.cod_eve IS NULL INTO TABLE tmpEventos_a_importar.dbf'  
+				
 				OTHERWISE
-					setNewRecsClause='SELECT A.*, ' + ALLTRIM(STR(sNotificationWeek)) + ' AS NOTIFICA FROM ' ;
-						+ (candidatesRSName) + ' A LEFT OUTER JOIN ' + eventMasterTableName;
-						+ ' B ON A.año = B.año';
-						+ ' AND A.semana = B.semana';
-						+ ' AND A.cod_eve = B.cod_eve';
-						+ ' AND A.tip_ide = B.tip_ide';
-						+ ' AND A.num_ide = B.num_ide';
-						+ ' AND A.cod_pre = B.cod_pre';
-						+ ' AND A.cod_sub = B.cod_sub'
-						IF isField(candidatesRSName,'AJUSTE') THEN 
-							setNewRecsClause = setNewRecsClause + ' AND A.ajuste = B.ajuste '
-						ENDIF 
-						setNewRecsClause = setNewRecsClause + ' WHERE ISNULL(B.cod_eve) INTO TABLE tmpEventos_a_importar.dbf'  
+					setNewRecsClause = 'SELECT A.*, ' + ALLTRIM(STR(sNotificationWeek)) + ' AS NOTIFICA FROM ' ;
+									+ (candidatesRSName) + ' A LEFT OUTER JOIN ' + eventMasterTableName;
+									+ ' B ON A.año+A.semana+A.cod_eve+A.tip_ide+A.num_ide+A.cod_pre+A.cod_sub'
+					IF isField(candidatesRSName,'AJUSTE') THEN 
+						setNewRecsClause = setNewRecsClause + '+A.ajuste ' 
+					ENDIF 
+					setNewRecsClause = setNewRecsClause + ' = B.año+B.semana+B.cod_eve+B.tip_ide+B.num_ide+B.cod_pre+B.cod_sub'
+					IF isField(candidatesRSName,'AJUSTE') THEN 
+						setNewRecsClause = setNewRecsClause + '+B.ajuste ' 
+					ENDIF
+					setNewRecsClause = setNewRecsClause + ' WHERE B.cod_eve IS NULL' +;
+										' INTO TABLE tmpEventos_a_importar.dbf'  
 			ENDCASE
+
 			&setNewRecsClause
 			SELECT (eventMasterTableName)
 			TRY
@@ -1393,14 +1434,9 @@ PROCEDURE addLaboratories
 		Un registro candidato es nuevo si su clave {AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, AGENTE, PRUEBA)} no ;
 		se encuentra en la tabla maestra. 
 		setNewRecsClause='SELECT A.*, ' + ALLTRIM(STR(sNotificationWeek)) + ' AS NOTIFICA FROM ' ;
-			+ (candidatesRSName) + ' A LEFT OUTER JOIN ' + MasterTableName + ' B'+;
-			+ ' ON (A.AÑO     = B.AÑO ';
-			+ ' AND A.SEMANA  = B.SEMANA ';
-			+ ' AND A.COD_EVE = B.COD_EVE ';		
-			+ ' AND A.TIP_IDE = B.TIP_IDE ';
-			+ ' AND A.NUM_IDE = B.NUM_IDE ';
-			+ ' AND A.AGENTE  = B.AGENTE ';		
-			+ ' AND A.PRUEBA  = B.PRUEBA )';		
+			+ (candidatesRSName) + ' A LEFT OUTER JOIN ' + MasterTableName + ' B ON ' ;
+			+ 'A.año+A.semana+A.cod_eve+A.tip_ide+A.num_ide+A.agente+A.prueba = ' ;
+			+ 'B.año+B.semana+B.cod_eve+B.tip_ide+B.num_ide+B.agente+B.prueba' ;	
 			+ ' WHERE B.COD_EVE IS NULL INTO TABLE tmpLABS_a_importar.dbf' 
 		&setNewRecsClause
 		

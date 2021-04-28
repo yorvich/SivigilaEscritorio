@@ -1497,17 +1497,19 @@ HIDDEN PROCEDURE setOrphansLabs()
 
 	WAIT 'Estableciendo laboratorios sin caso asociado ' WINDOW NOWAIT
 	
-	WAIT 'Asignando Id a laboratorios' WINDOW NOWAIT
-	Select LABORATORIOS.*,RECNO() as nreg FROM Laboratorios INTO CURSOR rsLabsWithID NOFILTER
+	*WAIT 'Asignando Id a laboratorios' WINDOW NOWAIT
+	*Select LABORATORIOS.*,RECNO() as nreg FROM Laboratorios INTO CURSOR rsLabsWithID NOFILTER
+	USE Laboratorios IN 0 AGAIN ALIAS rsLabsWithID 
 	
 	WAIT 'Estableciendo laboratorios coincidentes' WINDOW NOWAIT
-	SELECT DISTINCT rsLabsWithID.NREG FROM rsLabsWithID INNER JOIN PACIENTE C ON  ;
+	SELECT DISTINCT rsLabsWithID.ID FROM rsLabsWithID INNER JOIN PACIENTE C ON  ;
 		rsLabsWithID.AÑO+rsLabsWithID.SEMANA+rsLabsWithID.COD_EVE+rsLabsWithID.TIP_IDE+rsLabsWithID.NUM_IDE+rsLabsWithID.COD_PRE+rsLabsWithID.COD_SUB == ;
 		C.AÑO+C.SEMANA+C.COD_EVE+C.TIP_IDE+C.NUM_IDE+C.COD_PRE+C.COD_SUB ;
 		INTO CURSOR rsLaboratoriosNOHuerfanosLB NOFILTER 
 	
 	WAIT 'Estableciendo laboratorios huerfanos' WINDOW NOWAIT
-	SELECT rsLabsWithID.* FROM rsLabsWithID LEFT OUTER JOIN rsLaboratoriosNOHuerfanosLB ON rsLabsWithID.nreg =rsLaboratoriosNOHuerfanosLB.NREG WHERE rsLaboratoriosNOHuerfanosLB.NREG IS NULL ;
+	SELECT rsLabsWithID.* FROM rsLabsWithID LEFT OUTER JOIN rsLaboratoriosNOHuerfanosLB ON rsLabsWithID.ID = rsLaboratoriosNOHuerfanosLB.ID ;
+		WHERE rsLaboratoriosNOHuerfanosLB.ID IS NULL ;
 		INTO CURSOR rsLaboratoriosHuerfanosLB NOFILTER
 
 	WAIT 'Asignando valores descriptivos a laboratorios huerfanos' WINDOW NOWAIT

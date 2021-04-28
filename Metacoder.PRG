@@ -692,20 +692,38 @@ FUNCTION getInOutQueryFile(_Tname as string, nMajor as Byte, nMinor as Byte, nBu
 	RETURN sDescriptorPtr 
 ENDPROC
 
-PROCEDURE makeTSQLExtractStatementsTst()
+PROCEDURE makeTSQLExtractStatementsTst(sEventCode as string, sExcludedFields as string)
+
+	LOCAL sTSQLClause AS SSTRING
+	sTSQLClause = ''
 *SET STEP ON 	
-	DO makeTSQLExtractStatements WITH 'JsonEvento', 'dbo.DetallesEventos'
+	IF VARTYPE(sEventCode)='C' AND !EMPTY(sEventCode) THEN 
+		DO makeTSQLExtractStatements WITH 'JsonEvento', 'dbo.DetallesEventos', sEventCode, sExcludedFields, 'CHAR(20)', sTSQLClause 
+		?sTSQLClause 
+	ELSE
+		DO makeTSQLExtractStatements WITH 'JsonEvento', 'dbo.DetallesEventos'
+	ENDIF 
+	
 ENDPROC 
 
 
-PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as String)
+PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as String, sEventCode as string, ;
+									sExcludedFields as string, sCastExpr as string, sTSQLClause as string)
 
 	*Produce un archivo texto de instrucciones T-SQL de Sql Server para cada una de las tablas de datos complementarios ;
 	del sivigila, de tal forma que se puedan traducir campos en formato JSON a tablas.
 	
 	*	JsonColumnName (in): nombre de la columna que contiene los datos complementarios en formato JSON;
 		sTableFromName (in): nombre de la tabla que contiene los datos complementarios. Debe especificarse además el esquema;
-							 al que pertenence la tabla; por ejemplo, tmp.D o dbo.DetallesEventos
+							 al que pertenence la tabla; por ejemplo, tmp.D o dbo.DetallesEventos;
+		sEventCode (in) - opcional: código INS identificador de un evento para el cual se desea hacer la traducción de campos.;
+		sExcludedFields (in) - opcional: Lista de campos separada por comas que contiene nombres de campos que no se deben tener ;
+										 en cuenta a la hora de hacer la traducción. ;
+		sCastExpr (in) - opcional: expresión de cast que se debe utilizar para convertir cada campo involucrado en la traducción;
+									por ejemplo, si desea que cada campo traducido se del tipo char(20), sCastExpr = 'char(20)' ;
+		sTSQLClause (out) - opcional: contiene la instrucción T-SQL de Sql Server necesarias para hacer la traducción de campos.;
+										Se utiliza solamente en caso de que se haya suministrado un valor para sEventCode 
+		
 							 
 	*El archivo texto de resultados quedará con el nombre TSQLJson_ + sTableFromName y contendrá para cada evento, instrucciones;
 	SQL de la forma ;
@@ -719,11 +737,29 @@ PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as 
 	
 	nResultsFileHandler=FCREATE('TSQLJson_' + sTableFromName + '.txt')
 	
+	IF !(VARTYPE(sCastExpr)='C' AND !EMPTY(sCastExpr)) THEN
+		 sCastExpr = ''
+	ENDIF 
+	
 	*Establece qué queries de exportación está utilizando el sistema Sivigla escritorio para cada evento
 	DO getInOutQueries
-	SELECT rsExportQueries 
 	
-	SCAN FOR rsExportQueries.CurrentQuery=1
+	sScanCondition = 'rsExportQueries.CurrentQuery=1'
+	IF VARTYPE(sEventCode)='C' AND !EMPTY(sEventCode) THEN 
+		sEventRSName = 'rs' + SYS(2015)
+		SELECT formulario FROM Eventos WHERE COD_EVE='&sEventCode' INTO CURSOR &sEventRSName NOFILTER 
+		IF _TALLY > 0 THEN
+			sScanCondition = sScanCondition + ' AND ShortName = "E' + &sEventRSName..FORMULARIO + '"'
+		ENDIF 
+		USE IN (sEventRSName)
+	ENDIF 
+	
+	IF VARTYPE(sEventCode)='C' AND !EMPTY(sEventCode) THEN 
+		sExcludedFields = ',' + sExcludedFields + ','
+	ENDIF 
+	
+	SELECT rsExportQueries 
+	SCAN FOR &sScanCondition 
 		*Determina qué eventos se almacena en la tabla identificada por rsExportQueries.ShortName
 		sEventTableNumber = ALLTRIM(RIGHT(rsExportQueries.ShortName,3))
 		
@@ -733,7 +769,7 @@ PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as 
 			SELECT COD_EVE FROM Eventos WHERE VAL(FORMULARIO)=&sEventTableNumber INTO ARRAY aTargetEvents
 			*sFilter = 'LIKE ' + "'" + "%" + '"' + ALLTRIM(aTargetEvents[1]) + '"' + "%'"
 			sFilter = "JSON_VALUE(" + JsonColumnName + ",'$.COD_EVE') = " + "'" + ALLTRIM(aTargetEvents[1]) + "'"
-			
+	
 			*Serializa los campos del query de exportación que está utilizando el sistema Sivigila escritorio
 			SQLCmd = GetQryString(rsExportQueries.ShortName, @TableLongName, rsExportQueries.Major, rsExportQueries.Minor, rsExportQueries.Build)
 			sFieldList = STRTRAN(SQLCmd, 'recordSource.', '', -1, -1, 1)
@@ -748,8 +784,14 @@ PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as 
 			SQLCmd = "SELECT T.*,"
 
 			nFields = ALINES(aFieldList,sFieldList,15,',')
-			FOR iField=1 TO nFields
-				SQLCmd = SQLCmd + "JSON_VALUE(U" + JsonColumnName + ",'$." + aFieldList[iField] + "') AS " + aFieldList[iField] + ','
+			FOR iField=1 TO nFields	
+				IF !((',' + aFieldList[iField] + ',') $ sExcludedFields) THEN 
+					IF EMPTY(sCastExpr) THEN 
+						SQLCmd = SQLCmd + "JSON_VALUE(U" + JsonColumnName + ",'$." + aFieldList[iField] + "') AS " + aFieldList[iField] + ','
+					ELSE
+						SQLCmd = SQLCmd + "CAST(JSON_VALUE(U" + JsonColumnName + ",'$." + aFieldList[iField] + "') AS " + sCastExpr + ") AS " + aFieldList[iField] + ','
+					ENDIF 
+				ENDIF 
 			NEXT iField
 			SQLCmd = SUBSTR(SQLCmd,1,LEN(SQLCmd)-1)
 			SQLCmd = SQLCmd + " FROM " + sSubquerySQLCmd 
@@ -763,11 +805,18 @@ PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as 
 			SQLCmd = STRTRAN(SQLCmd, 'Í','U')
 			
 			*Almacena la instrucción TSQL recien construida en el archivo de resultados
-			sResultMsg = '-- ' + rsExportQueries.ShortName + ' ' + sFilter 
-			=FPUTS(nResultsFileHandler,sResultMsg)
+			IF !(VARTYPE(sEventCode)='C' AND !EMPTY(sEventCode)) THEN 
+				sResultMsg = '-- ' + rsExportQueries.ShortName + ' ' + sFilter 
+				=FPUTS(nResultsFileHandler,sResultMsg)
+			ENDIF 
 			=FPUTS(nResultsFileHandler,SQLCmd)
 			=FPUTS(nResultsFileHandler,CHR(13)+CHR(10)+CHR(13)+CHR(10))
+			
+			IF VARTYPE(sEventCode)='C' AND !EMPTY(sEventCode) THEN
+				sTSQLClause = SQLCmd
+			ENDIF
 		ENDIF 
 	ENDSCAN
 	=FCLOSE(nResultsFileHandler)
+	=FFLUSH(nResultsFileHandler)
 ENDPROC

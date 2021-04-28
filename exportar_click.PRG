@@ -538,11 +538,11 @@ TRY
 	
 	sResultMsg=''
 	lFileZip=.F. &&Para procesos de enviar correo verificar si el archivo zip fue creado
-	DO ZIP WITH RUT_SEM, '*.TXT', sExportationPath+'\', sTargetZIPFileName, sResultMsg
-	*DO ArchiveFiles WITH RUT_SEM, '*.TXT', sExportationPath+'\', sTargetZIPFileName, sResultMsg IN backup
+	*DO ZIP WITH RUT_SEM, '*.TXT', sExportationPath+'\', sTargetZIPFileName, sResultMsg
+	DO ArchiveFiles WITH RUT_SEM, '*.TXT', sExportationPath+'\', sTargetZIPFileName, sResultMsg IN backup
 *SET STEP ON 	
-	DO ZIP WITH RUT_SEM, '*.XLS', sExportationPath+'\', sTargetXLSZIPFileName , sResultMsg, .T.
-	*DO ArchiveFiles  WITH RUT_SEM, '*.XLS', sExportationPath+'\', sTargetXLSZIPFileName , sResultMsg, .T. IN backup
+	*DO ZIP WITH RUT_SEM, '*.XLS', sExportationPath+'\', sTargetXLSZIPFileName , sResultMsg, .T.
+	DO ArchiveFiles  WITH RUT_SEM, '*.XLS', sExportationPath+'\', sTargetXLSZIPFileName , sResultMsg, .T. IN backup
 	IF EMPTY(sResultMsg) THEN
 		*sTargetZIPFileNameAndPath = sPlainsFilesPath + '.ZIP'
 		*COPY FILE (sTargetZIPFileName) TO (sTargetZIPFileNameAndPath)

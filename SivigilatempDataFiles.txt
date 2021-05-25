@@ -1,2 +1,3 @@
 SivigilaTemp.*
 tbPivotUPGD_UCIS.dbf
+tbTmp_Paciente.dbf

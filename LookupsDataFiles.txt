@@ -1,4 +1,6 @@
 Lookups.*
+AdminCodes2.CDX
+AdminCodes2.DBF
 Agentes.CDX
 Agentes.DBF
 Agentes_etas.CDX
@@ -24,6 +26,8 @@ fm_grados.CDX
 fm_grados.DBF
 fm_unidades.CDX
 fm_unidades.DBF
+GeoNames.CDX
+GeoNames.DBF
 GruposEtnicos.CDX
 GruposEtnicos.DBF
 LookupsTable.DBF

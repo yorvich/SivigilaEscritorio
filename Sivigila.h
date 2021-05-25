@@ -78,17 +78,17 @@ Las versiones de desarrollo antes de llegar a la versión a publicar, se manejará
 versiones 0.1.0, 0.1.1, 0.1.2, ... ,0.2.0, 0.2.1, 0.2.2,... Internamente estas versiones de desarrollo se manejarán como ;
 SIVIGILA 2010 versiones 16.0.1, 16.0.2, 16.0.3, ... ,16.1.0, 16.1.1, 16.1.2
 
-#DEFINE nCurrentMajor 2
+#DEFINE nCurrentMajor 3
 #DEFINE nCurrentMinor 0
 #DEFINE nCurrentBuild 0
 #DEFINE sCurrentLetter ''
 
 #DEFINE nCurrentMajor_Internal 18
-#DEFINE nCurrentMinor_Internal 2
+#DEFINE nCurrentMinor_Internal 3
 #DEFINE nCurrentBuild_Internal 0
 #DEFINE sCurrentLetter_Internal ''
 
-#DEFINE nCurrentMajor_Title 2
+#DEFINE nCurrentMajor_Title 3
 #DEFINE nCurrentMinor_Title 0
 #DEFINE nCurrentBuild_Title 0
 
@@ -102,15 +102,15 @@ SIVIGILA 2010 versiones 16.0.1, 16.0.2, 16.0.3, ... ,16.1.0, 16.1.1, 16.1.2
 */ Sentencias incluida en MAKEAPP.PRG
 
 
-#DEFINE sCURRENT_PATCH_OR_SUBVERSION '2'
+#DEFINE sCURRENT_PATCH_OR_SUBVERSION ''
 *Read _ as 1
 
-#DEFINE sUPDATE_SUBVERSION '1.1.0'
+#DEFINE sUPDATE_SUBVERSION '0.0.0'
 * Constante que contiene el valor de la sub-version que se libera.
 * se registra como minVersion en SivigilaDownloader.ini y utilizada como valor de comparacion por SivigilaDownloader
 
-#DEFINE sCURRENT_PATCH_ID 'KB00079'
-*Último conocido KB00079
+#DEFINE sCURRENT_PATCH_ID 'KB00080'
+*Último conocido KB00080
 
 #DEFINE _VERSION2010 0
 #DEFINE _VERSION2008 1

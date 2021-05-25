@@ -23,7 +23,7 @@ sExcludedFields = " NOTIFICA FLU_NOT INMEDIATA PERIODO SEM_REC FECHACARGA ESTADO
 					"EST_INGR EST_NOTIF " +; && Campos de control
 					"PAIS MALNUTRI  LAT_DIR LONG_DIR CONFGEODIR " +;
 					"INGR_X_RA FEC_REACTI COD_UNI_SA TIPO_DONAN TIPO_PRUEB " +; && Campos deprecados
-					"VEREDA NOM_DIL_FI " && Campos tipo Memo
+					"VEREDA NOM_DIL_FI PAIS BAR_VER DIR_RES " && Campos tipo Memo
 					
 sXlsFilePath = '.'
 

@@ -298,7 +298,7 @@ PROCEDURE processAdjustments(sMatchingFields  as String,  sFilter  as String, sO
 						AND !bFormerCase THEN
 						*Se trata del registro o reporte inicial del paciente
 						bFormerCase=.T.
-						SCATTER MEMVAR
+						SCATTER MEMO MEMVAR
 					ENDIF
 					
 					IF 	VAL(&sSourceTablename..&sAdjustmentFieldName) > VAL(CLINICAL_DISCARD_ADJUSTMENT) THEN
@@ -312,7 +312,7 @@ PROCEDURE processAdjustments(sMatchingFields  as String,  sFilter  as String, sO
 							IF bExistsNotifierUnitNameField AND !bNotifierUnitFixed THEN 
 								sNotifierUnitName = &sSourceTablename..&sNotifierUnitNameFieldName
 							ENDIF 
-							SCATTER MEMVAR
+							SCATTER MEMO MEMVAR
 						ENDIF
 					ENDIF
 					
@@ -371,7 +371,7 @@ PROCEDURE processAdjustments(sMatchingFields  as String,  sFilter  as String, sO
 							*Aún no se han capturado los datos de las variables asociadas al paciente, por tanto, se capturan pero el caso;
 							no puede considerarse como el registro inicial del paciente
 							bPseudoFormerCase=.T.
-							SCATTER MEMVAR
+							SCATTER MEMO MEMVAR
 						ENDIF	
 					ENDIF
 				ELSE
@@ -379,7 +379,7 @@ PROCEDURE processAdjustments(sMatchingFields  as String,  sFilter  as String, sO
 						*El primer registro de un caso se considera como el reporte inicial y a ese registro se le harán los ajustes que;
 						se encuentren en registros posteriores del mismo caso
 						bFormerCase=.T.
-						SCATTER MEMVAR
+						SCATTER MEMO MEMVAR
 						bGetNextRecord = .F.
 					ELSE
 						bGetNextRecord = .T.
@@ -388,7 +388,7 @@ PROCEDURE processAdjustments(sMatchingFields  as String,  sFilter  as String, sO
 					IF 	bGetNextRecord THEN
 						*Se trata de un registro que contiene datos modificados del registro inicial del caso
 						bFormerCase = .T.
-						SCATTER MEMVAR
+						SCATTER MEMO MEMVAR
 					ENDIF
 				
 				ENDIF

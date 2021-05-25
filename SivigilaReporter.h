@@ -14,11 +14,11 @@
 #DEFINE nMaxRowsForXLS 65000
 #DEFINE sExportingMsg "Exportando a excel..."
 
-#DEFINE MAX_RECORDS_TO_XLS 1500000
-*#DEFINE MAX_RECORDS_TO_XLS 500
+#DEFINE MAX_RECORDS_TO_XLS 1500000 && Ambiente producción
+*#DEFINE MAX_RECORDS_TO_XLS 500 && Ambiente de pruebas
 *Máximo número de registros en la tabla de datos básicos con los que se puede producir salidas XLS sin necesidad de particionarlo
 
-#DEFINE MAX_BATCH_SIZE 400000 &&250000  &&500000
+*#DEFINE MAX_BATCH_SIZE 350000  &&500000
 *#DEFINE MAX_BATCH_SIZE 100
 
 #DEFINE MULTIPLICATION_FACTOR 5

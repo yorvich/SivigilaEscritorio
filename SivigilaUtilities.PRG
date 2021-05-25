@@ -2039,7 +2039,7 @@ PROCEDURE fastProcessAdjustments
 				IF !bFormerCase THEN
 					*Se trata del registro o reporte inicial del paciente
 					bFormerCase=.T.
-					SCATTER MEMVAR
+					SCATTER MEMO MEMVAR
 				ENDIF
 			ENDIF
 			
@@ -2049,7 +2049,7 @@ PROCEDURE fastProcessAdjustments
 					IF &sSourceTablename..FEC_AJU >= dAdjustmentDate THEN
 						bFormerCase = .T.
 						dAdjustmentDate = &sSourceTablename..FEC_AJU
-						SCATTER MEMVAR
+						SCATTER MEMO MEMVAR
 						nCaseAdjustments = nCaseAdjustments + 1
 					ENDIF
 				ENDIF
@@ -2068,7 +2068,7 @@ PROCEDURE fastProcessAdjustments
 					*Aún no se han capturado los datos de las variables asociadas al paciente, por tanto, se capturan pero el caso;
 					no puede considerarse como el registro inicial del paciente
 					bPseudoFormerCase=.T.
-					SCATTER MEMVAR
+					SCATTER MEMO MEMVAR
 				ENDIF	
 			ENDIF
 			nCandidate=nCandidate+1				

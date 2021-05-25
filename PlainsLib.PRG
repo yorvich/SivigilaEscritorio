@@ -2,6 +2,7 @@
 #INCLUDE GlobalConst.h
 
 #DEFINE GARBAGE_CHARS "+.\/:*?',{}<>_&;^()=#$%[]" + '"' 
+#DEFINE DEFAULT_BASIC_DATA_TABLE "PACIENTE"
 
 PROCEDURE exportForInsurers
 
@@ -25,8 +26,8 @@ PROCEDURE exportForInsurers
 	SET PROCEDURE TO SIVIGILAMessenger ADDITIVE
 	
 	SET TALK ON
-	DO cleanTheHouse IN IMPORTAR_CLICK
-	
+	DO cleanTheHouse
+		
 	sInitTime=TIME()
 	DO initPlainTableKeysArray WITH aPlainTableKeys IN importar_click
 
@@ -389,12 +390,12 @@ PROCEDURE exportForInsurers
 				=FPUTS(nWinrarBatFileHandler,sRarCmd )
 			ENDIF
 			
-			DO cleanTheHouse IN IMPORTAR_CLICK
+			DO cleanTheHouse
 			SELECT cTargetInsurers
 		ENDSCAN
 		
 		sEndTime=TIME()
-		DO cleanTheHouse IN IMPORTAR_CLICK
+		DO cleanTheHouse
 		sNotificatioMsg='Se ha generado la información de retroalimentación para las aseguradoras.' + CHR(13) + + CHR(13) +;
 						'Los archivos planos han sido ubicados en la carpeta: ' + sFormerInsurerPlainsFilePath
 		=showErrorMessage(sNotificatioMsg, 0)
@@ -721,7 +722,7 @@ PROCEDURE prisonsFeedback
 			=showErrorMessage(sResultMsg, 0)
 		ENDTRY
 
-		DO cleanTheHouse IN IMPORTAR_CLICK
+		DO cleanTheHouse
 		
 		sEndTime=TIME()
 		sNotificatioMsg='Se ha generado la información de retroalimentación para cárceles.' + CHR(13) + + CHR(13) +;
@@ -797,7 +798,7 @@ PROCEDURE territorialUnitFeedback(sExportationPath as String, sEntityKind as Byt
 		sPwd = ''
 	ENDIF 
 	
-	DO cleanTheHouse IN IMPORTAR_CLICK
+	DO cleanTheHouse
 
 	DO initPlainTableKeysArray WITH aPlainTableKeys IN importar_click
 
@@ -1272,7 +1273,7 @@ PROCEDURE territorialUnitFeedback(sExportationPath as String, sEntityKind as Byt
 			=FCLOSE(nResultsFileHandler)
 		ENDIF
 
-		DO cleanTheHouse IN IMPORTAR_CLICK
+		DO cleanTheHouse
 	ENDIF
 ENDPROC
 
@@ -1294,7 +1295,7 @@ PROCEDURE makeNotification(sExportationPath as String, sNotificationWeek as Byte
 	SET PROCEDURE TO (PATH_TO_DEVELOPMENT_ENVIRONMENT + '\SIVIGILAMessenger') ADDITIVE
 	SET PROCEDURE TO (PATH_TO_DEVELOPMENT_ENVIRONMENT + '\SIVIGILAUtilities') ADDITIVE
 
-	DO cleanTheHouse IN IMPORTAR_CLICK
+	DO cleanTheHouse
 
 	*Crea la tabla PLANO en donde se almacenarán en forma temporal los datos a exportar
 	DO CreateExportationPlainTable
@@ -1633,7 +1634,7 @@ PROCEDURE makeNotification(sExportationPath as String, sNotificationWeek as Byte
 		   *RIGHT(sWEBPatientsFileNameAndPath,8)+ '.TXT con ' +TRANS(nWExportedRegs,'@l 99999999')+' - Registros de Not. WEB'+CHR(13)
 	ENDIF
 	
-	DO cleanTheHouse IN IMPORTAR_CLICK
+	DO cleanTheHouse
 	SET TALK OFF
 	
 	SET PROCEDURE TO &sOldProc 
@@ -1768,9 +1769,9 @@ PROCEDURE addDupsToErrorTable
 	* errorMsg (OPCIONAL): mensaje de error con el que deben agregarse los registros de RSName a la tabla ERRORES
 				
 	* Abre la tabla de reporte de Errores
-	IF !USED(errorsFileName) THEN
-		USE (errorsFilePath+ '\' +  errorsFileName) IN 0
-	ENDIF
+	*IF !USED(errorsFileName) THEN
+	*	USE (errorsFilePath+ '\' +  errorsFileName) IN 0
+	*ENDIF
 
 	*Fija la descripción del archivo fuente para efectos de reporte del error
 	DO CASE
@@ -1795,7 +1796,7 @@ PROCEDURE addDupsToErrorTable
 	ENDIF
 		
 		
-	insertRecsClause='INSERT INTO ERRORES (ARCHIVO, REG, DES_ARC, COD_PRE, COD_SUB, EVENTO,' ;
+	insertRecsClause='INSERT INTO "' + errorsFilePath + '\ERRORES" (ARCHIVO, REG, DES_ARC, COD_PRE, COD_SUB, EVENTO,' ;
 		+ 'TIP_IDE, NUM_IDE, VARIABLE) SELECT ' + '"' + sourceFileType + '"+' + 'SUBSTR(' + '"' + sourceFileName + '"' + ',2,7) AS ARCHIVO,' ;
 		+ 'nReg,' + '"' + sourceFileDescription + '"' + ' AS DES_ARC,COD_PRE,COD_SUB,COD_EVE,TIP_IDE,NUM_IDE' ;
 		+ ',' + lErrorMsg + ' FROM ' + (RSName)
@@ -1828,7 +1829,7 @@ PROCEDURE makeImportTables(_FilePath, _SvgVersion, nMajor as Byte, nMinor as Byt
 		=showErrorMessage('No existe la carpeta ' + _Filepath,1)
 		RETURN
 	ENDIF
-*SET STEP ON 
+
 	IF _SvgVersion = _VERSION2010 THEN
 		*Las tablas de importación se crean con base en los queries de exportación usados en la versión 2010
 
@@ -1838,7 +1839,7 @@ PROCEDURE makeImportTables(_FilePath, _SvgVersion, nMajor as Byte, nMinor as Byt
 			nBuild=0
 		ENDIF
 
-		SELECT DISTINCT impTableNa, ShortName FROM ExportQueries WHERE Activo INTO CURSOR rsTablesToMake		
+		SELECT DISTINCT impTableNa, ShortName, BD_source FROM ExportQueries WHERE Activo INTO CURSOR rsTablesToMake		
 		SELECT rsTablesToMake
 		SCAN
 			_EventFName = ALLTRIM(rsTablesToMake.impTableNa)
@@ -1848,7 +1849,12 @@ PROCEDURE makeImportTables(_FilePath, _SvgVersion, nMajor as Byte, nMinor as Byt
 			IF !EMPTY(makeImporTableSQLClause) THEN
 				* SE AGREGAN LOS CAMPOS FALTANES, NECESARIOS PARA LA IMPORTACION 
 				modifyImporTableSQLClause(compleTableName, @makeImporTableSQLClause)
-				makeImporTableSQLClause= makeImporTableSQLClause+ " WHERE .F. INTO CURS C_TEMP "
+				makeImporTableSQLClause = makeImporTableSQLClause+ " WHERE .F. INTO CURS C_TEMP "
+				
+				IF !EMPTY(rsTablesToMake.BD_source) THEN 
+					makeImporTableSQLClause = STRTRAN(makeImporTableSQLClause, DEFAULT_BASIC_DATA_TABLE, rsTablesToMake.BD_source,-1,-1,1)
+				ENDIF
+				
 				&makeImporTableSQLClause
 
 				SELECT C_TEMP
@@ -1975,7 +1981,7 @@ FUNCTION ExportFromQry
 	*Garantiza que la exportación siempre se lleve a cabo de acuerdo con la última versión del sistema definida;
 	por sus identificadores nMajor.nMinor.nBuild según se encuentran definidos en main
 	DO resetSivigilaVersion	IN main
-	
+
 	* Recupera el query que se va a utilizar para exportar los datos
 	TableLongName=''
 	IF VARTYPE(sUserDefinedQuery)= 'C' AND !EMPTY(sUserDefinedQuery ) then
@@ -2292,7 +2298,9 @@ ENDFUNC
 
 *-----------------------------------------------------------------------------------------
 FUNCTION createPlainTableIndex(sTablePath AS String, sTargetTableName AS String)
-	*Crea índices para la tabla sTargetTableName que se encuentra en la carpeta sTablePath, según se encuentren definidos en Tables.MASTER_INDEX
+
+	*Crea índices para la tabla sTargetTableName que se encuentra en la carpeta sTablePath, según se encuentren;
+	 definidos en Tables.MASTER_INDEX
 	
 	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\TablesHandler') ADDITIVE
 	
@@ -2303,12 +2311,14 @@ FUNCTION createPlainTableIndex(sTablePath AS String, sTargetTableName AS String)
 
 	DIMENSION aIndexExpression(1)
 
-	SELECT TAG_NAME, TAG_EXPR, EXTRAS FROM MASTER_INDEX	WHERE TABLE_NAME  = sTargetTableName INTO ARRAY aIndexExpression
+	SELECT TAG_NAME, TAG_EXPR, EXTRAS FROM MASTER_INDEX	WHERE TABLE_NAME  = '&sTargetTableName' INTO ARRAY aIndexExpression
 	IF _TALLY = 0 THEN
-		*Utiliza índices por default
-		SELECT TAG_NAME, TAG_EXPR, EXTRAS FROM MASTER_INDEX	WHERE TABLE_NAME  = 'PLANO_EXX' INTO ARRAY aIndexExpression
+		IF 'PLANO_E' $ sTargetTableName THEN 
+			*Utiliza índices por default
+			SELECT TAG_NAME, TAG_EXPR, EXTRAS FROM MASTER_INDEX	WHERE TABLE_NAME  = 'PLANO_EXX' INTO ARRAY aIndexExpression
+		ENDIF
 	ENDIF
-	
+
 	IF _TALLY > 0
 		WAIT WINDOW NOWAIT 'Creando índice para ' + sTargetTableName
 		=SelectTable(ADDBS(sTablePath) + sTargetTableName,'',.T.)
@@ -2321,7 +2331,11 @@ FUNCTION createPlainTableIndex(sTablePath AS String, sTargetTableName AS String)
 		ENDFOR
 	ENDIF
 
-	USE IN (sTargetTableName)
+	TRY
+		USE IN (sTargetTableName)
+	CATCH TO oException
+	ENDTRY
+	
 	USE IN MASTER_INDEX
 	
 	SELECT (nOldSelected)
@@ -2763,6 +2777,10 @@ FUNCTION ExportFromQryToPlainFile(TableShortName, DynamicConditions, duplicatesF
 
 	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\TablesHandler') ADDITIVE
 
+	IF VARTYPE(nExportedLines)!='N' THEN 
+		nExportedLines = 0
+	ENDIF 
+	
 	StringForInsert = ''
 
 	_Cursor = 'C_' + TableShortName
@@ -2918,7 +2936,7 @@ PROCEDURE territorialUnitFeedback_V02(sExportationPath as String, sEntityKind as
 		sPwd = ''
 	ENDIF 
 	
-	DO cleanTheHouse IN IMPORTAR_CLICK
+	DO cleanTheHouse
 
 	DO initPlainTableKeysArray WITH aPlainTableKeys IN importar_click
 
@@ -3393,6 +3411,1648 @@ PROCEDURE territorialUnitFeedback_V02(sExportationPath as String, sEntityKind as
 			=FCLOSE(nResultsFileHandler)
 		ENDIF
 
-		DO cleanTheHouse IN IMPORTAR_CLICK
+		DO cleanTheHouse
 	ENDIF
 ENDPROC
+
+
+PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWeek as String, sIsImmediateNotif as String, ;
+									bBeSilent as Boolean, nResultsFileHandler as Number, bIncludeUPGDs as Boolean)
+
+	*sExportationPath: ruta de la carpeta en la que quedarán los archivos resultado de la notificación. Algunos archivos quedarán;
+	directamente en esta ruta, otros quedarán en la subcarpeta PLANOS_SEMANA_nn o _INMEDIATA_nn con nn=sNotificationWeek 
+	 
+	*sNotificationWeek: semana epidemiológica de notificación: 01 a 53 o RA, en caso de tratarse de producción de archivos de retroalimentación
+	
+	*sIsImmediateNotif: si es no vacía, indica que la notificación es de naturaleza inmediata
+	
+		* bBeSilent: si es .F. los mensajes del procesamiento se dirigen a la interfaz de usuario (valor por defecto);
+				 en caso contrario, se dirigen a un archivo plano de resultados	
+				 
+	*sResultsFileName: nombre y ruta del archivo texto que contendrá los resultados de procesamiento en caso de que bBeSilent sea .T.
+
+	*bIncludeUPGDs: si es .T., genera el archivo plano de notificación U; en caso contrario (default), no lo genera. 
+
+	LOCAL oDataExporter as Object 
+	oDataExporter=NEWOBJECT("DataExporter","DataExporter.Prg",.null.)
+	*An object to export intermediate results to XLS
+
+	LOCAL sOldProcedure as String
+
+	LOCAL sDirListing as String
+	sDirListing = ''
+
+	LOCAL sWeeklyTargetPath as String
+	*Ruta hacia la cual se exportarán los archivos correspondientes a la semana m.SEM_REP
+
+	LOCAL sInformatUnitCode as String 
+	*Código de la unidad notificadora según aparece registrado en el campo GENERAL.UNI_NOT
+		
+	DIMENSION aPlains(1)
+
+
+	sOldProcedure = SET("Procedure")
+
+	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\TablesHandler') ADDITIVE
+	SET PROCEDURE TO (PATH_TO_DEVELOPMENT_ENVIRONMENT + '\SIVIGILAMessenger ') ADDITIVE
+
+
+	sInitTime=TIME()
+
+	DO cleanTheHouse
+
+	IF VARTYPE(sIsImmediateNotif)!='C' THEN 
+		sIsImmediateNotif = ''
+	ENDIF 
+	
+	*Comentado por: Wilson Aguilar Fecha: 30/11/2009;
+	Fija el Path de la carpeta en donde se almacenarán los archivos que resultarán como producto ;
+	del proceso de exportación
+	sWeeklyTargetPath = sExportationPath + '\PLANOS_SEMANA_' + TRANSFORM(sNotificationWeek,'@L 99')
+	IF !EMPTY(sIsImmediateNotif) THEN
+		sWeeklyTargetPath = sWeeklyTargetPath + '_INMEDIATA_' + STRTRAN(TTOC(DATETIME(),3),":","_")
+	ELSE
+		IF !bBeSilent THEN	
+			nExistentPlainDir = ADIR(aPlains, sWeeklyTargetPath + '*' + ALLTRIM(STR(YEAR(DATE()))) + '*',"D") 
+			IF nExistentPlainDir >=1 THEN
+				FOR iPlainDir = 1 TO MIN(6,nExistentPlainDir)
+					sDirListing = sDirListing + aPlains(iPlainDir ,1) + chr(13)
+				NEXT iPlainDir 
+				sDirListing = sDirListing + '...'
+				IF getYesOrNo('Se ha encontrado una o más notificaciones generadas para la semana objetivo:' + chr(13) + chr(13) + ;
+					sDirListing + chr(13) + chr(13) + 'Desea Continuar de todos modos',"SIVIGILA") = _NO THEN
+					RETURN
+				ENDIF
+			ENDIF
+		ENDIF
+		sWeeklyTargetPath = sWeeklyTargetPath + '_' + STRTRAN(TTOC(DATETIME(),3),":","_")
+	ENDIF
+	sWeeklyTargetPath = ADDBS(sWeeklyTargetPath)
+	IF !DIRECTORY(sWeeklyTargetPath)
+	   MKDIR (sWeeklyTargetPath)
+	ENDIF
+	oDataExporter.sExportationPath = sWeeklyTargetPath
+
+	*Comentado por: Wilson Aguilar Fecha: 30/11/2009;
+	Fija los nombres de los archivos que resultarán como producto del proceso de exportación
+
+	*Se ha de tener en cuenta las siguientes siglas para los nombres de los archivos a remitir ;
+	por parte de las Unidades Primarias Generadoras del Dato (UPGD) y las Unidades Notificadoras (UN);
+
+	*Sigla;
+	U		Archivo plano contenedor de datos de caracterización de UPGD.;
+	R		Archivo plano contenedor de datos sobre el talento humano disponible en las UPGD;
+	N		Archivo plano contenedor de datos básicos de notificación individual periódica semanal;
+	B		Archivo plano contenedor de datos de notificación colectiva periódica semanal obligatoria;
+	D		Archivo plano contenedor de datos complementarios de notificación periódica semanal obligatoria;
+	C		Archivo plano de control;
+	T		Archivo plano  contenedor de datos agrupados de los eventos de notificación individual periódica semanal obligatoria.	1;
+	I		Archivo plano contenedor de datos del evento colectivo morbilidad por IRA (Vigilancia Centinela ESI - IRAG);
+	V		Archivo plano contenedor de datos de caracterización de UCI en UPGD;
+	SIVIGILA	Archivo plano contenedor de datos de cuándo y con qué versión fueron generados los archivos anteriore;
+
+
+	*Establece el prefijo identificador de la Unidad que notifica para efectos de nombrar los archivos;
+	planos resultantes del procesamiento
+	sInformatUnitCode = fieldValue("UNI_NOT","GENERAL")
+
+	DO CASE
+		CASE _TIP_UNI = UPGD_ID
+			*El nombre del archivo plano debe ser SIGLA + CODIGO UPGD +  SEMANA EPIDEMIOLÓGICA.txt;
+			 por tanto inmediatamente después de la Sigla deben venir los cinco dígitos asignados consecutivamente;
+			 al prestador de servicios de salud
+			TA=SUBSTR(ALLTRIM(sInformatUnitCode),6,5) + PADL(sNotificationWeek,2,'0')
+		CASE _TIP_UNI = UNM_ID
+			*El nombre del archivo plano debe ser SIGLA + CODIGO MUNICIPIO +  SEMANA EPIDEMIOLÓGICA.txt;
+			 por tanto inmediatamente después de la Sigla deben venir los cinco dígitos asignados por el DANE para ;
+			 identificar los municipios
+			TA=SUBSTR(ALLTRIM(sInformatUnitCode),1,5) + PADL(sNotificationWeek,2,'0')
+		CASE _TIP_UNI = UND_ID
+			*El nombre del archivo plano debe ser SIGLA + CODIGO DEPARTAMENTO +  SEMANA EPIDEMIOLÓGICA.txt;
+			 por tanto inmediatamente después de la Sigla deben venir los dos dígitos asignados por el DANE para;
+			 identificar los departamentos (Se debe agregar 3 ceros al código del departamento)
+			TA=SUBSTR(ALLTRIM(sInformatUnitCode),1,2) + '000' + PADL(sNotificationWeek,2,'0')
+	ENDCASE
+	TA = TA + '.txt'
+	CAR=sWeeklyTargetPath+'U'+TA
+	TAL=sWeeklyTargetPath+'R'+TA
+	PTE=sWeeklyTargetPath+'N'+TA
+	DAT=sWeeklyTargetPath+'D'+TA
+	BRO=sWeeklyTargetPath+'B'+TA
+	TOT=sWeeklyTargetPath+'T'+TA
+	CON=sWeeklyTargetPath+'C'+TA
+	INS=sWeeklyTargetPath+'SIVIGILA.TXT'
+	STT=sWeeklyTargetPath+'S'+TA		&& (7) NOMBRE DEL ARCHIVO DE ESTRUCTURAS
+	PTW=sWeeklyTargetPath+'W'+TA		&& (?) NOMBRE DEL ARCHIVO PACIENTE WEB
+	IRA=sWeeklyTargetPath+'I'+TA
+	UCIFileName=sWeeklyTargetPath+'V'+TA 
+
+
+	*Comentado por: Wilson Aguilar Fecha: 30/11/2009;
+	Inicializa los contadores de registros exportados por tipo de archivo
+	REG_P=0
+	REG_D=0
+	REG_B=0
+	REG_C=0
+	REG_T=0
+	REG_U=0
+	REG_W=0		&&(?) CONTADOR DEL ARCHIVO PACIENTE WEB
+	REG_I=0		&&(?) CONTADOR DE MORBILIDAD POR IRA
+	REG_V=0
+
+	*Comentado por: Wilson Aguilar	Fecha: 04/02/2015;
+	La siguiente parte de código se cambió por una que exporta la información sin tener en cuenta que las UPGDs involucradas estén activas;
+	en este sentido, la modificación hecha obliga a que se exporten todos los datos pendientes por notificar sin importar si las UPGDs ;
+	correspondientes a ellos están o no activas en el sistema. Con ésto se supera el error con código ... 
+	&&bCheckEnabledUPGD=.T.
+	&&IF VARTYPE(m.SEM_REP)="C" THEN
+	&&	bCheckEnabledUPGD=!(m.SEM_REP='RA')
+	&&ENDIF
+	*Por default, en la exportación de información, se tienen en cuenta solamente las UPGDs que están activas en el Sistema;
+	sin embargo, si la exportación de datos se refiere a una retroalimentación de información, entonces se exporta la información;
+	de todas las UPGDs sin tener en cuenta si están activas o no.
+	bCheckEnabledUPGD = .F.
+
+
+	*Comentado por: Wilson Aguilar	Fecha: 04/02/2015;
+	En concordancia con comentario de la parte de código antecedente, la siguiente parte de código hubo de cambiarse;
+	con el objeto de mantener la activación automática siempre y cuando no se tratará de una retroalimentación de información.
+	* Activa automáticamente UPGDs que figuren como inactivas pero que tengan datos por Notificar siempre y cuando;
+	la exportación de datos NO se refiera a una retroalimentación de información
+	&&IF bCheckEnabledUPGD THEN
+	&&	DO activateNonActiveUPGDsWithNotification IN plainsLib
+	&&ENDIF
+	bIsFeedback = .F.
+	IF VARTYPE(sNotificationWeek)="C" THEN
+		bIsFeedback = (sNotificationWeek='RA')
+	ENDIF
+	IF !bIsFeedback THEN
+		DO activateNonActiveUPGDsWithNotification IN plainsLib
+	ENDIF
+
+	IF !EMPTY(sIsImmediateNotif) THEN
+		sIsImmediateNotif = " AND RecordSource.INMEDIATA='SI' AND RecordSource.EST_NOTIF=" + NOT_NOTIFIED
+	ENDIF
+
+
+	* Genera el archivo N de datos básicos de notificación individual periódica semanal
+	=showProgressMessage('Generado Archivo Plano de Notificación Individual')
+	nCurrentFileHandler = FCREATE(PTE)
+	exportationIsOK = ExportFromQryToPlainFile('PTE', FIL_NOT + FIL_EVE + FIL_VIG + sIsImmediateNotif, sWeeklyTargetPath, ;
+						bCheckEnabledUPGD,,.T.,,,!EMPTY(sIsImmediateNotif), nCurrentFileHandler, @REG_P ) 
+	IF !exportationIsOK THEN
+		IF !bBeSilent THEN
+			MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+					'Existen registros repetidos o duplicados en la fuente de notificación individual.' + CHR(13) + ;
+					'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+					'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+		ENDIF
+	ENDIF
+
+	oDataExporter.sSourceTableName = "C_PTE"
+	oDataExporter.sExportedFileName = "DatosBasicosIndividuales"
+	oDataExporter.exportToXLS()
+
+	*Cierra el archivo plano N
+	=FCLOSE(nCurrentFileHandler)
+	=FFLUSH(nCurrentFileHandler)
+	
+	* Genera el archivo D de datos complementarios de notificación periódica semanal obligatoria;
+	incluyendo la información de resultados de laboratorio
+	nCurrentFileHandler = FCREATE(DAT)
+	USE BDSivigila!vTablasDeDC IN 0
+	SELECT vTablasDeDC
+	SCAN
+		eventToExport = vTablasDeDC.ID_DC_TABLA
+		IF eventToExport != 43
+			* El evento 43 (Morbilidad por IRA) se genera en un archivo independiente
+			=showProgressMessage('Generando Archivo Plano del Grupo de Eventos ' + PADL(eventToExport ,2,'0'))
+			
+			exportationIsOK = ExportFromQryToPlainFile('E'+PADL(eventToExport ,2,'0'), FIL_NOT + FIL_EVE + FIL_VIG + sIsImmediateNotif, ;
+														sWeeklyTargetPath, bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_D )
+			IF !exportationIsOK THEN
+				IF !bBeSilent THEN
+					MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+							'Existen registros repetidos o duplicados en la fuente de datos complementarios.' + CHR(13) + ;
+							'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+							'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDSCAN
+
+	IF !bIsFeedback THEN
+		*Se debe producir archivos de notificación rutinaria para contactos y seguimientos
+		
+		=showProgressMessage('Generando Archivo Plano de Laboratorios')
+
+		exportationIsOK = ExportFromQryToPlainFile('LAB' , FIL_NOT + FIL_EVE + FIL_VIG + sIsImmediateNotif, sWeeklyTargetPath, ;
+													bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_D)
+		IF !exportationIsOK THEN
+			IF !bBeSilent THEN
+				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+						'Existen registros repetidos o duplicados en la fuente de notificación laboratorios.' + CHR(13) + ;
+						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ENDIF
+		ENDIF
+
+
+		=showProgressMessage('Generando Archivo Plano de Contactos')
+
+		exportationIsOK = ExportFromQryToPlainFile('CNTA' , FIL_NOT + FIL_EVE + FIL_VIG + sIsImmediateNotif, sWeeklyTargetPath, ;
+													bCheckEnabledUPGD,,.T.,.T.,,,nCurrentFileHandler, @REG_D)
+		IF !exportationIsOK THEN
+			IF !bBeSilent THEN
+				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+						'Existen registros repetidos o duplicados en la fuente de notificación contactos.' + CHR(13) + ;
+						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ENDIF
+		ENDIF
+
+		=showProgressMessage('Generando Archivo Plano de Seguimiento a contactos')
+
+		exportationIsOK = ExportFromQryToPlainFile('SGCN' , FIL_NOT + FIL_EVE + FIL_VIG + sIsImmediateNotif, sWeeklyTargetPath, ;
+													bCheckEnabledUPGD,,.T.,.T.,,,nCurrentFileHandler, @REG_D)
+		IF !exportationIsOK THEN
+			IF !bBeSilent THEN
+				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+						'Existen registros repetidos o duplicados en la fuente de notificación seguimiento a contactos.' + CHR(13) + ;
+						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ENDIF
+		ENDIF
+		
+	ELSE
+		=showProgressMessage('Generando Archivo Plano de Laboratorios')
+		exportationIsOK = ExportFromQryToPlainFile('LAB' , FIL_NOT + FIL_EVE + FIL_VIG + sIsImmediateNotif, sWeeklyTargetPath, ;
+												bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_D)
+		IF !exportationIsOK THEN
+			IF !bBeSilent THEN
+				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+						'Existen registros repetidos o duplicados en la fuente de notificación laboratorios.' + CHR(13) + ;
+						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ENDIF
+		ENDIF
+	ENDIF 
+
+	*Cierra el archivo plano D de datos complementarios
+	=FCLOSE(nCurrentFileHandler)
+	=FFLUSH(nCurrentFileHandler)
+
+	* Genera el archivo B de datos de notificación colectiva periódica semanal obligatoria
+	=showProgressMessage('Generando Archivo Plano de Notificación Colectiva')
+	nCurrentFileHandler = FCREATE(BRO)
+	exportationIsOK = ExportFromQryToPlainFile('BRO', FIL_NOT + FIL_EVE + FIL_VIG + sIsImmediateNotif, sWeeklyTargetPath, ;
+												bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_B)
+	IF !exportationIsOK THEN
+		IF !bBeSilent THEN
+			MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+					'Existen registros repetidos o duplicados en la fuente de notificación colectiva.' + CHR(13) + ;
+					'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+					'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+		ENDIF
+	ENDIF
+
+	oDataExporter.sSourceTableName = "C_BRO"
+	oDataExporter.sExportedFileName = "DatosColectivos"
+	oDataExporter.exportToXLS()
+
+	*Cierra el archivo plano B
+	=FCLOSE(nCurrentFileHandler)
+	=FFLUSH(nCurrentFileHandler)
+
+
+	* Genera el archivo U contenedor de datos de caracterización de UPGD
+	IF !bIsFeedback OR bIncludeUPGDs THEN
+		nCurrentFileHandler = FCREATE(CAR)
+	
+		=showProgressMessage('Generando Archivo Plano de las UPGD')
+		* Comentado por: wilson Aguilar	Fecha: 23/04/2011 ;
+		La siguiente parte de código fue modificada por solicitud del Grupo SIVIGILA del INS del 05/04/2011 en donde se indicó que en los procesos de;
+		notificación se extrajera la información de todas las UPGDs; por tanto, en la llamada a ExportFromQRY se suprimió el filtro FIL_NOT
+		*exportationIsOK = ExportFromQRY('UPGD' , FIL_NOT, @A_PlainTableKeys, sWeeklyTargetPath, .F.)
+		exportationIsOK = ExportFromQryToPlainFile('UPGD', '', sWeeklyTargetPath, .F.,,.T.,,,,nCurrentFileHandler, @REG_U)
+
+		IF !exportationIsOK THEN
+			IF !bBeSilent THEN
+				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+							'Existen registros repetidos o duplicados en la fuente de UPGDs.' + CHR(13) + ;
+							'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+							'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ENDIF 
+		ENDIF
+
+		*Cierra el archivo plano U 
+		=FCLOSE(nCurrentFileHandler)
+		=FFLUSH(nCurrentFileHandler)
+	ENDIF
+
+	* Genera el archivo V contenedor de datos de UCI por UPGD
+	IF !bIsFeedback  OR bIncludeUPGDs THEN
+		nCurrentFileHandler = FCREATE(UCIFileName)
+	
+		=showProgressMessage('Generando Archivo Plano de UCI por UPGD')
+		exportationIsOK = ExportFromQryToPlainFile('UCI' , FIL_NOT, sWeeklyTargetPath, .F.,,.T.,,,,nCurrentFileHandler, @REG_V)
+
+		IF !exportationIsOK THEN
+			IF !bBeSilent THEN
+				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+						'Existen registros repetidos o duplicados en la fuente de UCI por UPGDs.' + CHR(13) + ;
+						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ENDIF
+		ENDIF
+
+		*Cierra el archivo plano V
+		=FCLOSE(nCurrentFileHandler)
+		=FFLUSH(nCurrentFileHandler)
+	ENDIF
+
+	* Si se trata de una notificación rutinaria, genera el archivo R contenedor de datos sobre el talento humano disponible en las UPGD
+	IF !bIsFeedback THEN
+		IF EMPTY(sIsImmediateNotif) THEN
+			nCurrentFileHandler = FCREATE(TAL)
+		
+			=showProgressMessage('Generando Archivo Plano de Talento Humano / Servicios')
+
+			exportationIsOK = ExportFromQryToPlainFile('TAL' , 'recordSource.NOTIFICA=0 AND recordSource.ESTADO=0', sWeeklyTargetPath, ;
+														bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_T )
+			IF !exportationIsOK THEN
+				IF !bBeSilent THEN
+					MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+							'Existen registros repetidos o duplicados en la fuente de Talento Humano / Servicios.' + CHR(13) + ;
+							'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+							'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				ENDIF
+			ENDIF
+			
+			*Cierra el archivo plano R
+			=FCLOSE(nCurrentFileHandler)
+			=FFLUSH(nCurrentFileHandler)
+		ELSE
+			REG_T = 0
+		ENDIF
+	ENDIF
+
+	* Genera el archivo I contenedor de datos del evento colectivo morbilidad por IRA (Vigilancia Centinela ESI - IRAG)
+	nCurrentFileHandler = FCREATE(IRA)
+	
+	=showProgressMessage('Generando Archivo Plano Morbilidad por IRA')
+	
+	exportationIsOK  = ExportFromQryToPlainFile('E43' , FIL_NOT + FIL_EVE + FIL_VIG + sIsImmediateNotif, sWeeklyTargetPath, ;
+												bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_I)
+	IF !exportationIsOK THEN
+		IF !bBeSilent THEN
+			MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
+					'Existen registros repetidos o duplicados en la fuente de Morbilidad por IRA.' + CHR(13) + ;
+					'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+					'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+		ENDIF
+	ENDIF
+	oDataExporter.sSourceTableName = "C_E43"
+	oDataExporter.sExportedFileName = "DatosIrag"
+	oDataExporter.exportToXLS()
+
+	*Cierra el archivo plano I
+	=FCLOSE(nCurrentFileHandler)
+	=FFLUSH(nCurrentFileHandler)
+
+	* Genera el archivo T contenedor de datos agrupados de los eventos de notificación individual y de brotes periódica semanal obligatoria
+	=showProgressMessage('Generando Archivo T...')
+	SELECT COD_EVE, DATE() AS FEC_NOT, SEMANA, AÑO , COD_PRE, COD_SUB, SUM(VAL(GRU_1)) AS GRU_1, SUM(VAL(GRU_2)) AS GRU_2,;
+		SUM(VAL(GRUPO_3)) AS GRU_3,	SUM(VAL(GRUPO_4)) AS GRU_4,	SUM(VAL(GRUPO_5)) AS GRU_5,	SUM(VAL(GRUPO_6)) AS GRU_6, ;
+		SUM(VAL(GRUPO_7)) AS GRU_7,	SUM(VAL(GRUPO_8)) AS GRU_8,	SUM(VAL(GRUPO_9)) AS GRU_9,	SUM(VAL(GRUPO_10)) AS GRU_10, ;
+		SUM(VAL(GRUPO_11)) AS GRU_11, SUM(VAL(GRUPO_12)) AS GRU_12,	SUM(VAL(GRUPO_13)) AS GRU_13, SUM(VAL(GRUPO_14)) AS GRU_14, ;
+		SUM(VAL(GRUPO_15)) AS GRU_15, SUM(VAL(GRUPO_16)) AS GRU_16,	SUM(VAL(GRUPO_17)) AS GRU_17, SUM(VAL(GRUPO_18)) AS GRU_18, ;
+		SUM(VAL(CAS_PRO)) AS CAS_PRO,  SUM(VAL(CAS_CONL)) AS CAS_CONL, SUM(VAL(CAS_CONC)) AS CAS_CONC,;
+		SUM(VAL(CAS_CONN)) AS CAS_CONN, SUM(VAL(HOMBRES)) AS HOMBRES, SUM(VAL(MUJERES)) AS MUJERES,;
+		SUM(VAL(VIVOS)) AS VIVOS, SUM(VAL(MUERTOS)) AS MUERTOS, MUN_PRO;
+		FROM BROTES AS recordSource;
+		WHERE &FIL_NOT  &FIL_EVE &FIL_VIG &sIsImmediateNotif;
+		GROUP BY AÑO, COD_PRE, COD_SUB, SEMANA, MUN_PRO, COD_EVE;
+		INTO CURSOR rsConteoBrotes READWRITE 
+
+	SELECT COD_EVE, DATE() AS FEC_NOT, SEMANA, AÑO , COD_PRE, COD_SUB, ;
+		SUM(IIF(UNI_MED!='1',1,0)) AS GRU_1,;
+		SUM(IIF(UNI_MED='1',IIF(BETWEE(VAL(EDAD),1,4),1,0),0)) AS GRU_2,;
+		SUM(IIF(UNI_MED='1',IIF(BETWEE(VAL(EDAD),5,14),1,0),0)) AS GRU_3,;
+		SUM(IIF(UNI_MED='1',IIF(BETWEE(VAL(EDAD),15,44),1,0),0)) AS GRU_4,;
+		SUM(IIF(UNI_MED='1',IIF(BETWEE(VAL(EDAD),45,64),1,0),0)) AS GRU_5,;
+		SUM(IIF(UNI_MED='1',IIF(VAL(EDAD)>=65,1,0),0)) AS GRU_6,;
+		SUM(IIF(tip_cas='1',1,0)) AS cas_pro,;
+		SUM(IIF(tip_cas='2',1,0)) AS cas_conl,;
+		SUM(IIF(tip_cas='3',1,0)) AS cas_conc,;
+		SUM(IIF(tip_cas='4',1,0)) AS cas_conn,;
+		SUM(IIF(CON_FIN='1',1,0)) AS VIVOS,;
+		SUM(IIF(CON_FIN='2',1,0)) AS MUERTOS, COD_MUN as mun_pro;
+		FROM paciente as recordSource;
+		WHERE &FIL_NOT&FIL_EVE &FIL_VIG &sIsImmediateNotif AND COD_EVE!='000 ';
+		GROUP BY AÑO, COD_PRE, COD_SUB, SEMANA, COD_MUN, COD_EVE;
+		INTO CURSOR rsConteoIndividuales
+
+	SELECT rsConteoBrotes 
+	APPEND FROM DBF('rsConteoIndividuales')
+
+	nCurrentFileHandler = FCREATE(TOT)
+	SELECT rsConteoBrotes 
+	GO TOP
+	SCAN
+	   sRecStream = COD_EVE+','+TF(FEC_NOT)+','+SEMANA+','+AÑO+','+COD_PRE+','+COD_SUB+','+NC(GRU_1)+','+NC(GRU_2)+','+;
+	      NC(GRU_3)+','+NC(GRU_4)+','+NC(GRU_5)+','+NC(GRU_6)+','+NC(CAS_PRO)+','+NC(CAS_CONL)+','+NC(CAS_CONC)+','+NC(CAS_CONN)+','+;
+	      NC(HOMBRES)+','+NC(MUJERES)+','+NC(VIVOS)+','+NC(MUERTOS)+','+ LEFT(MUN_PRO,2)+','+RIGHT(MUN_PRO,3)
+
+		=FPUTS(nCurrentFileHandler, sRecStream)
+	ENDSCAN
+	REG_C = RECCOUNT('rsConteoBrotes')
+	USE IN rsConteoBrotes
+	USE IN rsConteoIndividuales
+	
+
+	*Cierra el archivo plano T
+	=FCLOSE(nCurrentFileHandler)
+	=FFLUSH(nCurrentFileHandler)
+
+	*Genera el archivo XLS de notificación negativa de eventos 
+	IF SelectTable("rsNegativeNotificationReport",,.F.) THEN
+		=showProgressMessage('Generando Archivo XLS de notificación negativa de eventos')
+		oDataExporter.sSourceTableName = "rsNegativeNotificationReport"
+		oDataExporter.sExportedFileName = "Eventos_Notificacion_Negativa_Semana_" + TRANSFORM(sNotificationWeek,'@L 99') + "_" + STRTRAN(TTOC(DATETIME(),3),":","_")
+		oDataExporter.exportToXLS()
+	ENDIF
+
+	*Genera el archivo SIVIGILA contenedor de datos de cuándo y con qué versión fueron generados ;
+	los archivos planos de notificación o retroalimentación
+	DO makeSIVIGILAVersionFile WITH (INS), (_ver) IN PlainsLib
+
+	L=0
+	SET DEVICE TO FILE (CON)
+	IF REG_U<>0
+	   @L+0,0 SAY LEFT(sInformatUnitCode,10)+','+RIGHT(sInformatUnitCode,2)+','+TF(DATE())+','+'U'+JUSTSTEM(TA)+','+TRANS(REG_U,'@l 9999999')
+	   L=L+1
+	ENDIF
+	IF REG_T<>0
+	   @L+0,0 SAY LEFT(sInformatUnitCode,10)+','+RIGHT(sInformatUnitCode,2)+','+TF(DATE())+','+'R'+JUSTSTEM(TA)+','+TRANS(REG_T,'@l 9999999')
+	   L=L+1
+	ENDIF
+	IF REG_P<>0
+	   @L+0,0 SAY LEFT(sInformatUnitCode,10)+','+RIGHT(sInformatUnitCode,2)+','+TF(DATE())+','+'N'+JUSTSTEM(TA)+','+TRANS(REG_P,'@l 9999999')
+	   L=L+1
+	ENDIF
+	IF REG_B<>0
+	   @L+0,0 SAY LEFT(sInformatUnitCode,10)+','+RIGHT(sInformatUnitCode,2)+','+TF(DATE())+','+'B'+JUSTSTEM(TA)+','+TRANS(REG_B,'@l 9999999')
+	   L=L+1
+	ENDIF
+	IF REG_C<>0
+	   @L+0,0 SAY LEFT(sInformatUnitCode,10)+','+RIGHT(sInformatUnitCode,2)+','+TF(DATE())+','+'T'+JUSTSTEM(TA)+','+TRANS(REG_C,'@l 9999999')
+	   L=L+1
+	ENDIF
+	IF REG_D<>0
+	   @L+0,0 SAY LEFT(sInformatUnitCode,10)+','+RIGHT(sInformatUnitCode,2)+','+TF(DATE())+','+'D'+JUSTSTEM(TA)+','+TRANS(REG_D,'@l 9999999')
+	   L=L+1
+	ENDIF
+
+	* Comentado por: wilson aguilar	Fecha: 20/10/2011 ;
+	El Grupo SIVIGILA del INS decidió que con la veersión 2012, el Sistema ya no debe generar el archivo W. 
+	&&IF REG_W<>0
+	&&   @L+0,0 SAY LEFT(_un,10)+','+RIGHT(_un,2)+','+TF(DATE())+','+'W'+TA+','+TRANS(REG_W,'@l 9999999')
+	&&   L=L+1
+	&&ENDIF
+
+	IF REG_I<>0
+	   @L+0,0 SAY LEFT(sInformatUnitCode,10)+','+RIGHT(sInformatUnitCode,2)+','+TF(DATE())+','+'I'+JUSTSTEM(TA)+','+TRANS(REG_I,'@l 9999999')
+	   L=L+1
+	ENDIF
+	IF REG_V<>0
+	   @L+0,0 SAY LEFT(sInformatUnitCode,10)+','+RIGHT(sInformatUnitCode,2)+','+TF(DATE())+','+'V'+JUSTSTEM(TA)+','+TRANS(REG_V,'@l 9999999')
+	   L=L+1
+	ENDIF
+
+	SET DEVICE TO SCREEN 
+	*SET STEP ON 
+	*Codifica los archivos recien producidos
+	sSivigilaCryptoFileNameAndPath = PATH_TO_SIVIGILACRYPTO + "SivigilaCrypto.prg"
+	oCodifier  = NEWOBJECT( "SivigilaCrypto", sSivigilaCryptoFileNameAndPath, .NULL., sWeeklyTargetPath, "*.Txt", sWeeklyTargetPath)
+	oCodifier.BatchCodify
+	RELEASE oCodifier
+
+	*Produce un archivo empaquetado en formato ZIP para envío a la Unidad Jerarquíca Superior
+	bClaimNotificationIsFinished=.T.
+	TRY
+		*Establece el nombre del archivo ZIP correspondiente a los planos generados
+		sPlainsFilesPath = JUSTPATH(sWeeklyTargetPath)
+		sTargetZIPFileName = JUSTFNAME(sPlainsFilesPath) + '.ZIP'
+		sTargetXLSZIPFileName = JUSTFNAME(sPlainsFilesPath) + '_XLS' + '.ZIP'
+		
+		sResultMsg=''
+		lFileZip=.F. &&Para procesos de enviar correo verificar si el archivo zip fue creado
+		DO ArchiveFiles WITH sWeeklyTargetPath, '*.TXT', sExportationPath+'\', sTargetZIPFileName, sResultMsg IN backup
+		DO ArchiveFiles  WITH sWeeklyTargetPath, '*.XLS', sExportationPath+'\', sTargetXLSZIPFileName , sResultMsg, .T. IN backup
+
+		IF EMPTY(sResultMsg) THEN
+			lFileZip=.T.
+		ELSE
+			bClaimNotificationIsFinished = .F.
+			sResultMsg="Se produjo el siguiente problema al intentar crear el archivo ZIP correspondiente a los planos: " +  CHR(13) +  CHR(10) +;
+						sResultMsg + CHR(13)  +  CHR(10) + CHR(13)  +  CHR(10) +;
+						"Debe crear usted mismo el archivo ZIP para envío a la Unidad Jerarquíca Superior."
+		ENDIF
+	CATCH TO oException
+		bClaimNotificationIsFinished = .F.
+		sResultMsg="Se produjo el siguiente problema al intentar crear el archivo ZIP correspondiente a los planos: " +  CHR(13) +  CHR(10) +;
+					"Código interno del problema : " + ALLTRIM(STR(oException.ErrorNo)) + CHR(13) +;
+					"Mensaje del problema : "  + (oException.Message) + CHR(13)  +  CHR(10) + CHR(13)  +  CHR(10) +;
+					"Debe crear usted mismo el archivo ZIP para envío a la Unidad Jerarquíca Superior."
+	ENDTRY
+
+	*SET STEP ON 
+	*Actualiza el campo NOTIFICA de las tablas maestras con el número de la semana que se notificó
+	IF opc_exp = ORDINARY_NOTIFICATION THEN
+		*Se trata de una notificación de información usual, esto es, no es de caracter inmediato ni es;
+		una retroalimentación
+		
+		*Establece la condición de actualización de los registros de las tablas maestras
+		updateCondition = 'NOTIFICA=0'
+		
+		*Comentado por wilson Aguilar 03/12/2009;
+		La siguiente parte del código debe incorporarse si el INS decide que las notifcaciones de caracter;
+		inmediato no sean re-notificadas, es decir, si decide que una vez que se ha hecho una ;
+		notificación inmediata, en un tiempo posterior no pueda volver a realizarse la notificación de ;
+		los registros que fueron objeto de notificación inmediata. En ese caso, también tendrá que;
+		cambiarse la condición del IF anterior por IF opc_pexp<>2 THEN ...
+		*IF !EMPTY(sIsImmediateNotif) then
+		*	updateCondition=updateCondition + ' AND ' + sIsImmediateNotif
+		*ENDIF
+		
+		=showProgressMessage('Cerrando registros...')
+
+		IF VARTYPE(glDisableRules)='L' THEN
+			lOldDisableRules=glDisableRules
+		ELSE
+			lOldDisableRules=.F.
+		ENDIF
+		glDisableRules=.T.
+		
+		sDataTablaToUpdate = 'PACIENTE'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR NOTIFICA=0 AND EST_INGR!=2
+
+		USE BDSivigila!vTablasDeDC IN 0
+		SELECT vTablasDeDC
+		SCAN
+			sDataTablaToUpdate = ALLTRIM(vTablasDeDC.DC_TABLA)
+			DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+			IF vTablasDeDC.ID_DC_TABLA != 47 THEN
+				REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR &updateCondition
+			ELSE
+				*La tabla EVENTOS_47 almacena registros de un evento cuyos datos pueden ser cargados desde un sistema externo
+				REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR NOTIFICA=0 AND EST_INGR!=2
+			ENDIF
+		ENDSCAN
+
+		sDataTablaToUpdate = 'BROTES'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR &updateCondition
+
+		sDataTablaToUpdate = 'LABORATORIOS'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR &updateCondition
+
+		sDataTablaToUpdate = 'CONTACTOS'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR &updateCondition
+
+		sDataTablaToUpdate = 'SEGUIMIENTOCONTACTOS'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR &updateCondition
+
+		sDataTablaToUpdate = 'UPGD'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR &updateCondition
+
+		sDataTablaToUpdate = 'TAL_HUM'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR &updateCondition
+
+		sDataTablaToUpdate = 'UPGD_UCIS'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		REPLACE NOTIFICA WITH sNotificationWeek, EST_NOTIF WITH nORDINARY_NOTIFIED FOR &updateCondition
+
+		sDataTablaToUpdate = 'GENERAL'
+		DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+		IF VAL(SEMANA)<sNotificationWeek
+		   REPLACE SEMANA WITH nc(sNotificationWeek)
+		   FLUSH
+		   _SEM_RP=VAL(SEMANA)
+		ENDIF
+		glDisableRules=lOldDisableRules
+	ELSE
+		IF opc_exp = INMEDIATE_NOTIFICATION THEN
+			*Se trata de una notificación de información de caracter inmediato 
+			
+			*Establece la condición de actualización de los registros de las tablas maestras
+			updateCondition = ' INMEDIATA="SI" AND EST_NOTIF=' + NOT_NOTIFIED
+			
+			=showProgressMessage('Cerrando registros...')
+
+			IF VARTYPE(glDisableRules)='L' THEN
+				lOldDisableRules=glDisableRules
+			ELSE
+				lOldDisableRules=.F.
+			ENDIF
+			glDisableRules=.T.
+			
+			sDataTablaToUpdate = 'PACIENTE'
+			DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+			REPLACE EST_NOTIF WITH VAL(INMEDIATE_NOTIFIED) FOR NOTIFICA=0 AND &updateCondition 
+
+			USE BDSivigila!vTablasDeDC IN 0
+			SELECT vTablasDeDC
+			SCAN
+				sDataTablaToUpdate =  ALLTRIM(vTablasDeDC.DC_TABLA)
+				DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+				REPLACE EST_NOTIF WITH VAL(INMEDIATE_NOTIFIED) FOR &updateCondition
+			ENDSCAN
+
+			sDataTablaToUpdate = 'BROTES'
+			DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+			REPLACE EST_NOTIF WITH VAL(INMEDIATE_NOTIFIED) FOR &updateCondition
+
+			sDataTablaToUpdate = 'LABORATORIOS'
+			DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+			REPLACE EST_NOTIF WITH VAL(INMEDIATE_NOTIFIED) FOR &updateCondition
+
+			sDataTablaToUpdate = 'CONTACTOS'
+			DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+			REPLACE EST_NOTIF WITH VAL(INMEDIATE_NOTIFIED) FOR &updateCondition
+
+			sDataTablaToUpdate = 'SEGUIMIENTOCONTACTOS'
+			DO SelectTable WITH sDataTablaToUpdate IN PATH_TO_COMMON_LIB + 'TablesHandler'
+			REPLACE EST_NOTIF WITH VAL(INMEDIATE_NOTIFIED) FOR &updateCondition
+
+			glDisableRules=lOldDisableRules
+		ENDIF
+	ENDIF
+	CLOSE TABLES ALL
+	=showProgressMessage('Producción de archivos planos finalizada')
+
+
+
+	*-------------------------------------------------------------------------
+	* Actualizacion Autor: José Luis Gonzalez, Fecha: 23/10/2013;
+		Propósito: si se trata de una "Notificacion Inmediata" enviar por correo electronico; 
+		detalles de la notificacion y los archivos adjuntos, como base el archivos el zip ;
+		o los archivos individuales si no se logro general el zip
+	IF !EMPTY(sIsImmediateNotif) THEN
+		IF lFileZip THEN
+			sAdjuntosSendMail = sExportationPath + '\' + sTargetZIPFileName
+		ELSE
+			sAdjuntosSendMail = bro + ".TXT;" + car + ".TXT;" + tal + ".TXT;" + dat + ".TXT;" + tot + ".TXT;" + con + ".TXT;" + stt + ".TXT;" + ptw + ".TXT;" + ins 
+		ENDIF
+	*SET STEP ON 
+		*Codigo para comunicacion inmediata : 12
+		IF !_SCREEN.bTestMode THEN
+			sSendMailCmd = "DO SendMailManual WITH 12, '', '' , sAdjuntosSendMail IN " + PATH_TO_SIVIGILAMailer + "sendmail.prg"
+			&sSendMailCmd
+		ENDIF
+	ENDIF
+	*-------------------------------------------------------------------------
+
+	xx=' con ' &&+ CHR(9)
+
+	=showProgressMessage('Proceso Terminado')
+	sPlainsExportedMsg = 'SE HAN GENERADO LOS SIGUIENTES ARCHIVOS DE TEXTO!'+CHR(13)+CHR(13)+;
+						   IIF(!bIsFeedback,JUSTFNAME(CAR)+xx+TRANS(REG_U,'@l 99999999')+' - Registros de UPGD'+CHR(13),'')+;
+						   IIF(!bIsFeedback,JUSTFNAME(TAL)+xx+TRANS(REG_T,'@l 99999999')+' - Registros de Talento H / Servicios'+CHR(13),'')+;
+						   JUSTFNAME(PTE)+xx+TRANS(REG_P,'@l 99999999')+' - Registros de Not. Individual'+CHR(13)+;
+						   JUSTFNAME(DAT)+xx+TRANS(REG_D,'@l 99999999')+' - Registros de Datos Complementarios'+CHR(13)+;
+						   JUSTFNAME(BRO)+xx+TRANS(REG_B,'@l 99999999')+' - Registros de Not. Colectiva'+CHR(13)+;
+						   JUSTFNAME(TOT)+xx+TRANS(REG_C,'@l 99999999')+' - Registros de Not. Colectiva Reporte'+CHR(13)+;
+						   JUSTFNAME(IRA)+xx+TRANS(REG_I,'@l 99999999')+' - Registros de Morb. por IRA'+CHR(13)+;
+						   IIF(!bIsFeedback,JUSTFNAME(UCIFileName)+xx+TRANS(REG_V,'@l 99999999')+' - Registros de UCI por UPGD','')+CHR(13)+;
+						   JUSTFNAME(CON)+xx+TRANS(L,'@l 99999999')+' - Registros de Control'+CHR(13)+CHR(13)+;
+						   'UBÍQUELOS EN ' + sWeeklyTargetPath + CHR(13) + CHR(13) +;
+						   'POR FAVOR ENVIE LOS ARCHIVOS COMPRIMIDOS AL INSTITUTO NACIONAL DE SALUD MAIL: sivigila@ins.gov.co'
+							* Comentado por: wilson aguilar	Fecha: 20/10/2011 ;
+							El Grupo SIVIGILA del INS decidió que con la veersión 2012, el Sistema ya no debe generar el archivo W;
+							por tanto la siguiente línea de código que hace parte del mensaje para el usuario, se suprimió
+						   &&RIGHT(PTW,8)+xx+TRANS(REG_W,'@l 99999999')+' - Registros de Not. WEB'+CHR(13)+;
+
+	IF !bBeSilent THEN
+		=showErrorMessage(sPlainsExportedMsg,0)	
+	ELSE
+		=FPUTS(nResultsFileHandler,sPlainsExportedMsg)
+	ENDIF
+
+	EXPO=1
+
+	IF !bClaimNotificationIsFinished THEN
+		SET PROCEDURE TO SIVIGILAMessenger ADDITIVE
+		IF !bBeSilent THEN
+			=showErrorMessage(sResultMsg, 0)
+		ELSE
+			=FPUTS(nResultsFileHandler,sResultMsg)
+		ENDIF
+	ENDIF
+
+	sEndTime=TIME()
+	IF bBeSilent THEN
+		=FPUTS(nResultsFileHandler,'Hora de inicio: ' + sInitTime)
+		=FPUTS(nResultsFileHandler,'Hora de finalización: ' + sEndTime)			
+	ENDIF
+
+	SET DEFAULT TO (_DIR_ACT)
+
+	DO cleanTheHouse
+
+	SET PROCEDURE TO &sOldProcedure 	
+
+	=hideProgressMessage()
+
+ENDPROC 
+
+
+
+*-------------------------------------------------
+PROCEDURE processCollective(bBeSilent as Boolean, nResultsFileHandler as Number )
+	*Carga el archivo plano B hacia la tabla temporal intermedia sTmpTableName 
+	
+	LOCAL sTmpTableName as String
+	sTmpTableName = 'PLANO_BROTES'
+	*Nombre de la tabla temporal intermedia en donde se carga el archivo plano N
+
+	LOCAL nOrphansCollectives as Byte 
+	nOrphansCollectives = 1
+	
+	LOCAL sErrorMsg as String 
+
+	DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, , ADDBS(sXLSFilesPath)+"DatosColectivos", ;
+		'Not. Colectiva' IN PlainsLib
+
+	*Corrije los posibles registros duplicados que se encuentren en la tabla PLANO_BROTES con el fin de evitar ;
+	la carga de duplicados
+	IF n_version = _VERSION2010 THEN
+		SET PROCEDURE TO AnomaliesHandler ADDITIVE
+		sSourceTableName=_RTA_CONSOLIDA+'\'+sTmpTableName
+		=solveDuplicates(sSourceTableName,sXLSFilesPath)
+		USE (sSourceTableName)
+	ENDIF
+	
+	*Dado que algunos campos son exportados luego de ser sometidos a transformaciones,;
+	ejecuta las	transformaciones inversas necesarias para actualizar los datos recien cargados;
+	de tal forma que se restablezcan sus valores originales
+	IF n_version = _VERSION2008
+		REPLACE MUN_PRO WITH DEP_PRO+MUN_PRO ALL
+	ENDIF
+
+	IF n_version = _VERSION2010
+		REPLACE MUN_PRO WITH cod_dpto_p+ cod_mun_pr ALL
+	ENDIF
+*SET STEP ON 
+	*Selecciona de la tabla de brotes solamente aquellos que tengan datos complementarios.
+	orphansCollectivesCursorName=''
+	noOrphansCollectivesCursorName=''
+	SET PROCEDURE TO PlainsLib ADDITIVE
+	IF !USED('PLANO_EVENTOS') THEN
+		USE _RTA_CONSOLIDA + '\PLANO_EVENTOS' IN 0
+	ENDIF
+	nOrphansCollectives=extractOrphans(sTmpTableName,'PLANO_EVENTOS',@orphansCollectivesCursorName,@noOrphansCollectivesCursorName,n_version,2)
+	
+	IF nOrphansCollectives> 9 THEN
+		IF !bBeSilent THEN
+			MESSAGEBOX(WARNING_OUTBREAK_PLAIN_FILE_WITHOUT_CD , 0 + 16 + 256, 'Error de importación SIVIGILA')
+		ELSE
+			=FPUTS(nResultsFileHandler,WARNING_OUTBREAK_PLAIN_FILE_WITHOUT_CD )
+		ENDIF
+		
+		orphansExcelFileName=sXLSFilesPath + '\' + sTmpTableName + '_SinComplementarios_o_Inexistentes'
+		COPY TO [&orphansExcelFileName] XL5
+
+		* Agrega los registros sin datos complementarios a la tabla de registro de ERRORES;
+		(addDupsToErrorTable sirve para este propósito aún cuando su nombre no lo refleje)
+		DO addDupsToErrorTable WITH orphansCollectivesCursorName, ARC_MAE, 'B', _RTA_CONSOLIDA,;
+			 'ERRORES', 'UPGD DE DONDE PROVIENEN LOS REGISTROS DE BROTES SIN DATOS COMPLEMENTARIOS: ' IN PlainsLib
+
+		markOrpahnsRecordsClause='UPDATE ' + sTmpTableName + ' SET ' + sTmpTableName + '.sube = 1 ' ;
+				+ ' FROM ' + orphansCollectivesCursorName+ ' WHERE ';
+				+  sTmpTableName + '.ajuste  = ' + orphansCollectivesCursorName+ '.ajuste AND ';
+				+  sTmpTableName + '.año     = ' + orphansCollectivesCursorName+ '.año AND ';
+				+  sTmpTableName + '.semana  = ' + orphansCollectivesCursorName+ '.semana AND ';
+				+  sTmpTableName + '.cod_eve = ' + orphansCollectivesCursorName+ '.cod_eve AND ';
+				+  sTmpTableName + '.num_con = ' + orphansCollectivesCursorName+ '.num_con AND ';
+				+  sTmpTableName + '.cod_mun = ' + orphansCollectivesCursorName+ '.cod_mun AND ';
+				+  sTmpTableName + '.cod_pre = ' + orphansCollectivesCursorName+ '.cod_pre AND ';
+				+  sTmpTableName + '.cod_sub = ' + orphansCollectivesCursorName+ '.cod_sub ';
+		
+		&markOrpahnsRecordsClause
+	ENDIF
+
+
+	 * SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
+		LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS 
+	collectivesDuplicatesCursorName=''	
+	XtractResult = extractDupsAndNotDups(noOrphansCollectivesCursorName,@collectivesDuplicatesCursorName)
+
+	IF XtractResult = 0		&& NO SE EXTRAJERON REGISTROS
+		RETURN
+	ENDIF
+
+	* Si XtractResult = 10 u 11, hay duplicados para registrar
+	IF XtractResult > 9 
+		IF !bBeSilent THEN
+			MESSAGEBOX(WARNING_OUTBREAK_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de importación SIVIGILA')
+		ELSE
+			=FPUTS(nResultsFileHandler,WARNING_OUTBREAK_PLAIN_FILE_WITH_DUPLICATES)		
+		ENDIF
+	
+		* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
+		DO addDupsToErrorTable WITH collectivesDuplicatesCursorName, ARC_MAE, 'B', ;
+									_RTA_CONSOLIDA, 'ERRORES' IN PlainsLib
+		
+		markDupsRecordsClause='UPDATE ' + sTmpTableName + ' SET ' + sTmpTableName + '.sube = 1 ' ;
+				+ ' FROM ' + collectivesDuplicatesCursorName + ' WHERE ';
+				+  sTmpTableName + '.COD_EVE = ' + collectivesDuplicatesCursorName + '.COD_EVE AND ';
+				+  sTmpTableName + '.AÑO     = ' + collectivesDuplicatesCursorName + '.AÑO     AND ';
+				+  sTmpTableName + '.SEMANA  = ' + collectivesDuplicatesCursorName + '.SEMANA  AND ';
+				+  sTmpTableName + '.COD_MUN = ' + collectivesDuplicatesCursorName + '.COD_MUN AND ';
+				+  sTmpTableName + '.NUM_CON = ' + collectivesDuplicatesCursorName + '.NUM_CON AND ';
+				+  sTmpTableName + '.COD_PRE = ' + collectivesDuplicatesCursorName + '.COD_PRE AND ';
+				+  sTmpTableName + '.COD_SUB = ' + collectivesDuplicatesCursorName + '.COD_SUB'
+		
+		&markDupsRecordsClause
+	ENDIF
+
+ENDPROC
+
+
+*-------------------------------------------------
+PROCEDURE processTH(bBeSilent as Boolean, nResultsFileHandler as Number )
+	*Carga el archivo plano N hacia la tabla temporal intermedia sTmpTableName 
+	
+	LOCAL sTmpTableName as String
+	sTmpTableName = 'PLANO_RHS'
+	*Nombre de la tabla temporal intermedia en donde se carga el archivo plano 
+	
+	LOCAL sErrorMsg as String 
+
+	DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, , ,'Talento H/Servicios' IN PlainsLib
+
+	*Elimina registros duplicados en la tabla PLANO_THS
+	oAnomaliesSolver=NEWOBJECT("AnomaliesSolver","AnomaliesSolver.Prg",.null.,sTmpTableName)
+	sSIVIGILACurrentDir=SYS(5)+SYS(2003)
+	SET DEFAULT TO (_RTA_CONSOLIDA )
+	oAnomaliesSolver.sExcludedFields = " NUM_REG SUBE "
+	oAnomaliesSolver.sXlsFilePath = sXLSFilesPath
+	oAnomaliesSolver.deleteDuplicates()
+	RELEASE oAnomaliesSolver
+	SET DEFAULT TO (sSIVIGILACurrentDir)
+	
+	SELECT (sTmpTableName)
+	R_IMP=RECCOUNT()
+	tot_th=RECCOUNT()
+
+	DELETE ALL FOR EMPTY(cod_pre)
+	 
+	* SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
+	LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS 
+	humanResourcesDuplicatesCursorName=''
+	XtractResult = extractDupsAndNotDups(sTmpTableName,@humanResourcesDuplicatesCursorName)
+
+	IF XtractResult = 0		&& NO SE EXTRAJERON REGISTROS
+		RETURN
+	ENDIF
+
+	* Si XtractResult = 10 u 11, hay duplicados para registrar
+	IF XtractResult > 9 
+		IF !bBeSilent THEN
+			MESSAGEBOX(WARNING_TH_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de importación SIVIGILA')
+		ELSE
+			=FPUTS(nResultsFileHandler,WARNING_TH_PLAIN_FILE_WITH_DUPLICATES)
+		ENDIF
+	
+		* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
+		DO addDupsToErrorTable WITH humanResourcesDuplicatesCursorName, ARC_MAE, 'R', ;
+			_RTA_CONSOLIDA, 'ERRORES' IN PlainsLib
+		
+		markDupsRecordsClause='UPDATE ' + sTmpTableName + ' SET ' + sTmpTableName + '.sube = 1 ' ;
+			+ ' FROM ' + humanResourcesDuplicatesCursorName + ' WHERE ';
+			+  sTmpTableName + '.cod_pre  = ' + humanResourcesDuplicatesCursorName + '.cod_pre  AND ';
+			+  sTmpTableName + '.cod_sub = ' + humanResourcesDuplicatesCursorName + '.cod_sub AND ';
+			+  sTmpTableName + '.cod_art = ' + humanResourcesDuplicatesCursorName + '.cod_art '
+		
+		&markDupsRecordsClause
+	ENDIF
+
+ENDPROC
+
+*-------------------------------------------------
+PROCEDURE processUCI(bBeSilent as Boolean, nResultsFileHandler as Number )
+	*Carga el archivo plano V hacia la tabla temporal intermedia sTmpTableName 
+	
+	LOCAL sTmpTableName as String
+	sTmpTableName = 'PLANO_UCI'
+	*Nombre de la tabla temporal intermedia en donde se carga el archivo plano 
+	
+	LOCAL sErrorMsg as String 
+
+	DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, , ,'UCI en UPGD' IN PlainsLib
+
+	*Elimina registros duplicados en la tabla PLANO_UCI
+	oAnomaliesSolver=NEWOBJECT("AnomaliesSolver","AnomaliesSolver.Prg",.null.,sTmpTableName)
+	sSIVIGILACurrentDir=SYS(5)+SYS(2003)
+	SET DEFAULT TO (_RTA_CONSOLIDA )
+	oAnomaliesSolver.sExcludedFields = " NUM_REG SUBE "
+	oAnomaliesSolver.sXlsFilePath = sXLSFilesPath
+	oAnomaliesSolver.deleteDuplicates()
+	RELEASE oAnomaliesSolver
+	SET DEFAULT TO (sSIVIGILACurrentDir)
+	
+	SELECT (sTmpTableName)
+	R_IMP=RECCOUNT()
+	total_uci_cargadas=R_IMP
+
+	DELETE ALL FOR EMPTY(cod_pre)
+	 
+	* SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
+	LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS 
+	UCIDuplicatesCursorName=''
+	XtractResult = extractDupsAndNotDups(sTmpTableName,@UCIDuplicatesCursorName)
+
+	* Si XtractResult = 10 u 11, hay duplicados para registrar
+	IF XtractResult > 9 
+		IF !bBeSilent THEN
+			MESSAGEBOX(WARNING_UCI_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de importación SIVIGILA')
+		ELSE
+			=FPUTS(nResultsFileHandler,WARNING_UCI_PLAIN_FILE_WITH_DUPLICATES)
+		ENDIF
+	
+		* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
+		DO addDupsToErrorTable WITH UCIDuplicatesCursorName, ARC_MAE, 'V', _RTA_CONSOLIDA, 'ERRORES' IN PlainsLib
+		
+		markDupsRecordsClause='UPDATE ' + sTmpTableName + ' SET ' + sTmpTableName + '.sube = 1 ' ;
+			+ ' FROM ' + UCIDuplicatesCursorName + ' WHERE ';
+			+  sTmpTableName + '.ID_UCI  = ' + UCIDuplicatesCursorName + '.ID_UCI'
+		
+		&markDupsRecordsClause
+	ENDIF
+
+ENDPROC
+
+*-----------------------------------------------------------------------------------------------------
+PROCEDURE processUPGD(bBeSilent as Boolean, nResultsFileHandler as Number )
+	*Carga el archivo plano U hacia la tabla temporal intermedia sTmpTableName 
+	
+	LOCAL sTmpTableName as String
+	sTmpTableName = 'PLANO_UPGD'
+	*Nombre de la tabla temporal intermedia en donde se carga el archivo plano 
+	
+	LOCAL sErrorMsg as String 
+		
+	SET PROCEDURE TO SIVIGILAMessenger ADDITIVE
+
+	DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, , ,'UPGDs' IN PlainsLib
+	tot_upgd=RECCOUNT()
+
+	R_IMP=RECCOUNT()
+	DELETE ALL FOR EMPTY(FEC_CAR)
+	IF _TALLY>0
+		sErrorMsg = 'SE HAN DESCARTADO ' + NC(_TALLY) + ' UPGD POR DATOS INCOMPLETOS'
+		IF !bBeSilent THEN	
+			=showErrorMessage(sErrorMsg,0)
+		ELSE
+			=FPUTS(nResultsFileHandler,sErrorMsg)
+		ENDIF
+	ENDIF
+
+	*Suprime de la tabla PLANO_UPGD los registros que aparecen como activos y que no tengan registros relacionados ;
+	en ninguno de los archivos N, D, B o I
+	sSelectSQLCmd="SELECT COD_PRE + COD_SUB as codigoUPGD FROM '" +_RTA_CONSOLIDA + "\PLANO_PACIENTES'" +;
+					" UNION SELECT COD_PRE + COD_SUB codigoUPGD FROM '" + _RTA_CONSOLIDA + "\PLANO_BROTES'" 
+	IF FILE(_RTA_CONSOLIDA + '\PLANO_E43.DBF') THEN
+		sSelectSQLCmd = sSelectSQLCmd + " UNION SELECT COD_PRE + COD_SUB codigoUPGD FROM '" + _RTA_CONSOLIDA + "\PLANO_E43'"
+	ENDIF
+	sSelectSQLCmd = sSelectSQLCmd + " UNION SELECT COD_PRE + COD_SUB codigoUPGD FROM '" + _RTA_CONSOLIDA + "\PLANO_EVENTOS' INTO TABLE rsActiveUPGDs"
+	&sSelectSQLCmd
+	DELETE FROM _RTA_CONSOLIDA + '\PLANO_UPGD' WHERE ACT_SIV=1 AND (COD_PRE + COD_SUB NOT IN (SELECT codigoUPGD FROM rsActiveUPGDs))
+	IF _TALLY>0
+		sErrorMsg = 'SE HAN DESCARTADO ' + NC(_TALLY) + ' UPGD POR CUANTO FIGURAN COMO ACTIVAS EN EL ARCHIVO PLANO PERO NO TIENEN REGISTROS EN NINGUNO DE LOS ARCHIVOS N, D, B o I'
+		IF !bBeSilent THEN
+			=showErrorMessage(sErrorMsg,0)
+		ELSE
+			=FPUTS(nResultsFileHandler,sErrorMsg)
+		ENDIF
+	ENDIF
+	
+	*Activa todas las UPGDs del archivo PLANO_UPGD que están reportando datos en uno de los ;
+	archivos N, D, B o I
+	UPDATE _RTA_CONSOLIDA + '\PLANO_UPGD' SET ACT_SIV = 1 WHERE COD_PRE + COD_SUB IN (SELECT codigoUPGD FROM rsActiveUPGDs)
+
+	*Corrije los posibles registros duplicados que se encuentren en la tabla PLANO_UPGD con el fin de evitar ;
+	la carga de duplicados
+	SET PROCEDURE TO AnomaliesHandler ADDITIVE
+	=solveDuplicates(sTmpTableName)
+	sSourceTableName=_RTA_CONSOLIDA+'\'+sTmpTableName
+	USE (sSourceTableName)
+	
+	* SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
+		LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS 
+	UPGDsDuplicatesCursorName=''
+	XtractResult = extractDupsAndNotDups(sTmpTableName,@UPGDsDuplicatesCursorName)
+
+	IF XtractResult = 0		&& NO SE EXTRAJERON REGISTROS
+		RETURN
+	ENDIF
+
+	* Si XtractResult = 10 u 11, hay duplicados para registrar
+	IF XtractResult > 9 
+		IF !bBeSilent THEN
+			MESSAGEBOX(WARNING_UPGD_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de importación SIVIGILA')
+		ELSE
+			=FPUTS(nResultsFileHandler,WARNING_UPGD_PLAIN_FILE_WITH_DUPLICATES)
+		ENDIF
+	
+		* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
+		DO addDupsToErrorTable WITH UPGDsDuplicatesCursorName, ARC_MAE, 'U', _RTA_CONSOLIDA,;
+			 'ERRORES' IN PlainsLib
+
+		markDupsRecordsClause='UPDATE ' + sTmpTableName + ' SET ' + sTmpTableName + '.sube = 1 ' ;
+				+ ' FROM ' + UPGDsDuplicatesCursorName+ ' WHERE ';
+				+  sTmpTableName + '.cod_pre  = ' + UPGDsDuplicatesCursorName+ '.cod_pre AND ';
+				+  sTmpTableName + '.cod_sub = ' + UPGDsDuplicatesCursorName+ '.cod_sub '
+		
+		&markDupsRecordsClause
+	ENDIF
+ 
+ENDPROC
+
+
+*-----------------------------------------------------------------------------------------------------
+PROCEDURE processIndividual(bBeSilent as Boolean, nResultsFileHandler as Number )
+
+	*Carga el archivo plano N hacia la tabla temporal intermedia sTmpTableName 
+	
+	LOCAL sTmpTableName as String
+	sTmpTableName = 'PLANO_PACIENTES'
+	*Nombre de la tabla temporal intermedia en donde se carga el archivo plano N
+	
+	LOCAL sErrorMsg as String 
+
+	LOCAL nOrphansPatients as Byte 
+	nOrphansPatients = 1
+	
+	SET PROCEDURE TO SIVIGILAMessenger ADDITIVE
+
+	DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, , ADDBS(sXLSFilesPath)+"DatosBasicosIndividuales", ;
+							'Not. Individual' IN PlainsLib
+
+	**JLGB referencia requerimiento REQ204
+	*DO TransferMigrateAllFields IN TransferDatafields.prg
+	DO TransformOnPlainsLoad IN TransferDataHandler WITH 2, (_RTA_CONSOLIDA)
+
+	*Corrije los posibles registros duplicados que se encuentren en la tabla PLANO_PACIENTES con el fin de evitar ;
+	la carga de duplicados
+	IF n_version = _VERSION2010 THEN
+		SET PROCEDURE TO AnomaliesHandler ADDITIVE
+		sSourceTableName=_RTA_CONSOLIDA+'\'+sTmpTableName
+		=solveDuplicates(sSourceTableName,sXLSFilesPath)
+		USE (sSourceTableName)
+	ENDIF
+	tot_pte=RECCOUNT()
+
+
+	*Dado que algunos campos son exportados luego de ser sometidos a transformaciones,;
+	ejecuta las	transformaciones inversas necesarias para actualizar los datos recien cargados;
+	de tal forma que se restablezcan sus valores originales
+	IF n_version = _VERSION2008
+		REPLACE COD_MUN WITH COD_DEP+COD_MUN, MUN_PRO WITH DEP_PRO+MUN_PRO ALL
+	ENDIF
+
+	IF n_version = _VERSION2010
+		REPLACE COD_MUN WITH cod_dpto_o + cod_mun_o, ;
+				MUN_PRO WITH cod_dpto_r + cod_mun_r ALL
+
+		UPDATE &sTmpTableName SET PAIS=PAISES.pais FROM PAISES WHERE &sTmpTableName..cod_pais_o=PAISES.CodNumPais
+	ENDIF
+*SET STEP ON 
+	*Selecciona de la tabla de pacientes solamente aquellos que tengan datos complementarios.
+	orphansPatientsCursorName=''
+	noOrphansPatientsCursorName=''
+	SET PROCEDURE TO PlainsLib ADDITIVE
+	IF !USED('PLANO_EVENTOS') THEN
+		USE _RTA_CONSOLIDA + '\PLANO_EVENTOS' IN 0
+	ENDIF
+	nOrphansPatients=extractOrphans(sTmpTableName,'PLANO_EVENTOS',@orphansPatientsCursorName,@noOrphansPatientsCursorName,n_version, 1)
+	
+	IF nOrphansPatients > 9 THEN
+		IF !bBeSilent THEN		
+			MESSAGEBOX(WARNING_INDIVIDUAL_PLAIN_FILE_WITHOUT_CD, 0 + 16 + 256, 'Error de importación SIVIGILA')
+		ELSE
+			=FPUTS(nResultsFileHandler,WARNING_INDIVIDUAL_PLAIN_FILE_WITHOUT_CD)
+		ENDIF
+		
+		orphansExcelFileName=sXLSFilesPath + '\' + sTmpTableName + '_SinComplementarios_o_Inexistentes'
+		COPY TO [&orphansExcelFileName] XL5
+
+		* Agrega los registros sin datos complementarios a la tabla de registro de ERRORES;
+		(addDupsToErrorTable sirve para este propósito aún cuando su nombre no lo refleje)
+		DO addDupsToErrorTable WITH orphansPatientsCursorName, ARC_MAE, 'N', _RTA_CONSOLIDA,;
+			 'ERRORES', 'UPGD DE DONDE PROVIENEN LOS REGISTROS SIN DATOS COMPLEMENTARIOS: ' IN PlainsLib
+
+		markOrpahnsRecordsClause='UPDATE ' + sTmpTableName + ' SET ' + sTmpTableName + '.sube = 1 ' ;
+				+ ' FROM ' + orphansPatientsCursorName + ' WHERE ';
+				+  sTmpTableName + '.ajuste  = ' + orphansPatientsCursorName+ '.ajuste AND ';
+				+  sTmpTableName + '.año     = ' + orphansPatientsCursorName+ '.año AND ';
+				+  sTmpTableName + '.semana  = ' + orphansPatientsCursorName+ '.semana AND ';
+				+  sTmpTableName + '.cod_eve = ' + orphansPatientsCursorName+ '.cod_eve AND ';
+				+  sTmpTableName + '.num_ide = ' + orphansPatientsCursorName+ '.num_ide AND ';
+				+  sTmpTableName + '.tip_ide = ' + orphansPatientsCursorName+ '.tip_ide AND ';
+				+  sTmpTableName + '.cod_pre = ' + orphansPatientsCursorName+ '.cod_pre AND ';
+				+  sTmpTableName + '.cod_sub = ' + orphansPatientsCursorName+ '.cod_sub ';
+		
+		&markOrpahnsRecordsClause
+	ENDIF
+
+	* SE CREAN UN CURSOR Y UNA TABLA, UNO CON LOS REGISTROS DUPLICADOS Y EL OTRO CON	LOS REGISTROS NO DUPLICADOS PARA SUBIR ... ;
+		C_DUPS, T_NONDUPS_[Abreviatura de la tabla de la que proviene] 
+	patientDuplicatesCursorName=''
+	*XtractResult = extractDupsAndNotDups(sTmpTableName,@patientDuplicatesCursorName)
+	XtractResult = extractDupsAndNotDups(noOrphansPatientsCursorName,@patientDuplicatesCursorName)
+	DO addIndexToTable WITH 'T_NONDUPS_PACIENTES',;
+							"AÑO+SEMANA+COD_EVE+TIP_IDE+NUM_IDE+COD_PRE+COD_SUB+AJUSTE+TRANSFORM(INGR_X_NI,'Y')",;
+							"LINKER2_IX" IN SivigilaIndexesHandler
+			
+	IF XtractResult = 0		&& NO SE EXTRAJERON REGISTROS
+		RETURN
+	ENDIF
+
+	* Si XtractResult = 10 u 11, hay duplicados para registrar
+	IF XtractResult > 9 
+		IF !bBeSilent THEN
+			MESSAGEBOX(WARNING_INDIVIDUAL_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de importación SIVIGILA')
+		ELSE
+			=FPUTS(nResultsFileHandler,WARNING_INDIVIDUAL_PLAIN_FILE_WITH_DUPLICATES)
+		ENDIF
+ 	
+		DO addDupsToErrorTable WITH patientDuplicatesCursorName, ARC_MAE, 'N', _RTA_CONSOLIDA,;
+			 'ERRORES' IN PlainsLib
+
+		SET PROCEDURE TO SIVIGILAUtilities ADDITIVE
+		=UpdateFieldsTable("PLANO_PACIENTES", "PLANO_PACIENTES.SUBE=1", patientDuplicatesCursorName, ;
+							"AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB")
+	ENDIF
+
+ENDPROC
+*-----------------------------------------------------------------------------------------------------
+PROCEDURE processIRA(bBeSilent as Boolean, nResultsFileHandler as Number )
+	* Carga el archivo plano I hacia la tabla temporal intermedia sTmpTableName 
+
+	LOCAL sTmpTableName as String
+	sTmpTableName = 'PLANO_E43'
+	*Nombre de la tabla temporal intermedia en donde se carga el archivo plano I
+
+	LOCAL sErrorMsg as String 
+
+	DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, , ADDBS(sXLSFilesPath)+"DatosIrag", ;
+							'Morb.por IRAG' IN PlainsLib
+	tot_dat = tot_dat + _TALLY	
+
+    * SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
+		LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS 
+	iraDuplicatesCursorName=''
+	XtractResult = extractDupsAndNotDups(sTmpTableName,@iraDuplicatesCursorName)
+
+	* Si XtractResult = 10 u 11, hay duplicados para registrar
+	IF XtractResult > 9 
+		IF !bBeSilent THEN		
+			MESSAGEBOX( WARNING_IRA_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de importación SIVIGILA')
+		ELSE
+			=FPUTS(nResultsFileHandler,WARNING_IRA_PLAIN_FILE_WITH_DUPLICATES)
+		ENDIF
+	
+		* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
+		DO addDupsToErrorTable WITH iraDuplicatesCursorName, ARC_MAE, 'D', _RTA_CONSOLIDA,;
+			 'ERRORES' IN PlainsLib
+
+		* Se marcan en la tala origen los registros que se subieron a errores en el paso anterior
+		markDupsRecordsClause='UPDATE ' + sTmpTableName + ' SET ' + sTmpTableName + '.sube = 1 ' ;
+						+ ' FROM ' + IRADuplicatesCursorName + ' WHERE ';
+						+  sTmpTableName  + '.año     = ' + iraDuplicatesCursorName + '.año AND ';
+						+  sTmpTableName  + '.semana  = ' + iraDuplicatesCursorName + '.semana AND ';
+						+  sTmpTableName  + '.cod_eve = ' + iraDuplicatesCursorName + '.cod_eve AND ';
+						+  sTmpTableName  + '.cod_mun = ' + iraDuplicatesCursorName + '.cod_mun AND ';
+						+  sTmpTableName  + '.num_con = ' + iraDuplicatesCursorName + '.num_con '
+				
+		&markDupsRecordsClause
+	ENDIF
+ENDPROC
+
+*-----------------------------------------------------------------------------------------------------
+PROCEDURE processComplementary(SivigilaVersion, bBeSilent as Boolean, nResultsFileHandler as Number )
+
+	*Carga los datos complementarios de todos los eventos, datos de laboratorios, contactos y seguimientos
+	
+	LOCAL sErrorMsg as String 
+	
+	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\TablesHandler') ADDITIVE
+
+	DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+'PLANO_EVENTOS', , ,'Datos complementarios' IN PlainsLib
+
+	*De acuerdo con la version del Sistema SIVIGILA, determina qué tabla de definición de eventos debe;
+	utilizarse para	cargar la información
+	IF SivigilaVersion=_VERSION2008 THEN
+		eventsDefinitonTableName='EVENTOS2008'
+	ELSE
+		eventsDefinitonTableName='EVENTOS'
+	ENDIF
+
+	SELECT DISTINCT COD_EVE FROM PLANO_EVENTOS WHERE CONTROL NOT LIKE 'CONTACTOS%' AND CONTROL NOT LIKE 'SEGUIMIENTO%' INTO CURSOR C_EVENTS
+	SELECT C_EVENTS
+	SCAN
+		_EVENTO = C_EVENTS.COD_EVE
+
+		*Establece, según el código de evento, en qué tablas maestras (indicadas por el número de formulario);
+		debe almacenarse la información
+		SELECT FORMULARIO, NOM_EVE FROM &eventsDefinitonTableName WHERE ;
+			ALLTRIM(&eventsDefinitonTableName..COD_EVE) == ALLTRIM(_EVENTO) ;
+			AND !EMPTY(&eventsDefinitonTableName..FORMULARIO) INTO ARRAY A_EVENTO
+
+		IF _TALLY > 0
+			sPlainTableName = 'PLANO_E'+PADL(ALLTRIM(A_EVENTO),2,'0')	
+			WAIT WINDOW NOWAIT "EVENTO ... " + A_Evento(2)
+
+			IF !FILE(_RTA_CONSOLIDA + '\' + sPlainTableName + '.DBF')
+				sErrorMsg = 'No existe ' + sPlainTableName + ' en ' + _RTA_CONSOLIDA 
+				IF !bBeSilent THEN 
+					MESSAGEBOX(sErrorMsg)
+				ELSE
+					=FPUTS(nResultsFileHandler,sErrorMsg)
+				ENDIF
+				LOOP
+			ENDIF
+			
+			IF !USED(sPlainTableName )
+				SELECT 0
+				USE [&_RTA_CONSOLIDA\&sPlainTableName] EXCLUSIVE
+			ENDIF
+			
+			_condition = ' FOR COD_EVE = _EVENTO '
+
+			* SE BUSCA LA CONDICION EN EL ARRAY PARA QUE FILTRE LABORATORIOS
+			_condition = _condition + ' AND ' + initEventConditions(sPlainTableName, _RTA_CONSOLIDA)
+			
+			SELECT &sPlainTableName
+			
+			*Comentado por Wilson Aguilar 11/12/2009;
+			La siguiente instrucción hace que no se carguen los registros de todos los eventos que;
+			tienen como destino una misma tabla, por tanto, se suprimió
+			&&ZAP
+			APPEND FROM (NOM_ARC) DELIMITED &_condition
+			
+			*Dado que para algunos eventos algunos campos son exportados luego de ser sometidos a transformaciones,;
+			ejecuta las	transformaciones inversas necesarias para actualizar los datos recien cargados;
+			de tal forma que se restablezcan sus valores originales
+			IF SivigilaVersion= _VERSION2010 THEN
+				IF sPlainTableName = 'PLANO_E29' THEN
+					REPLACE COD_MUN WITH cod_dpto_n + cod_mun_na ALL
+				ENDIF
+			ENDIF
+			
+			IF SivigilaVersion= _VERSION2008 THEN
+				IF sPlainTableName = 'PLANO_E29' THEN
+					REPLACE COD_MUN WITH DEP + MUN ALL
+				ENDIF
+			ENDIF
+			tot_dat = tot_dat + _TALLY
+			
+			 * SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
+				LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS 
+			eventDuplicatesCursorName=''
+			XtractResult = extractDupsAndNotDups(sPlainTableName,@eventDuplicatesCursorName)
+
+			* Si XtractResult = 10 u 11, hay duplicados para registrar
+			IF XtractResult > 9 
+				IF !bBeSilent THEN
+					MESSAGEBOX( WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART1 + _EVENTO + ;
+								WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART2 , 0 + 16 + 256, 'Aviso de importación SIVIGILA')
+				ELSE
+					=FPUTS(nResultsFileHandler, WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART1 + _EVENTO + ;
+							WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART2)	
+				ENDIF
+				
+				* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
+				DO addDupsToErrorTable WITH eventDuplicatesCursorName, ARC_MAE, 'D',;
+					 _RTA_CONSOLIDA, 'ERRORES' IN PlainsLib
+
+				EventSuffix =PADL(ALLTRIM(A_EVENTO),2,'0')
+				DO CASE	
+					CASE EventSuffix = '23' OR EventSuffix = '43'  OR EventSuffix = '91' OR EventSuffix = '94'
+						*Enfermedades transmitidas por alimentos (Colectiva), Hepatitis A, Fiebre Tifoide;
+						Morbilidad por IRA (colectiva)
+						markDupsRecordsClause='UPDATE ' + sPlainTableName + ' SET ' + sPlainTableName + '.sube = 1 ' ;
+								+ ' FROM ' + eventDuplicatesCursorName + ' WHERE ';
+								+  sPlainTableName  + '.cod_eve= ' + eventDuplicatesCursorName + '.cod_eve AND ';
+								+  sPlainTableName  + '.año= ' + eventDuplicatesCursorName + '.año AND ';
+								+  sPlainTableName  + '.semana = ' + eventDuplicatesCursorName + '.semana AND ';
+								+  sPlainTableName  + '.cod_mun= ' + eventDuplicatesCursorName + '.cod_mun AND ';						
+								+  sPlainTableName  + '.num_con= ' + eventDuplicatesCursorName + '.num_con AND ';
+								+  sPlainTableName  + '.cod_pre= ' + eventDuplicatesCursorName + '.cod_pre AND ';
+								+  sPlainTableName  + '.cod_sub= ' + eventDuplicatesCursorName + '.cod_sub '
+							
+					CASE EventSuffix = '31'
+						&& Vigilancia entomológica de la malaria
+						markDupsRecordsClause='UPDATE ' + sPlainTableName + ' SET ' + sPlainTableName + '.sube = 1 ' ;
+								+ ' FROM ' + eventDuplicatesCursorName + ' WHERE ';
+								+  sPlainTableName  + '.año= ' + eventDuplicatesCursorName + '.año AND ';
+								+  sPlainTableName  + '.semana = ' + eventDuplicatesCursorName + '.semana AND ';
+								+  sPlainTableName  + '.cod_pre= ' + eventDuplicatesCursorName + '.cod_pre AND ';
+								+  sPlainTableName  + '.cod_sub= ' + eventDuplicatesCursorName + '.cod_sub AND ';
+								+  sPlainTableName  + '.cod_eve= ' + eventDuplicatesCursorName + '.cod_eve AND ';
+								+  sPlainTableName  + '.cod_dep= ' + eventDuplicatesCursorName + '.cod_dep AND ';
+								+  sPlainTableName  + '.cod_mun= ' + eventDuplicatesCursorName + '.cod_mun AND ';						
+								+  sPlainTableName  + '.especie_ve= ' + eventDuplicatesCursorName + '.especie_ve AND ';
+								+  sPlainTableName  + '.ajuste= ' + eventDuplicatesCursorName + '.ajuste '											
+					CASE EventSuffix = '32'
+						&& Informe mensual de actividades para la prevención y control de la rabia
+
+						markDupsRecordsClause='UPDATE ' + sPlainTableName + ' SET ' + sPlainTableName + '.sube = 1 ' ;
+								+ ' FROM ' + eventDuplicatesCursorName + ' WHERE ';
+								+  sPlainTableName  + '.mes = ' + eventDuplicatesCursorName + '.mes AND ';
+								+  sPlainTableName  + '.año= ' + eventDuplicatesCursorName + '.año AND ';
+								+  sPlainTableName  + '.cod_pre= ' + eventDuplicatesCursorName + '.cod_pre AND ';
+								+  sPlainTableName  + '.cod_sub= ' + eventDuplicatesCursorName + '.cod_sub AND ';
+								+  sPlainTableName  + '.cod_eve= ' + eventDuplicatesCursorName + '.cod_eve AND ';
+								+  sPlainTableName  + '.cod_dep= ' + eventDuplicatesCursorName + '.cod_dep AND ';
+								+  sPlainTableName  + '.cod_mun= ' + eventDuplicatesCursorName + '.cod_mun '						
+					CASE EventSuffix = '80' OR EventSuffix = '81' OR EventSuffix = '88'
+						&& IAD - Infecciones asociadas a dispositivos
+						&& CAB - Infecciones asociadas consumo de antibioticos
+
+						markDupsRecordsClause='UPDATE ' + sPlainTableName + ' SET ' + sPlainTableName + '.sube = 1 ' ;
+								+ ' FROM ' + eventDuplicatesCursorName + ' WHERE ';
+								+  sPlainTableName  + '.mes = ' + eventDuplicatesCursorName + '.mes AND ';
+								+  sPlainTableName  + '.año= ' + eventDuplicatesCursorName + '.año AND ';
+								+  sPlainTableName  + '.cod_pre= ' + eventDuplicatesCursorName + '.cod_pre AND ';
+								+  sPlainTableName  + '.cod_sub= ' + eventDuplicatesCursorName + '.cod_sub AND ';
+								+  sPlainTableName  + '.cod_eve= ' + eventDuplicatesCursorName + '.cod_eve AND ';
+								+  sPlainTableName  + '.num_con= ' + eventDuplicatesCursorName + '.num_con '						
+					OTHERWISE
+						markDupsRecordsClause='UPDATE ' + sPlainTableName + ' SET ' + sPlainTableName + '.sube = 1 ' ;
+								+ ' FROM ' + eventDuplicatesCursorName + ' WHERE ';
+								+  sPlainTableName  + '.año = ' + eventDuplicatesCursorName + '.año AND ';
+								+  sPlainTableName  + '.semana = ' + eventDuplicatesCursorName + '.semana AND ';
+								+  sPlainTableName  + '.cod_eve = ' + eventDuplicatesCursorName + '.cod_eve AND ';
+								+  sPlainTableName  + '.tip_ide = ' + eventDuplicatesCursorName + '.tip_ide AND ';
+								+  sPlainTableName  + '.num_ide = ' + eventDuplicatesCursorName + '.num_ide '
+						
+				ENDCASE
+				&markDupsRecordsClause
+			ENDIF
+		ENDIF
+		SELECT C_EVENTS
+	ENDSCAN
+
+	* Una vez finalizado el proceso de encontrar los duplicados y el correspondiente marcado, se	;
+	continúa con los demás registros que vienen en este archivo: 
+	
+	*Se cargan los resultados de laboratorio contenidos en el archivo plano D
+	sTmpTableName = 'PLANO_LAB'
+
+	DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, 'LIKE("LABORATORIO*",CONTROL)', ,'Laboratorios' IN PlainsLib
+	REPLACE NUM_REG WITH RECNO() ALL
+	
+	*Elimina registros duplicados en la tabla PLANO_LAB
+	oAnomaliesSolver=NEWOBJECT("AnomaliesSolver","AnomaliesSolver.Prg",.null.,sTmpTableName)
+	sSIVIGILACurrentDir=SYS(5)+SYS(2003)
+	SET DEFAULT TO (_RTA_CONSOLIDA )
+	oAnomaliesSolver.sExcludedFields = " NUM_REG SUBE "
+	oAnomaliesSolver.sXlsFilePath = sXLSFilesPath
+	oAnomaliesSolver.deleteDuplicates()
+	RELEASE oAnomaliesSolver
+	SET DEFAULT TO (sSIVIGILACurrentDir)
+	
+	SELECT (sTmpTableName)
+	tot_lab=RECCOUNT()
+
+	* SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
+		LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS_* 
+	labsDuplicatesCursorName=''
+	XtractResult = extractDupsAndNotDups(sTmpTableName,@labsDuplicatesCursorName)
+
+	* Si XtractResult = 10 u 11, hay duplicados para registrar
+	IF XtractResult > 9 
+		* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
+		DO addDupsToErrorTable WITH labsDuplicatesCursorName, ARC_MAE, 'D', _RTA_CONSOLIDA,;
+			 'ERRORES' IN PlainsLib
+		
+		markDupsRecordsClause='UPDATE ' + sTmpTableName + ' SET ' + sTmpTableName + '.sube = 1 ' ;
+			+ ' FROM ' + labsDuplicatesCursorName + ' WHERE ';
+			+  sTmpTableName  + '.año = ' + labsDuplicatesCursorName + '.año AND ';
+			+  sTmpTableName  + '.semana = ' + labsDuplicatesCursorName + '.semana AND ';
+			+  sTmpTableName  + '.cod_eve = ' + labsDuplicatesCursorName + '.cod_eve AND ';
+			+  sTmpTableName  + '.tip_ide = ' + labsDuplicatesCursorName + '.tip_ide AND ';
+			+  sTmpTableName  + '.num_ide = ' + labsDuplicatesCursorName + '.num_ide AND ';
+			+  sTmpTableName  + '.AGENTE  = ' + labsDuplicatesCursorName + '.AGENTE  AND ';
+			+  sTmpTableName  + '.PRUEBA  = ' + labsDuplicatesCursorName + '.PRUEBA  '
+					
+		&markDupsRecordsClause
+	ENDIF
+
+	*Se cargan los registros de contactos contenidos en el archivo plano D
+	sTmpTableName = 'PLANO_CONTACTOS'
+
+	IF FILE(_RTA_CONSOLIDA+'\' + sTmpTableName + '.DBF') THEN
+		DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, 'LIKE("CONTACTOS",CONTROL)', ,'Contactos' IN PlainsLib
+		REPLACE NUM_REG WITH RECNO() ALL
+		TOT_CONTACTOS = RECCOUNT(sTmpTableName)
+	ELSE
+		TOT_CONTACTOS = 0
+	ENDIF 
+
+	*Se cargan los registros de seguimiento a contactos contenidos en el archivo plano D
+	sTmpTableName = 'PLANO_SEGUIMIENTOS'
+
+	IF FILE(_RTA_CONSOLIDA+'\'+sTmpTableName + '.DBF') THEN
+		DO loadPlainFile WITH NOM_ARC, _RTA_CONSOLIDA+'\'+sTmpTableName, 'LIKE("SEGUIMIENTO*",CONTROL)', ,'SeguimientoContactos' IN PlainsLib
+		REPLACE NUM_REG WITH RECNO() ALL
+		TOT_SEGUIMIENTOS = RECCOUNT(sTmpTableName)
+	ELSE
+		TOT_SEGUIMIENTOS = 0
+	ENDIF 
+ENDPROC
+
+
+
+*-----------------------------------------------------------------------------------------------------------------------
+PROCEDURE cleanTheHouse
+	DELETE FILE 'T_Non*.DBF'
+	DELETE FILE 'C_DUPS_*.DBF'
+	DELETE FILE 'T_ReportingUPGDs.DBF'
+ENDPROC
+
+
+DEFINE CLASS PlainsLoader as Custom 
+
+	sSourcePath = .NULL.
+	sRealSourcePath = ''
+	sXLSPath = .NULL.
+	sErrMsg = ''
+	
+	FUNCTION Init(_PlainsPath as string)
+		IF !DIRECTORY('&_PlainsPath')
+			MKDIR "&_PlainsPath"
+		ENDIF
+		This.sSourcePath = ADDBS(_PlainsPath)
+	ENDFUNC
+
+	FUNCTION Destroy
+	ENDFUNC
+
+	HIDDEN PROCEDURE createPlainTableIndex(sTablePath AS String, sTargetTableName AS String)
+
+		*Crea índices para la tabla sTargetTableName que se encuentra en la carpeta sTablePath, según se encuentren;
+		 definidos en Tables.MASTER_INDEX
+		
+		SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\TablesHandler') ADDITIVE
+		
+		LOCAL sSqlCmd as String 
+		
+		LOCAL nOldSelected as Number 
+		STORE SELECT() TO nOldSelected
+
+		DIMENSION aIndexExpression(1)
+
+		SELECT TAG_NAME, TAG_EXPR, EXTRAS FROM MASTER_INDEX	WHERE TABLE_NAME  = '&sTargetTableName' INTO ARRAY aIndexExpression
+		IF _TALLY = 0 THEN
+			IF 'PLANO_E' $ sTargetTableName THEN 
+				*Utiliza índices por default
+				SELECT TAG_NAME, TAG_EXPR, EXTRAS FROM MASTER_INDEX	WHERE TABLE_NAME  = 'PLANO_EXX' INTO ARRAY aIndexExpression
+			ENDIF
+		ENDIF
+
+		IF _TALLY > 0
+			WAIT WINDOW NOWAIT 'Creando índice para ' + sTargetTableName
+			=SelectTable(ADDBS(sTablePath) + sTargetTableName,'',.T.)
+			FOR I = 1 TO ALEN(aIndexExpression,1)
+				sSqlCmd = 'INDEX ON ' + aIndexExpression(I,2) + ' TAG ' + aIndexExpression(I,1) + ' ' + aIndexExpression(I,3)
+				TRY 
+					&sSqlCmd
+				CATCH TO oException
+				ENDTRY 
+			ENDFOR
+		ENDIF
+
+		TRY
+			USE IN (sTargetTableName)
+		CATCH TO oException
+		ENDTRY
+		
+		USE IN MASTER_INDEX
+		
+		SELECT (nOldSelected)
+		RELEASE aIndexExpression
+	ENDPROC 
+
+	PROCEDURE makeImportTables(_SvgVersion, nMajor as Byte, nMinor as Byte, nBuild as byte)
+		* Autor: Wilson Aguilar
+		* Crea en la carpeta This.sSourcePath las tablas DBF necesarias para cargar los datos de archivos planos;
+		* teniendo en cuenta la versión del sistema _SvgVersion con la que fueron generados.
+		
+		*Si se pasan los parámetros opcinales nMajor, nMinor y nBuild y _SvgVersion=_VERSION2010 ;
+		también se tendrá en cuenta el identificador específico de versión dado por nMajor.nMinor.nBuild
+
+		LOCAL sOldExclusive as String
+
+		LOCAL sSuffix as String
+		sSuffix = ''
+		
+		WAIT WINDOW NOWAIT ' Creando tablas intermedias para cargar los planos ...'
+
+		sOldExclusive = SET("Exclusive")
+		SET EXCLUSIVE ON
+		
+		IF _SvgVersion = _VERSION2010 THEN
+			*Las tablas de importación se crean con base en los queries de exportación usados en la versión 2010
+
+			IF VARTYPE(nMajor) != 'N' OR VARTYPE(nMinor) != 'N' OR VARTYPE(nBuild) != 'N' THEN
+				nMajor=0
+				nMinor=0
+				nBuild=0
+			ENDIF
+			sSuffix = ALLTRIM(STR(nMajor)) + '_' + ALLTRIM(STR(nMinor)) + '_' + ALLTRIM(STR(nBuild))
+			
+			This.sRealSourcePath = This.sSourcePath + ADDBS(sSuffix) 
+			sRealSourcePath = This.sRealSourcePath
+			IF !DIRECTORY('&sRealSourcePath')
+				MKDIR "&sRealSourcePath"
+			ENDIF
+		
+			SELECT DISTINCT impTableNa, ShortName, BD_source FROM ExportQueries WHERE Activo INTO CURSOR rsTablesToMake		
+			SELECT rsTablesToMake
+			SCAN
+				sTableNameToCreate = ALLTRIM(rsTablesToMake.impTableNa)
+				
+				IF !FILE('"' + This.sRealSourcePath + sTableNameToCreate + '.DBF"') THEN
+					compleTableName = ''
+					makeImporTableSQLClause = GetQryString(UPPER(rsTablesToMake.ShortName), @compleTableName, nMajor, nMinor, nBuild)
+
+					IF !EMPTY(makeImporTableSQLClause) THEN
+						* SE AGREGAN LOS CAMPOS FALTANES, NECESARIOS PARA LA IMPORTACION 
+						modifyImporTableSQLClause(compleTableName, @makeImporTableSQLClause)
+						makeImporTableSQLClause = makeImporTableSQLClause+ " WHERE .F. INTO CURSOR C_TEMP "
+						
+						IF !EMPTY(rsTablesToMake.BD_source) THEN 
+							makeImporTableSQLClause = STRTRAN(makeImporTableSQLClause, DEFAULT_BASIC_DATA_TABLE, rsTablesToMake.BD_source,-1,-1,1)
+						ENDIF
+						
+						&makeImporTableSQLClause
+
+						SELECT C_TEMP
+						sCmd = 'COPY STRUCTURE TO "' + This.sRealSourcePath + sTableNameToCreate + '"'
+						&sCmd
+						This.createPlainTableIndex(This.sRealSourcePath, sTableNameToCreate)
+					ENDIF
+				ENDIF 
+			ENDSCAN
+			
+			USE IN 'rsTablesToMake'
+
+		ENDIF
+
+		IF _SvgVersion = _VERSION2008 THEN
+			*Las tablas de importación se crean con base en las definiciones de tablas de la versión 2008
+			
+			This.sRealSourcePath = This.sSourcePath 
+			
+			SELECT DISTINCT table_name FROM MASTER_PLAINS INTO CURSOR C_FILES2008
+			
+			SELECT C_FILES2008
+			SCAN
+				SCATTER MEMVAR
+				sTableNameToCreate = ALLTRIM(m.table_name)
+				createPlainTable(This.sSourcePath, sTableNameToCreate )
+				This.createPlainTableIndex(This.sSourcePath, sTableNameToCreate)
+			ENDSCAN
+			USE IN 'MASTER_PLAINS'
+			USE IN 'C_FILES2008'
+		ENDIF
+
+		*Crea la tabla intermedia PLANO_EVENTOS necesaria para cargar los datos complementarios de los eventos antes;
+		de ser enviados a las tablas PLANO_Exx y PLANO_LAB
+		_FILE = This.sRealSourcePath + 'PLANO_EVENTOS'
+		CREATE TABLE "&_FILE" FREE (;
+							SEMANA C(2),;
+							AÑO C(4),;
+							COD_PRE C(10),;
+							COD_SUB C(2),;
+							COD_EVE C(4),;
+							TIP_IDE C(2),;
+							NUM_IDE C(17),;
+							CONTROL C(12))
+		This.createPlainTableIndex(This.sRealSourcePath, 'PLANO_EVENTOS')
+
+		SET EXCLUSIVE &sOldExclusive
+	ENDPROC
+
+ENDDEFINE 

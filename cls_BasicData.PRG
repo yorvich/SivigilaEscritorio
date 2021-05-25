@@ -649,7 +649,7 @@ PROCEDURE Update(nRecId as Number)
 
 	SELECT (sBDTableName)
 	GO nRecId 
-	GATHER MEMVAR
+	GATHER MEMVAR MEMO 
 	IF goErrorlog.nErrNum = DATA_VALIDATION_ERROR OR goErrorlog.nErrNum = RECORD_VALIDATION_ERROR
 		goErrorlog.resetErrorLog()
 		ROLLBACK 

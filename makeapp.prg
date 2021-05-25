@@ -62,6 +62,10 @@ IF VARTYPE(sSIANIESPProductionPackId)='C' AND !EMPTY(sSIANIESPProductionPackId) 
 	ZAP
 	USE
 
+	USE Plano
+	ZAP
+	USE
+
 	CLOSE ALL
 
 	*Limpia objetos temporales
@@ -133,11 +137,15 @@ IF VARTYPE(sSIANIESPProductionPackId)='C' AND !EMPTY(sSIANIESPProductionPackId) 
 	COPY FILE SivigilaRelatedApps.INI TO (pathToApp) + '\Preproduccion\SivigilaRelatedApps.INI'
 	COPY FILE SivigilaDownloader.INI TO (pathToApp) + '\Preproduccion\SivigilaDownloader.INI'
 	COPY FILE SivigilaHelp.INI TO (pathToApp) + '\Preproduccion\SivigilaHelp.INI'
+	COPY FILE SivigilaReporter.INI TO (pathToApp) + '\Preproduccion\SivigilaReporter.INI'
 	sCopyCmd = 'COPY FILE ' + PATH_TO_SIVIGILAAgreements + 'ETLSivigila.INI TO ' + (pathToApp) + '\Preproduccion\ETLSivigila.INI'
 	&sCopyCmd 
 
 	*Copia hacia el ambiente de pre-producción el SivigilaDownloader
 	COPY FILE SivigilaDownloader.exe TO (pathToApp) + '\Preproduccion\SivigilaDownloader.exe'
+
+	*Copia hacia el ambiente de pre-producción el SivigilaCrypto
+	COPY FILE SivigilaCrypto.exe TO (pathToApp) + '\Preproduccion\SivigilaCrypto.exe'
 
 	*Copia hacia el ambiente de pre-producción los archivos txt necesarios para hacer limpieza de archivos "basura" de instalaciones previas
 	COPY FILE FiltrarArchivos_Distribucion.bat TO (pathToApp) + '\Preproduccion\FiltrarArchivos.bat'
@@ -180,7 +188,9 @@ IF VARTYPE(sSIANIESPProductionPackId)='C' AND !EMPTY(sSIANIESPProductionPackId) 
 				COPY FILE (oFile.Name) TO (targetFileAndPath)
 		ENDCASE
 	NEXT
-
+	DELETE FILE "&pathToApp\Preproduccion\GENERAL.DBF"
+	DELETE FILE "&pathToApp\Preproduccion\NOTIFICADOS.*"
+	
 	*Hace una adaptación de tal forma que se distribuya el qpx de listaEventosindividualesSeguimientos y no el qpr
 	DELETE FILE (pathToApp) + '\Preproduccion\listaEventosindividualesSeguimientos.qpr'
 	COPY FILE listaEventosindividualesSeguimientos.qpx TO (pathToApp) + '\Preproduccion\listaEventosindividualesSeguimientos.qpx'

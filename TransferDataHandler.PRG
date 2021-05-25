@@ -2482,6 +2482,8 @@ PROCEDURE makeIniFile()
 										ALLTRIM(STR(SIVIGILATablesStruc.FIELD_DEC))
 					CASE SIVIGILATablesStruc.FIELD_TYPE = 'L'
 						sTableSchema = sTableSchema + " Bit "
+					CASE SIVIGILATablesStruc.FIELD_TYPE = 'M'
+						sTableSchema = sTableSchema + " Char Width 254" 
 				ENDCASE
 				sTableSchema = sTableSchema + CR_LF 
 			ENDSCAN
@@ -3059,3 +3061,5 @@ PROCEDURE transfer_307_ToTargetTables()
 		=hideProgressMessage()
 	ENDIF
 ENDPROC
+
+

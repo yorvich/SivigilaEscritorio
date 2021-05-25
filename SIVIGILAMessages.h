@@ -371,3 +371,11 @@
 
 #DEFINE WARNING_346_ONSET_REQUIRED ;
 	"Si se trata de un paciente asintomático la fecha de inicio de síntomas debe ser la misma fecha de consulta."
+
+#DEFINE ERR_IMPOSIBLE_RESTORE_DB_MESSSAGE ;
+	'IMPOSIBLE RESTAURAR COMPLETAMENTE LA BASE DE DATOS' + CHR(13) +;
+	CrLf + 'Cierre el sistema, vuelvalo a abrir e intente nuevamente la operación.'
+
+#DEFINE NOTIFICATION_DB_RESTORED_MESSSAGE ;
+	'BASE DE DATOS RESTAURADA'
+

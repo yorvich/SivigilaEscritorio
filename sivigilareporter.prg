@@ -1223,7 +1223,7 @@ PROCEDURE notificationFromQueryToXLS(sEventCode as string, sFilter as String, sD
 	IF bSelectDistinct THEN 
 		XlsQuery = STRTRAN(XlsQuery, "SELECT", "SELECT DISTINCT",1,1,1)
 	ENDIF
-
+	
 	*Establece las condiciones de filtrado para la extracción de registros
 	sResultsTbName = ADDBS(SYS(2023)) + "tbTmp" + SYS(2015)
 	sWHERE_SQL =' A.COD_EVE ="' + IIF(!EMPTY(ALLTRIM(sEventCode)),sEventCode,ALLTRIM(sEventCode)) +  '" AND ' + ;
@@ -1245,7 +1245,7 @@ PROCEDURE notificationFromQueryToXLS(sEventCode as string, sFilter as String, sD
 	CATCH TO oException
 	ENDTRY
 	&XlsQuery 
-
+	
 	*Exporta el recordset de notificaciones consolidadas hacia un archivo excel
 	oDataExporter.sSourceTableName = JUSTSTEM(sResultsTbName)
 	oDataExporter.sExportationPath = This.sXlsFilePath
@@ -1497,9 +1497,9 @@ HIDDEN PROCEDURE setOrphansLabs()
 
 	WAIT 'Estableciendo laboratorios sin caso asociado ' WINDOW NOWAIT
 	
-	*WAIT 'Asignando Id a laboratorios' WINDOW NOWAIT
-	*Select LABORATORIOS.*,RECNO() as nreg FROM Laboratorios INTO CURSOR rsLabsWithID NOFILTER
-	USE Laboratorios IN 0 AGAIN ALIAS rsLabsWithID 
+	WAIT 'Asignando Id a laboratorios' WINDOW NOWAIT
+	Select LABORATORIOS.*,RECNO() as ID FROM Laboratorios INTO CURSOR rsLabsWithID NOFILTER
+	*USE Laboratorios IN 0 AGAIN ALIAS rsLabsWithID 
 	
 	WAIT 'Estableciendo laboratorios coincidentes' WINDOW NOWAIT
 	SELECT DISTINCT rsLabsWithID.ID FROM rsLabsWithID INNER JOIN PACIENTE C ON  ;
@@ -1548,12 +1548,16 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 	
 	LOCAL sOldExclusive
 	sOldExclusive = SET("Exclusive")
-	*SET EXCLUSIVE ON 
-	
+	SET EXCLUSIVE ON 
+
+	oIniMgr = NEWOBJECT('IniMgr', 'IniMgr.fxp',.NULL.,'SIVIGILAReporter.ini',.T.)
+	nMAX_BATCH_SIZE = VAL(oIniMgr.GetValue("BatchSize", "MAX_BATCH_SIZE", 'SIVIGILAReporter.ini'))
+	RELEASE oIniMgr
+
 	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\QueriesHandler') ADDITIVE
 	SET PROCEDURE TO SivigilaUtilities ADDITIVE
 	SET PROCEDURE TO SivigilaMessenger ADDITIVE
-*SET STEP ON 
+
 
 	OPEN DATABASE BDSIVIGILA
 					
@@ -1613,7 +1617,7 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 				ENDIF 
 				sSQLCmd = sSQLCmd + STRTRAN(sFormerFilter,'RecordSource','PACIENTE') + ' INTO CURSOR rsTotalRecs'
 				&sSQLCmd
-*SET STEP ON 
+
 				IF (rsTotalRecs.n * MULTIPLICATION_FACTOR) > MAX_RECORDS_TO_XLS THEN
 
 					IF This.EventIsPartitionable(sFilter) THEN 
@@ -1646,45 +1650,45 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 						nEpidemYears = _tally
 						
 						nBatchId = 0
-						FOR iYear=1 TO nEpidemYears
+						FOR iYear=1 to nEpidemYears
 							SELECT rsEpidemWeekCounts
-							IF nEpidemYears>1 THEN
+							IF nEpidemYears>1 THEN 
 								sCmd = 'SET FILTER TO AÑO="' + aEpidemYears[iYear] + '"'
 								&sCmd
 							ENDIF
-							GO TOP
-
+							GO TOP 
+							
 							nRecs = 0
 							bSetInitWeek = .T.
 							nCounter = 0
 							DO WHILE !EOF()
-								IF bSetInitWeek THEN
+								IF bSetInitWeek THEN 
 									sInitWeek = ALLTRIM(STR(rsEpidemWeekCounts.nSEMANA))
-									sLastWeek = sInitWeek
-								ENDIF
-
-								nRecs = nRecs +  rsEpidemWeekCounts.N
-								IF nRecs > MAX_BATCH_SIZE  THEN
-									IF nCounter >= 1 THEN
-										SKIP -1
-									ENDIF
+									sLastWeek = sInitWeek 
+								ENDIF 
+								
+								nRecs = nRecs +  rsEpidemWeekCounts.n
+								IF nRecs > nMAX_BATCH_SIZE  THEN
+									IF nCounter >= 1 THEN  
+										SKIP -1		
+									ENDIF 						
 									sLastWeek = ALLTRIM(STR(rsEpidemWeekCounts.nSEMANA))
-
+									
 									nBatchId = nBatchId + 1
 									IF sInitWeek != sLastWeek  THEN
 										sFilter = sFormerFilter + " AND VAL(RecordSource.SEMANA)>= " + sInitWeek + " AND VAL(RecordSource.SEMANA) <= " +;
-											sLastWeek + " AND RecordSource.AÑO = '" + aEpidemYears[iYear,1] + "'"
+													sLastWeek + " AND RecordSource.AÑO = '" + aEpidemYears[iYear,1] + "'"
 									ELSE
 										sFilter = sFormerFilter + " AND VAL(RecordSource.SEMANA)= " + sInitWeek +  " AND RecordSource.AÑO = '" + aEpidemYears[iYear,1] + "'"
 									ENDIF
-									THIS.NotificationToXls(oCurrentEvent.sCOD_EVE, sFilter,	1, .T., bUseAuxInformation, bConsolidateBasicdata, 'CSV', ;
-										bUseDefaultQuery, sFieldsInFilter, '_' + ALLTRIM(STR(nBatchId)), sReportsList)
-									SELECT DISTINCT COUNT(*) AS N FROM EVENTOS INTO CURSOR rsDummy
-
+									This.NotificationToXls(oCurrentEvent.sCOD_EVE, sFilter,	1, .T., bUseAuxInformation, bConsolidateBasicdata, 'CSV', ;
+															bUseDefaultQuery, sFieldsInFilter, '_' + ALLTRIM(STR(nBatchId)), sReportsList)
+									SELECT DISTINCT COUNT(*) as n FROM EVENTOS INTO CURSOR rsDummy
+									
 									IF oCurrentEvent.ManageContacts() AND IsMemberOf('CONTACTOS', sReportsList) THEN
 										*Genera un reporte especial para el evento con la información de contactos y seguimientos a contactos
 
-										THIS.launchMakeContactsReport(oCurrentEvent.sCOD_EVE, '.T.', nMajor, nMinor, nBuild, 'CNTA', '_' + ALLTRIM(STR(nBatchId)) )
+										This.launchMakeContactsReport(oCurrentEvent.sCOD_EVE, '.T.', nMajor, nMinor, nBuild, 'CNTA', '_' + ALLTRIM(STR(nBatchId)) ) 
 									ENDIF
 
 									nRecs = 0
@@ -1694,30 +1698,30 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 									bSetInitWeek = .F.
 									nCounter = nCounter +1
 								ENDIF
-
+								
 								SELECT rsEpidemWeekCounts
-								IF !EOF() THEN
-									SKIP
+								IF !EOF() THEN 
+									SKIP 
 									sLastWeek = ALLTRIM(STR(rsEpidemWeekCounts.nSEMANA))
-
-									IF EOF() AND nRecs <= MAX_BATCH_SIZE  THEN
+									 
+									IF EOF() AND nRecs <= nMAX_BATCH_SIZE  THEN 
 										nBatchId = nBatchId + 1
 										sFilter = sFormerFilter + " AND VAL(RecordSource.SEMANA)>= " + sInitWeek + " AND RecordSource.AÑO = '" + aEpidemYears[iYear,1] + "'"
-										THIS.NotificationToXls(oCurrentEvent.sCOD_EVE, sFilter,	1, bBeSilent, bUseAuxInformation, bConsolidateBasicdata, 'CSV', ;
-											bUseDefaultQuery, sFieldsInFilter, '_' + ALLTRIM(STR(nBatchId)), sReportsList)
-										SELECT DISTINCT COUNT(*) AS N FROM EVENTOS INTO CURSOR rsDummy
-
+										This.NotificationToXls(oCurrentEvent.sCOD_EVE, sFilter,	1, bBeSilent, bUseAuxInformation, bConsolidateBasicdata, 'CSV', ;
+																bUseDefaultQuery, sFieldsInFilter, '_' + ALLTRIM(STR(nBatchId)), sReportsList)
+										SELECT DISTINCT COUNT(*) as n FROM EVENTOS INTO CURSOR rsDummy
+										
 										IF oCurrentEvent.ManageContacts() AND IsMemberOf('CONTACTOS', sReportsList) THEN
 											*Genera un reporte especial para el evento con la información de contactos y seguimientos a contactos
 
-											THIS.launchMakeContactsReport(oCurrentEvent.sCOD_EVE, '.T.', nMajor, nMinor, nBuild, 'CNTA', '_' + ALLTRIM(STR(nBatchId)))
+											This.launchMakeContactsReport(oCurrentEvent.sCOD_EVE, '.T.', nMajor, nMinor, nBuild, 'CNTA', '_' + ALLTRIM(STR(nBatchId))) 
 										ENDIF
 
 										SELECT rsEpidemWeekCounts
-									ENDIF
-								ENDIF
+									ENDIF 
+								ENDIF 
 								SELECT rsEpidemWeekCounts
-							ENDDO
+							ENDDO 
 						NEXT iYear
 
 						*Crea archivos únicos con los reportes consolidados
@@ -1732,8 +1736,8 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 													'MD Tmp785q3er' +  CrLf +;
 													'findstr /i "cod_eve" "' + This.aOutputFiles[i,1] + '.CSV" > Tmp785q3er\Header.txt' +  CrLf +;
 													'FOR %%F in ("' + sRootName + '*.CSV") DO (' + CrLf +;
-								 					'findstr /v /i "cod_eve" "%%F" > Tmp785q3er\"%%F"' + CrLf +;
-								 					')' + CrLf  +;
+													'findstr /v /i "cod_eve" "%%F" > Tmp785q3er\"%%F"' + CrLf +;
+													')' + CrLf  +;
 													'Copy Tmp785q3er\Header.txt + Tmp785q3er\*.csv "Consolidado_' + sRootName + '.csv"' + CrLf +;
 													'RD Tmp785q3er /q /s' + CrLf +;
 													'CD /D "%oldDir%"'
@@ -1742,6 +1746,7 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 
 							sPreviousRootName = sRootName 
 						NEXT i
+
 					ELSE 
 						This.NotificationToXls(oCurrentEvent.sCOD_EVE, sFormerFilter, nDiscriminateEvents, bBeSilent, bUseAuxInformation, bConsolidateBasicdata, sOutputType, ;
 													bUseDefaultQuery, sFieldsInFilter, sReportsList)
@@ -1776,7 +1781,7 @@ PROCEDURE LaunchNotificationToXls(EventCode AS String, sFilter as String,	nDiscr
 	RELEASE gsXLSFilter,oCurrentEvent 
 	
 	SET TALK &sOldTalk 
-	*SET EXCLUSIVE &sOldExclusive 
+	SET EXCLUSIVE &sOldExclusive 
 	WAIT CLEAR 
 ENDPROC 
 
@@ -1851,6 +1856,10 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 
 	SET TALK ON
 	SET PROCEDURE TO PlainsLib ADDITIVE
+
+	*DEFINE WINDOW msgWindow AT 1,40 SIZE 5,100 FONT "Arial" TITLE "Visor de resultados" SYSTEM
+	*ACTIVATE WINDOW msgWindow 
+	*SET TALK WINDOW msgWindow
 
 	sInitTime=TIME()
 
@@ -2065,7 +2074,7 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 			IF HasComplementaryData THEN
 				xlsFileNameSuffix =  ' DATOS BASICOS Y COMPLEMENTARIOS'
 			ENDIF
-
+*SET STEP ON 
 			sLinkerExpr = ''
 			sPostCmds = ''
 			IF !bUseDefaultQuery THEN 
@@ -2081,8 +2090,8 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 									' A.tip_ide AS tip_ide_, A.num_ide AS num_ide_, A.edad AS edad_, A.uni_med AS uni_med_,' + ;
 									' A.NACIONALID AS NACIONALI_, P.PAIS AS NOMBRE_NACIONALIDAD, A.sexo AS sexo_, K.cod_pais AS cod_pais_o, ' + ;
 									' LEFT(A.cod_mun,2) AS cod_dpto_o, RIGHT(A.cod_mun,3) AS cod_mun_o, A.area AS area_,' + ;
-									' A.localidad AS localidad_, A.cen_poblad AS cen_pobla_, A.vereda AS vereda_,' + ;
-									' A.bar_ver AS bar_ver_, A.dir_res AS dir_res_, A.ocupacion AS ocupacion_,' + ;
+									' A.localidad AS localidad_, A.cen_poblad AS cen_pobla_, PADR(A.vereda,106) AS vereda_,' + ;
+									' PADR(A.bar_ver,40) AS bar_ver_, PADR(A.dir_res,50) AS dir_res_, A.ocupacion AS ocupacion_,' + ;
 									' A.tip_ss AS tip_ss_, A.cod_ase AS cod_ase_, A.per_etn AS per_etn_, O.nom_grupo as nom_grupo_, A.estrato AS estrato_,' + ;
 									' A.GP_DISCAPA, A.GP_DESPLAZ, A.GP_MIGRANT, A.GP_CARCELA,' + ;
 									' A.GP_GESTAN, A.SEM_GES as SEM_GES_, A.GP_INDIGEN, A.GP_POBICFB AS GP_POBICBF, A.GP_MAD_COM,' + ;
@@ -2093,7 +2102,7 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 									' A.fec_hos AS fec_hos_, A.con_fin AS con_fin_, A.fec_def AS fec_def_, A.ajuste AS ajuste_,' + ;
 									' A.telefono AS telefono_, A.fecha_nto AS fecha_nto_,' + ;
 									' A.cer_def AS cer_def_, A.cbmte AS cbmte_, A.UNI_MODIF, L.raz_soc AS nuni_modif, DATE() AS fec_arc_xl,' + ;
-									' A.nom_dil_fi AS nom_dil_f_,' + ;
+									' PADR(A.nom_dil_fi,100) AS nom_dil_f_,' + ;
 									' A.tel_dil_fi AS tel_dil_f_, A.fec_aju AS fec_aju_, B.nit_upgd, A.FM_FUERZA, A.FM_UNIDAD, A.FM_GRADO, A.Version'
 									
 				sAdditionalIndividualDataSQL = ', E.nom_eve, B.raz_soc AS nom_upgd,' + ; 
@@ -2186,6 +2195,7 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 
 			* Se ejecuta el Query que extrae los datos de paciente y complementarios para exportar a Excel
 			*=STRTOFILE(XlsQuery, ALLTRIM(EventCode) + "_ToXls.qpr")
+
 			sOldDB = SET("Database")
 			OPEN DATABASE SIVIGILATemp
 			SET  DATABASE TO SIVIGILATemp
@@ -2478,6 +2488,7 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 	ENDIF
 
 	SET TALK OFF
+	*RELEASE WINDOWS msgWindow 
 	RELEASE oCurrentEvent, oDataExporter 
 
 ENDPROC

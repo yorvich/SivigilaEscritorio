@@ -1,6 +1,6 @@
 *       *********************************************************
 *       *                                                         
-*       * 21/02/2021              SVG.MPR               13:00:05  
+*       * 08/03/2021              SVG.MPR               10:38:37  
 *       *                                                         
 *       *********************************************************
 *       *                                                         
@@ -27,24 +27,24 @@
 SET SYSMENU TO
 SET SYSMENU AUTOMATIC
 
-DEFINE PAD _5zj0rv75y OF _MSYSMENU PROMPT "\<Tablas" COLOR SCHEME 3 ;
+DEFINE PAD _5zy0mta44 OF _MSYSMENU PROMPT "\<Tablas" COLOR SCHEME 3 ;
 	KEY ALT+T, ""
-DEFINE PAD _5zj0rv75z OF _MSYSMENU PROMPT "\<Procesos" COLOR SCHEME 3 ;
+DEFINE PAD _5zy0mta45 OF _MSYSMENU PROMPT "\<Procesos" COLOR SCHEME 3 ;
 	KEY ALT+P, ""
-DEFINE PAD _5zj0rv760 OF _MSYSMENU PROMPT "\<Datos" COLOR SCHEME 3 ;
+DEFINE PAD _5zy0mta46 OF _MSYSMENU PROMPT "\<Datos" COLOR SCHEME 3 ;
 	KEY ALT+D, ""
-DEFINE PAD _5zj0rv761 OF _MSYSMENU PROMPT "\<Contactos" COLOR SCHEME 3 ;
+DEFINE PAD _5zy0mta47 OF _MSYSMENU PROMPT "\<Contactos" COLOR SCHEME 3 ;
 	KEY ALT+C, ""
-DEFINE PAD _5zj0rv762 OF _MSYSMENU PROMPT "\<Sistema" COLOR SCHEME 3 ;
+DEFINE PAD _5zy0mta48 OF _MSYSMENU PROMPT "\<Sistema" COLOR SCHEME 3 ;
 	KEY ALT+S, ""
-DEFINE PAD _5zj0rv763 OF _MSYSMENU PROMPT "A\<yuda" COLOR SCHEME 3 ;
+DEFINE PAD _5zy0mta49 OF _MSYSMENU PROMPT "A\<yuda" COLOR SCHEME 3 ;
 	KEY ALT+Y, ""
-ON PAD _5zj0rv75y OF _MSYSMENU ACTIVATE POPUP tablas
-ON PAD _5zj0rv75z OF _MSYSMENU ACTIVATE POPUP procesos
-ON PAD _5zj0rv760 OF _MSYSMENU ACTIVATE POPUP datos
-ON SELECTION PAD _5zj0rv761 OF _MSYSMENU DO LaunchForm WITH 'frmContactos'
-ON PAD _5zj0rv762 OF _MSYSMENU ACTIVATE POPUP sistema
-ON PAD _5zj0rv763 OF _MSYSMENU ACTIVATE POPUP ayuda
+ON PAD _5zy0mta44 OF _MSYSMENU ACTIVATE POPUP tablas
+ON PAD _5zy0mta45 OF _MSYSMENU ACTIVATE POPUP procesos
+ON PAD _5zy0mta46 OF _MSYSMENU ACTIVATE POPUP datos
+ON SELECTION PAD _5zy0mta47 OF _MSYSMENU DO LaunchForm WITH 'frmContactos'
+ON PAD _5zy0mta48 OF _MSYSMENU ACTIVATE POPUP sistema
+ON PAD _5zy0mta49 OF _MSYSMENU ACTIVATE POPUP ayuda
 
 DEFINE POPUP tablas MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF tablas PROMPT "\<Eventos (Crear Nuevos Eventos a Vigilar)"
@@ -58,10 +58,12 @@ DEFINE BAR 8 OF tablas PROMPT "EAPB --> XLS"
 DEFINE BAR 9 OF tablas PROMPT "EVENTOS --> XLS"
 DEFINE BAR 10 OF tablas PROMPT "UP\<GD"
 DEFINE BAR 11 OF tablas PROMPT "\-"
-DEFINE BAR 12 OF tablas PROMPT "BACK\<UP (Copia de Respaldo)"
-DEFINE BAR 13 OF tablas PROMPT "REINDEXAR (Organizar Bases de Datos)"
-DEFINE BAR 14 OF tablas PROMPT "REINICIALIZAR LAS BASES DE DATOS"
-DEFINE BAR 15 OF tablas PROMPT "Migrar desde..."
+DEFINE BAR 12 OF tablas PROMPT "Compacta\<r"
+DEFINE BAR 13 OF tablas PROMPT "Restaurar Sivigila\<Temp"
+DEFINE BAR 14 OF tablas PROMPT "BACK\<UP (Copia de Respaldo)"
+DEFINE BAR 15 OF tablas PROMPT "REINDEXAR (Organizar Bases de Datos)"
+DEFINE BAR 16 OF tablas PROMPT "REINICIALIZAR LAS BASES DE DATOS"
+DEFINE BAR 17 OF tablas PROMPT "Migrar desde..."
 ON SELECTION BAR 1 OF tablas do form eve
 ON SELECTION BAR 3 OF tablas DO Form frmSearchRec WITH 'MUNICIPIOS','.T.',_RTA_XLS
 ON SELECTION BAR 4 OF tablas do form sectores
@@ -70,10 +72,12 @@ ON SELECTION BAR 6 OF tablas DO loadTxtFile WITH '', 'Seleccione el archivo de c
 ON SELECTION BAR 8 OF tablas DO Form frmSearchRec WITH 'ASEGURADORAS','.T.',_RTA_XLS
 ON SELECTION BAR 9 OF tablas DO Form frmSearchRec WITH 'EVENTOS','.T.',_RTA_XLS
 ON BAR 10 OF tablas ACTIVATE POPUP upgdxls
-ON BAR 12 OF tablas ACTIVATE POPUP backupcopi
-ON SELECTION BAR 13 OF tablas DO REINDEXA
-ON SELECTION BAR 14 OF tablas do eli_datos
-ON SELECTION BAR 15 OF tablas DO migrateData WITH GETDIR('.','Seleccione la carpeta en donde se encuentran los archivos a migrar','',16+32+64) ,(_TIP_UNI),(_uni_not) IN TransferDataHandler
+ON SELECTION BAR 12 OF tablas DO execExclusive WITH 'DO compactMemoFields in AnomaliesHandler','compactar' IN SivigilaSystem
+ON SELECTION BAR 13 OF tablas DO restoreTempDB IN SivigilaSystem
+ON BAR 14 OF tablas ACTIVATE POPUP backupcopi
+ON SELECTION BAR 15 OF tablas DO REINDEXA
+ON SELECTION BAR 16 OF tablas do eli_datos
+ON SELECTION BAR 17 OF tablas DO migrateData WITH GETDIR('.','Seleccione la carpeta en donde se encuentran los archivos a migrar','',16+32+64) ,(_TIP_UNI),(_uni_not) IN TransferDataHandler
 
 DEFINE POPUP upgdxls MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF upgdxls PROMPT "UP\<GD --> XLS"

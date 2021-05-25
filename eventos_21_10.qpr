@@ -25,6 +25,9 @@ SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
   Recordsource.hipertensi, Recordsource.perd_gusto,;
   Recordsource.otros_sint, Recordsource.cual_ot_si,;
   Recordsource.vac_covid, Recordsource.dos_covid, Recordsource.fud_covid,;
-  Recordsource.nomvac_cov;
+  Recordsource.nomvac_cov, Recordsource.pri_nomcon,;
+  Recordsource.seg_nomcon, Recordsource.pri_apecon,;
+  Recordsource.seg_apecon, Recordsource.tip_idecon,;
+  Recordsource.num_idecon, Recordsource.tel_contac;
  FROM ;
      Eventos_21 Recordsource

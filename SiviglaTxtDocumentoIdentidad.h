@@ -15,7 +15,7 @@
 #DEFINE TXTDOCNUM_VALIDACION_DOCNUM_MINNUMERO "La longitud del número del documento es inferior a lo permitido"
 *Mensaje de Error : En numero de documento de identidad, longitud minima numero del documento
 
-#DEFINE TXTDOCNUM_VALIDACION_DOCNUM_CEROS "El número del documento no debe contener una secuencia de ceros"
+#DEFINE TXTDOCNUM_VALIDACION_DOCNUM_CEROS "La parte numérica de número de documento, no puede ser una secuencia de solamente ceros"
 *Mensaje de Error : En numero de documento de identidad, el Numero solo esta compuesto por ceros
 
 

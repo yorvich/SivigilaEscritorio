@@ -8,7 +8,7 @@ DEFINE CLASS AnomaliesSolver as Custom
 *This next one is for testing purposes
 *#DEFINE MAX_FILE_SIZE 500000000
 
-sSourceTableName=.NULL.
+sSourceTableName = .NULL.
 sDefaultKey = .NULL.
 
 bIsCursor = .F.
@@ -33,10 +33,15 @@ nInitRecs = .NULL.
 
 nDeletedRecs = 0
 ErrorMessage = .NULL.
- 
 
-FUNCTION Init
-	LPARAMETERS _sSourceTableName as String, _bIsCursor as Boolean 
+HIDDEN nResultsFileHandler
+nResultsFileHandler = 0 
+
+HIDDEN sResultsFileName as String 
+sResultsFileName = ''
+
+
+FUNCTION Init(_sSourceTableName as String, _bIsCursor as Boolean)
 
 	IF VARTYPE(_sSourceTableName)='C' THEN
 		This.sSourceTableName=_sSourceTableName
@@ -45,19 +50,32 @@ FUNCTION Init
 	IF VARTYPE(_bIsCursor)='L' THEN
 		This.bIsCursor = _bIsCursor 
 	ENDIF 
+	
+	This.sResultsFileName = 'Resultados_' + STRTRAN(TTOC(DATETIME(),3),":","_") + '.txt'
+	This.nResultsFileHandler = FCREATE(ADDBS(SYS(2023)) + This.sResultsFileName)
+	
 ENDFUNC
 
 
 FUNCTION Destroy
+
 	This.sSourceTableName=.NULL.
 	This.sDefaultKey = .NULL.	
 	This.nInitRecs = .NULL.
+	
+	TRY 
+		=FCLOSE(This.nResultsFileHandler)
+		=FFLUSH(This.nResultsFileHandler)
+		sCmd = 'COPY FILE "' + ADDBS(SYS(2023)) + This.sResultsFileName + '" TO "' + ADDBS(This.sXlsFilePath) + This.sResultsFileName + '"'
+		&sCmd 
+		sCmd = 'DELETE FILE "' + ADDBS(SYS(2023)) + This.sResultsFileName + '"'
+		&sCmd 
+	CATCH TO oException
+	ENDTRY 
 ENDFUNC
 
 
-PROCEDURE deleteDuplicates
-
-	LPARAMETERS bUseDefaultKey as Boolean, sSolverProcedure as String
+PROCEDURE deleteDuplicates(bUseDefaultKey as Boolean, sSolverProcedure as String)
 
 	*Borra de la tabla sSourceTableName registros duplicados o repetidos.
 	
@@ -1380,13 +1398,18 @@ PROCEDURE exportToXLS
 ENDPROC
 
 
-PROCEDURE ShowResults
+PROCEDURE ShowResults(bDoNotVerbose as Boolean)
 
 	&&#DEFINE sWindowTitle "Resultados de depuración - SIVIGILA"	
 
 	LOCAL sResultsMessage as String
+
+	sResultsMessage= 'Número inicial de registros en la tabla: ' 
+	IF bDoNotVerbose THEN 
+		sResultsMessage = sResultsMessage + This.sSourceTableName + ' '
+	ENDIF 	
+	sResultsMessage = sResultsMessage + ALLTRIM(STR(This.nInitRecs)) + CHR(13) 
 	
-	sResultsMessage= 'Número inicial de registros en la tabla: ' + ALLTRIM(STR(This.nInitRecs)) + CHR(13) 
 	sResultsMessage = sResultsMessage + 'Número de registros eliminados: ' + ALLTRIM(STR(This.nDeletedRecs)) + CHR(13)
 	sResultsMessage = sResultsMessage + 'Número de registros resultantes: ' + ALLTRIM(STR(This.nInitRecs - This.nDeletedRecs)) + CHR(13)
 	
@@ -1396,7 +1419,11 @@ PROCEDURE ShowResults
 						  + CHR(13) + This.sXlsFilePath 
 	ENDIF
 	
-	MESSAGEBOX( sResultsMessage,  0 + 48 , sWindowTitle ) 
+	IF !bDoNotVerbose THEN 
+		MESSAGEBOX( sResultsMessage,  0 + 48 , sWindowTitle ) 
+	ELSE
+		=FPUTS(This.nResultsFileHandler, sResultsMessage + CHR(13))
+	ENDIF 
 
 ENDPROC
 

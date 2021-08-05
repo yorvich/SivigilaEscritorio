@@ -81,7 +81,7 @@ PROCEDURE updateDataFrom (masterTableName as String, sSourceFileNameAndPath as s
 		ELSE
 			sExcludedFields = ' AJUSTE ' + sEXCLUDED_FIELDS 
 		ENDIF
-
+*SET STEP ON 
 		*Carga en la tabla espejo los registros que tienen información actualizada
 		=useTable('.\DatosValidados\' + masterTableName)
 		ZAP

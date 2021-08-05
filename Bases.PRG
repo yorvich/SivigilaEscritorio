@@ -91,6 +91,8 @@ DO listaEventosBrotes.qpr
 INDEX ON COD_EVE TAG COD
 INDEX ON NOM_EVE TAG NOM
 
+*USE Lookups!vnombres_geograficos IN 0
+
 SET PROCEDURE TO EventsHandler ADDITIVE
 SET PROCEDURE TO SivigilaMessenger ADDITIVE
 SET PROCEDURE TO SivigilaUtilities ADDITIVE

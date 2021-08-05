@@ -1072,13 +1072,8 @@ PROCEDURE UpdateGeografiaEventos
 	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\TablesHandler') ADDITIVE
 	=SelectTable('MUNICIPIOS',,.F.)
 	SELECT Cod_Mun, Cod_Pais FROM municipios WHERE cod_mun in ('01105','01239','01249','01580','01589','01850','01241','01240','01243','01244') INTO ARRAY rsMuni
-
-
-	
 	
 	sWhere2 = " in ('01105','01239','01249','01580','01589','01850','01241','01240','01243','01244') group by "
-	
-                                 
 	
 	sEvento= "UPDATE Eventos_00 SET VAR_CAMPO = '01VAR_PAIS' WHERE "
 	sEvento= sEvento + "!EMPTY(Eventos_00.VAR_CAMPO) AND Eventos_00.VAR_CAMPO =='VAR_MUNICIPIO'" 	

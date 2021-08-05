@@ -1,5 +1,6 @@
 #INCLUDE SIVIGILA.H
 
+
 PROCEDURE addBasicData(candidatesRSName, duplicatesRSName, sourceFilePath, sourceFileName, ;
 						existentsFilePath, existentsFileName, duplicatesFilePath, sResult as Boolean, ;
 						sErrorMsg as String, sNotificationWeek as Number, bTraceNewRecs as boolean)
@@ -61,13 +62,13 @@ PROCEDURE addBasicData(candidatesRSName, duplicatesRSName, sourceFilePath, sourc
 			si su clave {AJUSTE, AÑO, SEMANA, COD_EVE, TIP_IDE, NUM_IDE, COD_PRE, COD_SUB} no se encuentra en ;
 			la tabla maestra
 			setNewRecsClause = "SELECT A.* FROM (SELECT *, " + ALLTRIM(STR(sNotificationWeek)) + " AS NOTIFICA FROM " + (candidatesRSName) ;
-								+ " WHERE A.cod_eve!= '000') AS A LEFT OUTER JOIN paciente B ON "  ;
+								+ " WHERE cod_eve!= '000') AS A LEFT OUTER JOIN paciente B ON "  ;
 								+ " A.año+A.semana+A.cod_eve+A.tip_ide+A.num_ide+A.cod_pre+A.cod_sub+A.Ajuste = " ;
 								+ " B.año+B.semana+B.cod_eve+B.tip_ide+B.num_ide+B.cod_pre+B.cod_sub+B.Ajuste" ;
 								+ " WHERE B.cod_eve IS NULL " ;
-								+ " INTO TABLE tmppacientes_a_importar.dbf"
+								+ " INTO TABLE tmppacientes_a_importar"
 			&setNewRecsClause
-			
+
 			nMasterTableRecords = RECCOUNT(masterTableName)
 			nRemainingRecords = RECCOUNT(candidatesRSName)
 			nRemainingDuplicatesRecords = CountTableRecords(duplicatesRSName)
@@ -327,18 +328,21 @@ PROCEDURE addBasicData(candidatesRSName, duplicatesRSName, sourceFilePath, sourc
 									ENDTRY
 								ENDIF
 							ENDIF
-							
-							IF bTraceNewRecs THEN
-								*Exporta los registros adicionados a la tabla maestra hacia un archivo excel
-								UseTable("tmppacientes_a_importar")
-								SELECT tmppacientes_a_importar
-								sNewRecsExcelFileName = duplicatesFilePath + '\' + sourceFileName + '_REGISTROS_NUEVOS'
-								sCmd = 'COPY TO "' + sNewRecsExcelFileName + '" XL5'
-								&sCmd
-							ENDIF
 						ENDIF
 					ENDIF
 				ENDIF
+				
+				IF bTraceNewRecs THEN
+					*Exporta los registros adicionados a la tabla maestra hacia un archivo excel
+					UseTable("tmppacientes_a_importar")
+					SELECT tmppacientes_a_importar
+					IF RECCOUNT()>0 THEN 
+						sNewRecsExcelFileName = duplicatesFilePath + '\' + sourceFileName + '_REGISTROS_NUEVOS'
+						sCmd = 'COPY TO "' + sNewRecsExcelFileName + '" XL5'
+						&sCmd
+					ENDIF 
+				ENDIF
+
 			ENDIF
 
 			*Borra las tabla temporales utilizadas durante el procesamiento

@@ -35,6 +35,7 @@ ERRORLOG.DBF
 ERRORLOG.FPT
 eventos.CDX
 eventos.DBF
+eventos.FPT
 EVENTOSHOMOLOGABLES.CDX
 EVENTOSHOMOLOGABLES.DBF
 eventos_01.CDX
@@ -223,6 +224,10 @@ eventos_92.CDX
 EVENTOS_92.DBF
 Eventos_93.CDX
 eventos_93.DBF
+Eventos_94.CDX
+eventos_94.DBF
+Eventos_95.CDX
+eventos_95.DBF
 GENERAL.DBF
 HOMOLOGACIONES.CDX
 Homologaciones.DBF
@@ -235,6 +240,7 @@ OMSZscore_PesoTalla.DBF
 omszscore_tallaedad.dbf
 paciente.CDX
 paciente.DBF
+paciente.FPT
 RECALCULODESEMANASEPIDEMIOLOGICAS.CDX
 RECALCULODESEMANASEPIDEMIOLOGICAS.DBF
 SeguimientoContactos.CDX

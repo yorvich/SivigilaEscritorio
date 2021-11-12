@@ -1,0 +1,14 @@
+SELECT Recordsource.semana, Recordsource.año, Recordsource.cod_pre,;
+  Recordsource.cod_sub, Recordsource.cod_eve, Recordsource.tip_ide,;
+  Recordsource.num_ide, Recordsource.rt_pcr_pos, Recordsource.acigmigg_p,;
+  Recordsource.nexo_pos_c, Recordsource.dolor_abdo, Recordsource.fiebre,;
+  Recordsource.fini_fie, Recordsource.diarrea, Recordsource.vomito,;
+  Recordsource.hipotensio, Recordsource.otro_sinto,;
+  Recordsource.cual_otro, Recordsource.fibrinogen,;
+  Recordsource.val_fibrin, Recordsource.pcr, Recordsource.val_pcr,;
+  Recordsource.ferritina, Recordsource.val_ferrit, Recordsource.dimero_d,;
+  Recordsource.val_dimero, Recordsource.linfopenia,;
+  Recordsource.val_linfop, Recordsource.troponina,;
+  Recordsource.val_tropon, Recordsource.ajuste, Recordsource.fec_aju;
+ FROM ;
+     Eventos_95 Recordsource

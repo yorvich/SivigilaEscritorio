@@ -2293,3 +2293,11 @@ FUNCTION enableFormControls
 	
 	RETURN bReturnedValue
 ENDFUNC
+
+
+PROCEDURE packTable(sTargetTableName as string)
+
+	USE '&sTargetTableName' EXCLUSIVE IN 0
+	PACK IN '&sTargetTableName'
+	
+ENDPROC 

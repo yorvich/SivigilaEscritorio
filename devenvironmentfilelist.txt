@@ -539,6 +539,10 @@ EVENTOS_15_04.QPR
 eventos_15_04.QPX
 EVENTOS_15_05.QPR
 eventos_15_05.QPX
+eventos_15_06.qpr
+eventos_15_06.qpx
+eventos_15_07.qpr
+eventos_15_07.qpx
 eventos_15.SCT
 eventos_15.SCX
 eventos_16.CDX
@@ -625,6 +629,8 @@ eventos_21_08.QPR
 eventos_21_08.QPX
 eventos_21_09.QPR
 eventos_21_09.QPX
+eventos_21_10.qpr
+eventos_21_10.qpx
 eventos_21.SCT
 eventos_21.SCX
 frmControlPanel.sct
@@ -1138,6 +1144,8 @@ EVENTOS_66.QPR
 eventos_66.QPX
 EVENTOS_66_02.QPR
 eventos_66_02.QPX
+EVENTOS_66_03.QPR
+eventos_66_03.QPX
 EVENTOS_66.SCT
 EVENTOS_66.SCX
 EVENTOS_67.CDX
@@ -1366,6 +1374,8 @@ EVENTOS_93_08.QPR
 eventos_93_08.QPX
 EVENTOS_93_09.QPR
 eventos_93_09.QPX
+eventos_93_10.qpr
+eventos_93_10.qpx
 frmEVENTOS_93.SCT
 frmEVENTOS_93.SCX
 EVENTOS_94.CDX
@@ -1374,6 +1384,12 @@ EVENTOS_94_01.QPR
 eventos_94_01.QPX
 frmEVENTOS_94.SCT
 frmEVENTOS_94.SCX
+EVENTOS_95.CDX
+EVENTOS_95.DBF
+EVENTOS_95.QPR
+eventos_95.QPX
+frmEVENTOS_95.SCT
+frmEVENTOS_95.SCX
 frmGenericBrowser.sct
 frmGenericBrowser.scx
 eventos_sub.CDX
@@ -1643,6 +1659,8 @@ PACIENTE_08.QPR
 PACIENTE_08.QPX
 PACIENTE_09.QPR
 PACIENTE_09.QPX
+paciente_10.qpr
+paciente_10.qpx
 pacientesHuerfanos_ver2008.qpr
 pacientesHuerfanos_ver2008.qpx
 pacientesHuerfanos_ver2010.qpr

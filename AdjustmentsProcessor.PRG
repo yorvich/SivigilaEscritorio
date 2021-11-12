@@ -11,6 +11,7 @@ sAdjustmentFieldName = 'AJUSTE'
 sAdjustmentDateFieldName = 'FEC_AJU'
 *Nombre del campo en sSourceTablename que contiene la fecha de realización o grabación del ajuste 
 
+
 sSocialSecurityTypeFieldName = 'TIP_SS'
 *Nombre del campo en sSourceTablename que contiene el tip de seguridad social
 
@@ -199,6 +200,7 @@ PROCEDURE processAdjustments(sMatchingFields  as String,  sFilter  as String, sO
 		nCandidates = RECCOUNT()
 		nCandidate=0
 		sAdjustmentFieldName = This.sAdjustmentFieldName 
+		sCDAdjustmentFieldName = 'AJUSTE_AUX'
 		sAdjustmentDateFieldName = This.sAdjustmentDateFieldName
 		sNotifierUnitIdFieldName = This.sNotifierUnitIdFieldName
 		sNotifierUnitNameFieldName = This.sNotifierUnitNameFieldName 
@@ -330,40 +332,48 @@ PROCEDURE processAdjustments(sMatchingFields  as String,  sFilter  as String, sO
 								sNotifierUnitName = &sSourceTablename..&sNotifierUnitNameFieldName
 							ENDIF 
 							dLastSignificantAdjustmentDate = &sSourceTablename..&sAdjustmentDateFieldName
-							
+
 							* Establece  si deben retenerse algunos campos diferentes a la clasificación incial del caso que hayan sido modificados ;
 							debido al ajuste&sSourceTablename..&sAdjustmentFieldName
 							IF oEvent.bIsDefined THEN 
-								oDependencies = oEvent.GetRetainigFields(&sSourceTablename..&sAdjustmentFieldName)
-								IF !ISNULL(oDependencies ) THEN 
-									
-									*Captura los valores de los campos modificados como consecuencia del ajuste y que deben retenerse en el registro;
-									 consolidado final siempre y cuando sean no vacíos
-									FOR iUnmovableField=1  TO oDependencies.nSize 
-										sUnmovableFieldName = oDependencies.get(iUnmovableField)
-										IF isField(sSourceTablename,sUnmovableFieldName) THEN 
-											IF !EMPTY(&sSourceTablename..&sUnmovableFieldName) THEN 
+							
+								IF isField(sSourceTablename,sCDAdjustmentFieldName) AND ;
+									&sSourceTablename..&sAdjustmentFieldName = &sSourceTablename..&sCDAdjustmentFieldName THEN 
+									*La comparación de ajustes garantiza que no se tengan mezclas indebidas; es decir, que el ajuste en DB coincida con;
+									el de DC; cuando ello sea así, se tomarán los valores de los campos que se deben retener
+												
+									oDependencies = oEvent.GetRetainigFields(&sSourceTablename..&sAdjustmentFieldName)
+									IF !ISNULL(oDependencies ) THEN 
+										
+										*Captura los valores de los campos modificados como consecuencia del ajuste y que deben retenerse en el registro;
+										 consolidado final siempre y cuando sean no vacíos
+										FOR iUnmovableField=1  TO oDependencies.nSize 
+					
+											sUnmovableFieldName = oDependencies.get(iUnmovableField)
+											IF isField(sSourceTablename,sUnmovableFieldName) THEN 
 											
-												*Agrega dos posiciones al arreglo que mantiene el rastro de los campos y valores a retener en el registro final
-												nCurrentArraySize = ALEN(aUnmovableAdjustmentFields)
-												IF nCurrentArraySize = 1 THEN 
-													DIMENSION aUnmovableAdjustmentFields(2)
-													nInsertPos = 1
-												ELSE
-													DIMENSION aUnmovableAdjustmentFields(nCurrentArraySize + 2)
-													nInsertPos = nCurrentArraySize + 1
+												IF !EMPTY(&sSourceTablename..&sUnmovableFieldName) THEN 
+													*Agrega dos posiciones al arreglo que mantiene el rastro de los campos y valores a retener en el registro final
+													nCurrentArraySize = ALEN(aUnmovableAdjustmentFields)
+													IF nCurrentArraySize = 1 THEN 
+														DIMENSION aUnmovableAdjustmentFields(2)
+														nInsertPos = 1
+													ELSE
+														DIMENSION aUnmovableAdjustmentFields(nCurrentArraySize + 2)
+														nInsertPos = nCurrentArraySize + 1
+													ENDIF 
+													
+													*Captura valores y nombre de campos a retener en el registro final debidos al ajuste
+													aUnmovableAdjustmentFields[nInsertPos] = &sSourceTablename..&sUnmovableFieldName
+													aUnmovableAdjustmentFields[nInsertPos + 1] = sUnmovableFieldName 
+													
+													bUnmovableAdjustmentFieldsFound = .T.
 												ENDIF 
-												
-												*Captura valores y nombre de campos a retener en el registro final debidos al ajuste
-												aUnmovableAdjustmentFields[nInsertPos] = &sSourceTablename..&sUnmovableFieldName
-												aUnmovableAdjustmentFields[nInsertPos + 1] = sUnmovableFieldName 
-												
-												bUnmovableAdjustmentFieldsFound = .T.
 											ENDIF 
-										ENDIF 
-									NEXT iUnmovableField
+										NEXT iUnmovableField
+									ENDIF 
 								ENDIF 
-							ENDIF 
+							ENDIF &&oEvent.bIsDefined 
 
 						ENDIF
 						

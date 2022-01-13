@@ -117,3 +117,118 @@ PROCEDURE lastCaseRecordTst()
 	?lastCaseRecord('EVENTOS_05','NUM_IDE="91175941"')
 	*?lastCaseRecord('PACIENTE','NUM_IDE="91175941"')
 ENDPROC
+
+
+PROCEDURE AdjustIndividualCase(sEventCode AS String, sFilter as String)
+	
+	PUBLIC gsXLSFilter as String
+	gsXLSFilter = sFilter
+	*Variable pública usada en los pre-procesamientos que dependan de ella -según se encuentren establecidos en tables.ExportQueries
+
+	LOCAL oCurrentEvent  as object
+	oCurrentEvent = NEWOBJECT("Event","Event.fxp",.NULL.,sEventCode)	
+
+	LOCAL sWHERE_SQL as String 
+	sWHERE_SQL = ' '
+	
+	LOCAL nRecordsToTraverse as Number, nIndividualNotifications as Number 
+	nRecordsToTraverse = 0
+	nIndividualNotifications = 0
+
+	LOCAL nMajor, nMinor, nBuild
+	nMajor = 0
+	nMinor = 0
+	nBuild = 0
+	
+	LOCAL sTmpTable as string
+	sTmpTable = ADDBS(SYS(2023)) + SYS(2015)
+	
+	SET PROCEDURE TO PlainsLib ADDITIVE 
+	
+	* Se determina si el evento tiene datos complementarios
+	HasComplementaryData = .T.
+
+ 	*Garantiza que el procesamiento de ajustes siempre se lleve a cabo de acuerdo con la última versión del sistema definida;
+	por sus identificadores nMajor.nMinor.nBuild según se encuentran definidos en main
+	DO resetSivigilaVersion_V02 WITH nMajor, nMinor, nBuild	IN main
+
+	sLinkerExpr = ''
+	sPostCmds = ''
+	sEventTable = ''
+	XlsQuery = GetQryString("E" + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), @sEventTable, nMajor, nMinor, nBuild, .T., .T., ;
+							@sLinkerExpr, , , @sPostCmds, !oCurrentEvent.isActive())
+
+	*Establece las condiciones de filtrado para la extracción de registros
+	IF !EMPTY(ALLTRIM(sEventCode )) THEN 
+		sWHERE_SQL = sWHERE_SQL + ' A.COD_EVE ="' + sEventCode  + '" AND '
+	ENDIF 
+	
+	sWHERE_SQL = sWHERE_SQL + IIF(AT("#",sFilter)=0,sFilter,STRTRAN(sFilter,"#")) 
+
+	IF OCCURS('#',XlsQuery) > 0  THEN 
+		*El query de exportación tiene placeholder, por tanto es reemplazado por la condición WHERE 
+		XlsQuery = STRTRAN(XlsQuery, '#', sWHERE_SQL )
+	ELSE 
+		XlsQuery =  XlsQuery + ' WHERE ' + sWHERE_SQL
+	ENDIF
+	
+	XlsQuery =  XlsQuery + ' INTO TABLE "' + (sTmpTable) + '" DATABASE SIVIGILATemp'
+
+	sOldDB = SET("Database")
+	OPEN DATABASE SIVIGILATemp
+	SET  DATABASE TO SIVIGILATemp
+	TRY
+		REMOVE TABLE JUSTSTEM(sTmpTable) DELETE
+	CATCH TO oException
+	ENDTRY
+	&XlsQuery 
+	nRecordsToTraverse = RECCOUNT(JUSTSTEM(sTmpTable))
+
+	WAIT 'Procesando ' + STR(nRecordsToTraverse) + ' registros del evento ' + sEventCode  WINDOW NOWAIT TIMEOUT 10
+	*?'Inicio: ' + TIME()
+*SET STEP ON 
+	IF nRecordsToTraverse > 0
+		* se encontraron registros. Se procesan  entonces los ajustes que quedarán en un cursor de nombre rsAdjustedCases
+
+		nIndividualNotifications = _TALLY 
+		
+		sTagExpr = 'AÑO+SEMANA+COD_EVE+TIP_IDE_+NUM_IDE_+COD_PRE+COD_SUB'
+		oAdjustmentsProcessor = NEWOBJECT("AdjustmentsProcessor","AdjustmentsProcessor.fxp")
+		oAdjustmentsProcessor.sSourceTablename = JUSTSTEM(sTmpTable)
+		oAdjustmentsProcessor.sAdjustmentFieldName = 'AJUSTE_'
+		oAdjustmentsProcessor.sAdjustmentDateFieldName = 'FEC_AJU_'
+		IF EMPTY(sLinkerExpr) THEN
+			oAdjustmentsProcessor.processAdjustments(sTagExpr)
+		ELSE
+			oAdjustmentsProcessor.processAdjustments(sLinkerExpr)
+		ENDIF
+		RELEASE oAdjustmentsProcessor
+		
+		SELECT rsAdjustedCases
+
+		*Ejecuta post comandos de exportación si es que existen
+        IF !EMPTY(sPostCmds) THEN
+        	TRY
+				&sPostCmds
+			CATCH TO oException
+			ENDTRY 
+		ENDIF
+
+	ENDIF
+
+	TRY
+		REMOVE TABLE JUSTSTEM(sTmpTable) DELETE
+	CATCH TO oException
+	ENDTRY
+	SET DATABASE TO &sOldDB
+
+	RELEASE gsXLSFilter
+	
+	*?'Final: ' + TIME()
+
+ENDPROC 
+
+PROCEDURE AdjustIndividualCaseTst(sEventCode AS String, sFilter as String )
+SET STEP ON 
+	DO AdjustIndividualCase WITH sEventCode, sFilter 
+ENDPROC 

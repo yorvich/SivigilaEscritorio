@@ -1627,8 +1627,7 @@ PROCEDURE makeNotification(sExportationPath as String, sNotificationWeek as Byte
 		   RIGHT(sCollectiveEventsFileNameAndPath,8)+ '.TXT con ' +TRANS(nBExportedRegs,'@l 99999999')+' - Registros de Not. Colectiva'+CHR(13)+;
 		   RIGHT(sIRAFileNameAndPath,8)+ '.TXT con ' +TRANS(nIExportedRegs,'@l 99999999')+' - Registros de Morb. por IRA' + CHR(13) +;
 		   'UBÍQUELOS EN '+ sPlainsFilePath + CHR(13) + CHR(13) + ;
-		   'POR FAVOR ENVIE EL ARCHIVO COMPRIMIDO: ' + CHR(13) + sPlainsFilePath + '.ZIP' + CHR(13)+;
-		   'AL INSTITUTO NACIONAL DE SALUD MAIL: sivigila@ins.gov.co',0)
+		   'POR FAVOR ENVIE LOS ARCHIVOS COMPRIMIDOS A SU ENTIDAD JERARQUICA SUPERIOR',0)
 		   
 		   *A partir de la versión 2012 no se genera el archivo W
 		   *RIGHT(sWEBPatientsFileNameAndPath,8)+ '.TXT con ' +TRANS(nWExportedRegs,'@l 99999999')+' - Registros de Not. WEB'+CHR(13)
@@ -1809,19 +1808,24 @@ ENDPROC
 PROCEDURE makeImportTables(_FilePath, _SvgVersion, nMajor as Byte, nMinor as Byte, nBuild as byte)
 	* Autor: Wilson Aguilar
 	* Crea en la carpeta _FilePath las tablas DBF necesarias para cargar los datos de archivos planos;
-	* teniendo en cuenta la versión del sistema _SvgVersion con la que fueron generados.
+	* teniendo en cuenta la edición del sistema _SvgVersion con la que fueron generados.
 	
-	*Si se pasan los parámetros opcinales nMajor, nMinor y nBuild y _SvgVersion=_VERSION2010 ;
+	*Si se pasan los parámetros opcionales nMajor, nMinor y nBuild y _SvgVersion=_VERSION2010 ;
 	también se tendrá en cuenta el identificador específico de versión dado por nMajor.nMinor.nBuild
 
 	LOCAL sOldExclusive as String
 
-
-	WAIT WINDOW NOWAIT ' Creando tablas intermedias para cargar los planos ...'
-
+	LOCAL _EventFName as String
+	_EventFName = ''
+	
+	LOCAL makeImporTableSQLClause as String
+	makeImporTableSQLClause = ''
+	
 	sOldExclusive = SET("Exclusive")
 	SET EXCLUSIVE ON
 	
+	WAIT WINDOW NOWAIT ' Creando tablas intermedias para cargar los planos ...'
+
 	*Verifica la existencia de la carpeta que se va a utilizar para crear las tablas intermedias en donde se;
 	cargará la información de los archivos planos
 	IF !DIRECTORY(_FilePath)
@@ -1839,13 +1843,14 @@ PROCEDURE makeImportTables(_FilePath, _SvgVersion, nMajor as Byte, nMinor as Byt
 			nBuild=0
 		ENDIF
 
-		SELECT DISTINCT impTableNa, ShortName, BD_source FROM ExportQueries WHERE Activo INTO CURSOR rsTablesToMake		
+		SELECT DISTINCT impTableNa, ShortName, BD_source FROM ExportQueries WHERE Activo INTO CURSOR rsTablesToMake 
 		SELECT rsTablesToMake
 		SCAN
 			_EventFName = ALLTRIM(rsTablesToMake.impTableNa)
+
 			compleTableName = ''
 			makeImporTableSQLClause = GetQryString(UPPER(rsTablesToMake.ShortName), @compleTableName, nMajor, nMinor, nBuild)
-
+			
 			IF !EMPTY(makeImporTableSQLClause) THEN
 				* SE AGREGAN LOS CAMPOS FALTANES, NECESARIOS PARA LA IMPORTACION 
 				modifyImporTableSQLClause(compleTableName, @makeImporTableSQLClause)
@@ -1902,7 +1907,6 @@ PROCEDURE makeImportTables(_FilePath, _SvgVersion, nMajor as Byte, nMinor as Byt
 						NUM_IDE C(20),;
 						CONTROL C(12))
 	createPlainTableIndex(_FilePath + '\', 'PLANO_EVENTOS')
-
 	SET EXCLUSIVE &sOldExclusive
 ENDPROC
 
@@ -1940,12 +1944,10 @@ PROCEDURE modifyImporTableSQLClause(TName, sQueryString)
 ENDPROC
 
 *-----------------------------------------------------------------------
-FUNCTION ExportFromQry
-
-	PARAMETERS	TableShortName, DynamicConditions, A_PlainTableKeys, duplicatesFilePath, ;
-				checkEnableUPGD as Boolean, sDelimiterChar as String, bRemoveTrailingSpaces AS Boolean, ;
-				bDoNotCheckDuplicates as Boolean, sUserDefinedQuery as String, ;
-				bNotOrdinaryNotification as Boolean, sTargetFileNameAndPath as String
+FUNCTION ExportFromQry(TableShortName, DynamicConditions, A_PlainTableKeys, duplicatesFilePath, ;
+						checkEnableUPGD as Boolean, sDelimiterChar as String, bRemoveTrailingSpaces AS Boolean, ;
+						bDoNotCheckDuplicates as Boolean, sUserDefinedQuery as String, ;
+						bNotOrdinaryNotification as Boolean, sTargetFileNameAndPath as String)
 
 	* Guarda en una tabla de nombre PLANO la totalidad de los registros de la tabla TableShortName que satisfagan las condiciones;
 	DynamicConditions. Cada registro corresponde a la concatenación de los campos definidos en el query de ;
@@ -1958,6 +1960,11 @@ FUNCTION ExportFromQry
 	
 	* sDelimiterChar: (opcional) caracter utilizado para delimitar los campos de los registros exportados de ;
 	TableShortName. Por default = ","
+	
+	* bRemoveTrailingSpaces: (opcional) Si es .T., se eliminan espacios sobrantes de cada campo de cada registro exportado
+
+	* bDoNotCheckDuplicates: (opcional) Si es .T., se detecta en el conjunto de registros a exportar, cuales son duplicados según ;
+	la clave ...
 	
 	* bNotOrdinaryNotification: (opcional) Si es .F., cada registro exportado es marcado como correspondiente a una notificación ;
 	rutinaria; en este caso, el query de exportación utilizado debe tener un campo llamado INMEDIATA de tipo C(2) que asumirá ;
@@ -1990,7 +1997,7 @@ FUNCTION ExportFromQry
 		_Xecute = GetQryString(TableShortName, @TableLongName, nMajor, nMinor, nBuild)
 	ENDIF
 	
-	IF _Xecute == 'NIL'
+	IF EMPTY(_Xecute) THEN 
 		RETURN .F.
 	ENDIF
 
@@ -2140,10 +2147,11 @@ FUNCTION GetQryString
 
 	PARAMETERS _Tname, completeTname,  nMajor as Byte, nMinor as Byte, nBuild as byte, bGetXLSQuery as boolean, ;
 				bLaunchPreCmds as Boolean, sLinkerExpr as String, bGetXlsLabQuery as Boolean, nFoundQueries as Number, ;
-				sPostCmdToExec as String 
+				sPostCmdToExec as String, bUseLastKnownQuery as boolean 
 
 	* Recupera de la tabla ExportQueries la sentencia SQL correspondiente al Query de exportación de la tabla _Tname;
-	para producir archivos planos y retorna en completeTname, como efecto de lado, el nombre largo de _Tname. 
+	para producir archivos planos y retorna en completeTname, como efecto de lado, el nombre largo de _Tname. Si no se encuentra ;
+	una sentencia SQL, retorna ''.
 
 	*Si se pasa el parámetro opcional bGetXLSQuery y es .T., retornará más bien la sentencia SQL de exportación para ;
 	producir archivos XLS; además, si se encuentran definiciones adicionales de queries de exportación para la tabla _Tname,;
@@ -2158,11 +2166,13 @@ FUNCTION GetQryString
 
 	STORE '' TO sQryFileName
 	
+	LOCAL sSQLCmd as String
+		
 	LOCAL bContinue as Boolean
-	LOCAL sXLSQuery as String
-	LOCAL sReturnedValue as String
 	
+	LOCAL sReturnedValue as String
 	sReturnedValue = ''
+	
 	sPostCmdToExec = ''
 	IF PCOUNT()=2 THEN
 		nMajor=0
@@ -2172,62 +2182,78 @@ FUNCTION GetQryString
 
 
 	*Selecciona el query de exportación apropiado dependiendo de nMajor.nMinor.nBuild
-	SELECT QryFile, TableName, Major, Minor, Build, ExcelQuery, Pre_cmd, LinkExpr, Xls_qry2, XlsLab_qry, Post_cmd  FROM ExportQueries ;
-		WHERE Activo AND shortname == _Tname AND Major <= nMajor ORDER BY  Major DESC, Minor DESC, Build DESC INTO CURSOR rsCandidates1
-	SELECT rsCandidates1
-	bContinue = .T.
-	SCAN WHILE bContinue
-		SET PROCEDURE TO SivigilaSystem ADDITIVE
-		IF compareVersions(ALLTRIM(TRANSFORM(rsCandidates1.Major)) + '.' + ALLTRIM(TRANSFORM(rsCandidates1.Minor)) + '.' + ALLTRIM(TRANSFORM(rsCandidates1.Build)), ;
-							ALLTRIM(TRANSFORM(nMajor)) + '.' + ALLTRIM(TRANSFORM(nMinor)) + '.' + ALLTRIM(TRANSFORM(nBuild))) = -1 THEN
-			bContinue = .T.
-		ELSE
-			bContinue = .F.
-			nFoundQueries = 1
-			sPostCmdToExec = rsCandidates1.Post_cmd
-			sQryFileName = rsCandidates1.QryFile
-			IF !bGetXlsLabQuery THEN
-				IF EMPTY(rsCandidates1.Xls_qry2) THEN
-					sReturnedValue = rsCandidates1.ExcelQuery
-				ELSE
-					sReturnedValue = rsCandidates1.ExcelQuery + '|' + rsCandidates1.Xls_qry2
-					nFoundQueries = nFoundQueries + 1
-				ENDIF
-			ELSE
-				sReturnedValue = rsCandidates1.XlsLab_qry
-			ENDIF
-			completeTname = rsCandidates1.TableName
-			sLinkerExpr = ALLTRIM(rsCandidates1.LinkExpr)
-			IF bLaunchPreCmds AND !EMPTY(rsCandidates1.Pre_cmd) THEN
-				*Se deben ejecutar comandos previos a la utilización del query 
-				sCmd = rsCandidates1.Pre_cmd
-				&sCmd
-			ENDIF
-		ENDIF
-	ENDSCAN
-	
-	IF !bGetXlsLabQuery THEN
-		IF !bGetXLSQuery THEN
-			Xstring1 = ''
-			Xstring2 = ''
-			IF !EMPTY(sQryFileName) THEN 
-				FileHandler = FOPEN(sQryFileName)
-				IF FileHandler > 0
-					DO WHILE .T.
-						Xstring2 = fgets(FileHandler)
-						IF !EMPTY(Xstring2)
-							XString1 = XString1 + STRTRAN(XString2,';','')
-						ELSE
-							EXIT
-						ENDIF
-					ENDDO
-					FCLOSE(FileHandler)
-				ENDIF
-			ENDIF
-			sReturnedValue = XString1
-		ENDIF
-	ENDIF
+	*sSQLCmd = 'SELECT QryFile, TableName, Major, Minor, Build, ExcelQuery, Pre_cmd, LinkExpr, Xls_qry2, XlsLab_qry, Post_cmd  FROM ExportQueries ' +;
+				'WHERE shortname =="' + _Tname + '" AND Major <= ' + ALLTRIM(STR(nMajor)) +;
+				IIF(!bUseLastKnownQuery, ' AND Activo ', '') +;
+				' ORDER BY  Major DESC, Minor DESC, Build DESC INTO CURSOR rsCandidates1 NOFILTER'
+	*&sSQLCmd
+	IF !bUseLastKnownQuery THEN 
+		SELECT QryFile, TableName, Major, Minor, Build, ExcelQuery, Pre_cmd, LinkExpr, Xls_qry2, XlsLab_qry, Post_cmd ;
+			FROM ExportQueries ;
+			WHERE shortname == _Tname AND Major <= nMajor AND Activo;
+			ORDER BY  Major DESC, Minor DESC, Build DESC INTO CURSOR rsCandidates1
+	ELSE 
+		SELECT QryFile, TableName, Major, Minor, Build, ExcelQuery, Pre_cmd, LinkExpr, Xls_qry2, XlsLab_qry, Post_cmd ;
+			FROM ExportQueries ;
+			WHERE shortname == _Tname AND Major <= nMajor ;
+			ORDER BY  Major DESC, Minor DESC, Build DESC INTO CURSOR rsCandidates1
+	ENDIF 
 		
+	IF _TALLY > 0 THEN
+		SELECT rsCandidates1
+		bContinue = .T.
+		SCAN WHILE bContinue
+			SET PROCEDURE TO SivigilaSystem ADDITIVE
+			IF compareVersions(ALLTRIM(TRANSFORM(rsCandidates1.Major)) + '.' + ALLTRIM(TRANSFORM(rsCandidates1.Minor)) + '.' + ALLTRIM(TRANSFORM(rsCandidates1.Build)), ;
+								ALLTRIM(TRANSFORM(nMajor)) + '.' + ALLTRIM(TRANSFORM(nMinor)) + '.' + ALLTRIM(TRANSFORM(nBuild))) = -1 THEN
+				bContinue = .T.
+			ELSE
+				bContinue = .F.
+				nFoundQueries = 1
+				sPostCmdToExec = rsCandidates1.Post_cmd
+				sQryFileName = rsCandidates1.QryFile
+				IF !bGetXlsLabQuery THEN
+					IF EMPTY(rsCandidates1.Xls_qry2) THEN
+						sReturnedValue = rsCandidates1.ExcelQuery
+					ELSE
+						sReturnedValue = rsCandidates1.ExcelQuery + '|' + rsCandidates1.Xls_qry2
+						nFoundQueries = nFoundQueries + 1
+					ENDIF
+				ELSE
+					sReturnedValue = rsCandidates1.XlsLab_qry
+				ENDIF
+				completeTname = rsCandidates1.TableName
+				sLinkerExpr = ALLTRIM(rsCandidates1.LinkExpr)
+				IF bLaunchPreCmds AND !EMPTY(rsCandidates1.Pre_cmd) THEN
+					*Se deben ejecutar comandos previos a la utilización del query 
+					sCmd = rsCandidates1.Pre_cmd
+					&sCmd
+				ENDIF
+			ENDIF
+		ENDSCAN
+		
+		IF !bGetXlsLabQuery THEN
+			IF !bGetXLSQuery THEN
+				Xstring1 = ''
+				Xstring2 = ''
+				IF !EMPTY(sQryFileName) THEN 
+					FileHandler = FOPEN(sQryFileName)
+					IF FileHandler > 0
+						DO WHILE .T.
+							Xstring2 = fgets(FileHandler)
+							IF !EMPTY(Xstring2)
+								XString1 = XString1 + STRTRAN(XString2,';','')
+							ELSE
+								EXIT
+							ENDIF
+						ENDDO
+						FCLOSE(FileHandler)
+					ENDIF
+				ENDIF
+				sReturnedValue = XString1
+			ENDIF
+		ENDIF
+	ENDIF		
 	RETURN sReturnedValue
 ENDFUNC
 
@@ -2236,7 +2262,7 @@ PROCEDURE GetQryStringTst
 	LOCAL sCompleteDCTableName as String
 	LOCAL sXLSQuery as strong
 	LOCAL nExportQueries as Byte
-
+	nExportQueries = 1
 SET STEP ON 
 	CLEAR 
 	*sXLSQuery = GetQryString('UCI',@sCompleteDCTableName,16,1,2)
@@ -2244,12 +2270,15 @@ SET STEP ON
 	*sXLSQuery = GetQryString('E07',@sCompleteDCTableName,17,0,1,.F.,,,.T.)
 	
 	*sXLSQuery = GetQryString('E88',@sCompleteDCTableName,17,0,1,.T.,,,,@nExportQueries)
-	sXLSQuery = GetQryString('E93',@sCompleteDCTableName,17,0,1,.T.,,,,@nExportQueries)
-	?sXLSQuery
+	*sXLSQuery = GetQryString('E93',@sCompleteDCTableName,17,0,1,.T.,,,,@nExportQueries)
+	sXLSQuery = GetQryString('E45',@sCompleteDCTableName,18,4,0)
+	?IIF(EMPTY(sXLSQuery),'No se encontró',sXLSQuery)
 	IF nExportQueries=1 
 		&sXLSQuery
 	ENDIF
-	
+
+	sXLSQuery = GetQryString('E45',@sCompleteDCTableName,18,4,0, , , , , @nExportQueries, , .T.)
+	?'Último conocido:' + sXLSQuery
 ENDPROC
 
 
@@ -2562,7 +2591,7 @@ ENDFUNC
 FUNCTION getQueryFields
 
 	PARAMETERS sTableShortName as String, nStartField as Byte, sPrefix as String, ;
-				nMajor as Byte, nMinor as Byte, nBuild as byte
+				nMajor as Byte, nMinor as Byte, nBuild as byte, bUseLastKnownQuery as boolean
 	
 	* Retorna los campos del Query de exportación correspondiente a la tabla sTableShortName a partir;
 	del campo nStartField, según la	especificación definida en Tables.ExportQueries. ;
@@ -2580,7 +2609,12 @@ FUNCTION getQueryFields
 		nMinor=0
 		nBuild=0
 	ENDIF
-	sSQLClause=GetQryString(sTableShortName,sTableLongName, nMajor , nMinor, nBuild)
+	
+	IF !bUseLastKnownQuery THEN 
+		sSQLClause = GetQryString(sTableShortName,sTableLongName, nMajor , nMinor, nBuild)
+	ELSE 
+		sSQLClause = GetQryString(sTableShortName,sTableLongName, nMajor , nMinor, nBuild, , , , , , , bUseLastKnownQuery )
+	ENDIF 
 	sFieldList = SUBSTR(sSQLClause,8,RAT('FROM',sSQLClause)-8)
 
 	IF nStartField >1 THEN
@@ -2797,7 +2831,7 @@ FUNCTION ExportFromQryToPlainFile(TableShortName, DynamicConditions, duplicatesF
 		_Xecute = GetQryString(TableShortName, @TableLongName, nMajor, nMinor, nBuild)
 	ENDIF
 	
-	IF _Xecute == 'NIL'
+	IF EMPTY(_Xecute) THEN 
 		RETURN .F.
 	ENDIF
 
@@ -3426,7 +3460,7 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 	
 	*sIsImmediateNotif: si es no vacía, indica que la notificación es de naturaleza inmediata
 	
-		* bBeSilent: si es .F. los mensajes del procesamiento se dirigen a la interfaz de usuario (valor por defecto);
+	* bBeSilent: si es .F. los mensajes del procesamiento se dirigen a la interfaz de usuario (valor por defecto);
 				 en caso contrario, se dirigen a un archivo plano de resultados	
 				 
 	*sResultsFileName: nombre y ruta del archivo texto que contendrá los resultados de procesamiento en caso de que bBeSilent sea .T.
@@ -3449,8 +3483,7 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 	*Ruta hacia la cual se exportarán los archivos correspondientes a la semana m.SEM_REP
 
 	LOCAL sZippedExportationPath as String
-	sZippedExportationPath = sExportationPath + "\PLANOS_SIVIGILA_4_0_" + STRTRAN(TTOC(DATETIME(),3),":","_")
-	*Ruta hacia la cual se exportarán los paquetes de archivos correspondientes a la semana m.SEM_REP ;
+	*Ruta hacia la cual se exportarán los paquetes de archivos correspondientes a la semana sNotificationWeek ;
 	con destino al sistema 4.0
 
 	LOCAL sInformatUnitCode as String 
@@ -3476,9 +3509,11 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 	*Comentado por: Wilson Aguilar Fecha: 30/11/2009;
 	Fija el Path de la carpeta en donde se almacenarán los archivos que resultarán como producto ;
 	del proceso de exportación
+	sZippedExportationPath = sExportationPath + "\PLANOS_SEMANA_" + PADL(sNotificationWeek,2,'0') + "_SIVIGILA_4_0_" + STRTRAN(TTOC(DATETIME(),3),":","_")
 	sWeeklyTargetPath = sExportationPath + '\PLANOS_SEMANA_' + TRANSFORM(sNotificationWeek,'@L 99')
 	IF !EMPTY(sIsImmediateNotif) THEN
 		sWeeklyTargetPath = sWeeklyTargetPath + '_INMEDIATA_' + STRTRAN(TTOC(DATETIME(),3),":","_")
+		sZippedExportationPath = sExportationPath + "\PLANOS_SEMANA_" + PADL(sNotificationWeek,2,'0') + '_INMEDIATA' + "_SIVIGILA_4_0_" + STRTRAN(TTOC(DATETIME(),3),":","_")
 	ELSE
 		IF !bBeSilent THEN	
 			nExistentPlainDir = ADIR(aPlains, sWeeklyTargetPath + '*' + ALLTRIM(STR(YEAR(DATE()))) + '*',"D") 
@@ -3615,10 +3650,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 						bCheckEnabledUPGD,,.T.,,,!EMPTY(sIsImmediateNotif), nCurrentFileHandler, @REG_P ) 
 	IF !exportationIsOK THEN
 		IF !bBeSilent THEN
-			MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-					'Existen registros repetidos o duplicados en la fuente de notificación individual.' + CHR(13) + ;
-					'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-					'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			MESSAGEBOX( WARNING_INDIVIDUAL_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+		ELSE 
+			=FPUTS(nResultsFileHandler,WARNING_INDIVIDUAL_PLAIN_FILE_WITH_DUPLICATES)
 		ENDIF
 	ENDIF
 
@@ -3645,10 +3679,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 														sWeeklyTargetPath, bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_D )
 			IF !exportationIsOK THEN
 				IF !bBeSilent THEN
-					MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
-							'Existen registros repetidos o duplicados en la fuente de datos complementarios.' + CHR(13) + ;
-							'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-							'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+					MESSAGEBOX( WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES + vTablasDeDC.DC_TABLA , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				ELSE 
+					=FPUTS(nResultsFileHandler,WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES + vTablasDeDC.DC_TABLA)
 				ENDIF
 			ENDIF
 		ENDIF
@@ -3663,13 +3696,11 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 													bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_D)
 		IF !exportationIsOK THEN
 			IF !bBeSilent THEN
-				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-						'Existen registros repetidos o duplicados en la fuente de notificación laboratorios.' + CHR(13) + ;
-						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				MESSAGEBOX( WARNING_LABS_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ELSE 
+				=FPUTS(nResultsFileHandler,WARNING_LABS_PLAIN_FILE_WITH_DUPLICATES)
 			ENDIF
 		ENDIF
-
 
 		=showProgressMessage('Generando Archivo Plano de Contactos')
 
@@ -3677,10 +3708,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 													bCheckEnabledUPGD,,.T.,.T.,,,nCurrentFileHandler, @REG_D)
 		IF !exportationIsOK THEN
 			IF !bBeSilent THEN
-				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-						'Existen registros repetidos o duplicados en la fuente de notificación contactos.' + CHR(13) + ;
-						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				MESSAGEBOX( WARNING_CONTACS_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ELSE 
+				=FPUTS(nResultsFileHandler,WARNING_CONTACS_PLAIN_FILE_WITH_DUPLICATES)
 			ENDIF
 		ENDIF
 
@@ -3690,10 +3720,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 													bCheckEnabledUPGD,,.T.,.T.,,,nCurrentFileHandler, @REG_D)
 		IF !exportationIsOK THEN
 			IF !bBeSilent THEN
-				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-						'Existen registros repetidos o duplicados en la fuente de notificación seguimiento a contactos.' + CHR(13) + ;
-						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				MESSAGEBOX( WARNING_FOLLOWUPS_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ELSE 
+				=FPUTS(nResultsFileHandler,WARNING_FOLLOWUPS_PLAIN_FILE_WITH_DUPLICATES)
 			ENDIF
 		ENDIF
 		
@@ -3703,10 +3732,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 												bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_D)
 		IF !exportationIsOK THEN
 			IF !bBeSilent THEN
-				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-						'Existen registros repetidos o duplicados en la fuente de notificación laboratorios.' + CHR(13) + ;
-						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				MESSAGEBOX( WARNING_LABS_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ELSE 
+				=FPUTS(nResultsFileHandler,WARNING_LABS_PLAIN_FILE_WITH_DUPLICATES)
 			ENDIF
 		ENDIF
 	ENDIF 
@@ -3722,10 +3750,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 												bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_B)
 	IF !exportationIsOK THEN
 		IF !bBeSilent THEN
-			MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-					'Existen registros repetidos o duplicados en la fuente de notificación colectiva.' + CHR(13) + ;
-					'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-					'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			MESSAGEBOX( WARNING_OUTBREAK_PLAIN_FILE_WITH_DUPLICATES , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+		ELSE 
+			=FPUTS(nResultsFileHandler,WARNING_OUTBREAK_PLAIN_FILE_WITH_DUPLICATES)
 		ENDIF
 	ENDIF
 
@@ -3751,11 +3778,10 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 
 		IF !exportationIsOK THEN
 			IF !bBeSilent THEN
-				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-							'Existen registros repetidos o duplicados en la fuente de UPGDs.' + CHR(13) + ;
-							'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-							'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
-			ENDIF 
+				MESSAGEBOX( WARNING_UPGD_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ELSE 
+				=FPUTS(nResultsFileHandler,WARNING_UPGD_PLAIN_FILE_WITH_DUPLICATES)
+			ENDIF
 		ENDIF
 
 		*Cierra el archivo plano U 
@@ -3772,10 +3798,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 
 		IF !exportationIsOK THEN
 			IF !bBeSilent THEN
-				MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-						'Existen registros repetidos o duplicados en la fuente de UCI por UPGDs.' + CHR(13) + ;
-						'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-						'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				MESSAGEBOX( WARNING_UCI_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			ELSE 
+				=FPUTS(nResultsFileHandler,WARNING_UCI_PLAIN_FILE_WITH_DUPLICATES)
 			ENDIF
 		ENDIF
 
@@ -3795,10 +3820,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 														bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_T )
 			IF !exportationIsOK THEN
 				IF !bBeSilent THEN
-					MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-							'Existen registros repetidos o duplicados en la fuente de Talento Humano / Servicios.' + CHR(13) + ;
-							'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-							'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+					MESSAGEBOX( WARNING_TH_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+				ELSE 
+					=FPUTS(nResultsFileHandler,WARNING_TH_PLAIN_FILE_WITH_DUPLICATES)
 				ENDIF
 			ENDIF
 			
@@ -3819,10 +3843,9 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 												bCheckEnabledUPGD,,.T.,,,,nCurrentFileHandler, @REG_I)
 	IF !exportationIsOK THEN
 		IF !bBeSilent THEN
-			MESSAGEBOX( 'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + + CHR(13) +;
-					'Existen registros repetidos o duplicados en la fuente de Morbilidad por IRA.' + CHR(13) + ;
-					'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
-					'repetidos o duplicados para los fines que se considere pertinentes en:' + CHR(13) + sWeeklyTargetPath , 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+			MESSAGEBOX( WARNING_IRA_PLAIN_FILE_WITH_DUPLICATES, 0 + 16 + 256, 'Aviso de exportación SIVIGILA')
+		ELSE 
+			=FPUTS(nResultsFileHandler,WARNING_IRA_PLAIN_FILE_WITH_DUPLICATES)
 		ENDIF
 	ENDIF
 	oDataExporter.sSourceTableName = "C_E43"
@@ -3950,7 +3973,7 @@ PROCEDURE MakeOrdinaryNotification (sExportationPath as String, sNotificationWee
 	oCodifier  = NEWOBJECT( "SivigilaCrypto", sSivigilaCryptoFileNameAndPath, .NULL., sWeeklyTargetPath, "*.Txt", sWeeklyTargetPath)
 	oCodifier.BatchCodify
 	RELEASE oCodifier
-SET STEP ON 
+
 	*Produce un archivo empaquetado en formato ZIP para envío a la Unidad Jerarquíca Superior
 	bClaimNotificationIsFinished=.T.
 	TRY
@@ -3971,7 +3994,7 @@ SET STEP ON
 		ENDIF 
 				
 		sResultMsg=''
-		lFileZip=.F. &&Para procesos de enviar correo verificar si el archivo zip fue creado
+		lFileZip=.F. &&Para procesos de enviar correo, verifica si el archivo zip fue creado
 		IF !bIsFeedback THEN 
 			DO ArchiveFiles WITH sWeeklyTargetPath, '*.TXT', sZippedExportationPath, sTargetZIPFileName, sResultMsg IN backup
 			DO ArchiveFiles  WITH sWeeklyTargetPath, '*.XLS', sZippedExportationPath, sTargetXLSZIPFileName , sResultMsg, .T. IN backup
@@ -4169,11 +4192,11 @@ SET STEP ON
 							por tanto la siguiente línea de código que hace parte del mensaje para el usuario, se suprimió
 						   &&RIGHT(PTW,8)+xx+TRANS(REG_W,'@l 99999999')+' - Registros de Not. WEB'+CHR(13)+;
 
-	IF !bBeSilent THEN
+	*IF !bBeSilent THEN
 		=showErrorMessage(sPlainsExportedMsg,0)	
-	ELSE
+	*ELSE
 		=FPUTS(nResultsFileHandler,sPlainsExportedMsg)
-	ENDIF
+	*ENDIF
 
 	EXPO=1
 
@@ -4677,12 +4700,18 @@ ENDPROC
 *-----------------------------------------------------------------------------------------------------
 PROCEDURE processComplementary(SivigilaVersion, bBeSilent as Boolean, nResultsFileHandler as Number )
 
-	*Carga los datos complementarios de todos los eventos, datos de laboratorios, contactos y seguimientos
+	*Carga los datos complementarios de todos los eventos, datos de laboratorios, contactos y seguimientos ;
+	hacia las tablas intermedias de almacenamiento
 	
 	LOCAL sErrorMsg as String 
 	
+	LOCAL bContinue as Boolean 
+	bContinue = .T.
+	
 	LOCAL sDuplicatesKey as String 
 	sDuplicatesKey = ''
+	
+	DIMENSION A_EVENTO(1)
 	
 	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\TablesHandler') ADDITIVE
 	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\QueriesHandler') ADDITIVE
@@ -4710,75 +4739,84 @@ PROCEDURE processComplementary(SivigilaVersion, bBeSilent as Boolean, nResultsFi
 
 		IF _TALLY > 0
 			sPlainTableName = 'PLANO_E'+PADL(ALLTRIM(A_EVENTO),2,'0')	
+			sPlainTableNameAndPath =  ADDBS(_RTA_CONSOLIDA) + sPlainTableName + '.DBF'
+			
 			WAIT WINDOW NOWAIT "EVENTO ... " + A_Evento(2)
-
-			IF !FILE(_RTA_CONSOLIDA + '\' + sPlainTableName + '.DBF')
+			
+			IF !FILE(sPlainTableNameAndPath)
 				sErrorMsg = 'No existe ' + sPlainTableName + ' en ' + _RTA_CONSOLIDA 
 				IF !bBeSilent THEN 
-					MESSAGEBOX(sErrorMsg)
+					*Wilson Aguilar:	14/12/2021;
+					La líder de usuarios del INS decidió que este mensaje no era necesario y se suprimió
+					*MESSAGEBOX(sErrorMsg)
 				ELSE
 					=FPUTS(nResultsFileHandler,sErrorMsg)
 				ENDIF
-				LOOP
+				
+				bContinue = .F.
+			ELSE 
+				bContinue = .T.
 			ENDIF
-			
-			IF !USED(sPlainTableName )
-				SELECT 0
-				USE [&_RTA_CONSOLIDA\&sPlainTableName] EXCLUSIVE
-			ENDIF
-			
-			_condition = ' FOR COD_EVE = _EVENTO '
 
-			* SE BUSCA LA CONDICION EN EL ARRAY PARA QUE FILTRE LABORATORIOS
-			_condition = _condition + ' AND ' + initEventConditions(sPlainTableName, _RTA_CONSOLIDA)
-			
-			SELECT &sPlainTableName
-			
-			*Comentado por Wilson Aguilar 11/12/2009;
-			La siguiente instrucción hace que no se carguen los registros de todos los eventos que;
-			tienen como destino una misma tabla, por tanto, se suprimió
-			&&ZAP
-			APPEND FROM (NOM_ARC) DELIMITED &_condition
-			
-			*Dado que para algunos eventos algunos campos son exportados luego de ser sometidos a transformaciones,;
-			ejecuta las	transformaciones inversas necesarias para actualizar los datos recien cargados;
-			de tal forma que se restablezcan sus valores originales
-			IF SivigilaVersion= _VERSION2010 THEN
-				IF sPlainTableName = 'PLANO_E29' THEN
-					REPLACE COD_MUN WITH cod_dpto_n + cod_mun_na ALL
-				ENDIF
-			ENDIF
-			
-			IF SivigilaVersion= _VERSION2008 THEN
-				IF sPlainTableName = 'PLANO_E29' THEN
-					REPLACE COD_MUN WITH DEP + MUN ALL
-				ENDIF
-			ENDIF
-			tot_dat = tot_dat + _TALLY
-
-			 * SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
-				LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS 
-			eventDuplicatesCursorName = ''
-			XtractResult = extractDupsAndNotDups(sPlainTableName,@eventDuplicatesCursorName,,,@sDuplicatesKey )
-
-			* Si XtractResult = 10 u 11, hay duplicados para registrar
-			IF XtractResult > 9 
-				IF !bBeSilent THEN
-					MESSAGEBOX( WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART1 + _EVENTO + ;
-								WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART2 , 0 + 16 + 256, 'Aviso de importación SIVIGILA')
-				ELSE
-					=FPUTS(nResultsFileHandler, WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART1 + _EVENTO + ;
-							WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART2)	
+			IF bContinue THEN 
+				IF !USED(sPlainTableName )
+					SELECT 0
+					USE [&_RTA_CONSOLIDA\&sPlainTableName] EXCLUSIVE
 				ENDIF
 				
-				* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
-				DO addDupsToErrorTable WITH eventDuplicatesCursorName, ARC_MAE, 'D', _RTA_CONSOLIDA, 'ERRORES' IN PlainsLib
+				_condition = ' FOR COD_EVE = _EVENTO '
 
-				markDupsRecordsClause = 'UPDATE ' + sPlainTableName + ' SET ' + sPlainTableName + '.sube = 1 ' ;
-												+ ' FROM ' + eventDuplicatesCursorName + ' WHERE ' +;
-												matchFields(sDuplicatesKey, sPlainTableName, sDuplicatesKey, eventDuplicatesCursorName, ",")
-				&markDupsRecordsClause
-			ENDIF
+				* SE BUSCA LA CONDICION EN EL ARRAY PARA QUE FILTRE LABORATORIOS
+				_condition = _condition + ' AND ' + initEventConditions(sPlainTableName, _RTA_CONSOLIDA)
+				
+				SELECT &sPlainTableName
+				
+				*Comentado por Wilson Aguilar 11/12/2009;
+				La siguiente instrucción hace que no se carguen los registros de todos los eventos que;
+				tienen como destino una misma tabla, por tanto, se suprimió
+				&&ZAP
+				APPEND FROM (NOM_ARC) DELIMITED &_condition
+				
+				*Dado que para algunos eventos algunos campos son exportados luego de ser sometidos a transformaciones,;
+				ejecuta las	transformaciones inversas necesarias para actualizar los datos recien cargados;
+				de tal forma que se restablezcan sus valores originales
+				IF SivigilaVersion= _VERSION2010 THEN
+					IF sPlainTableName = 'PLANO_E29' THEN
+						REPLACE COD_MUN WITH cod_dpto_n + cod_mun_na ALL
+					ENDIF
+				ENDIF
+				
+				IF SivigilaVersion= _VERSION2008 THEN
+					IF sPlainTableName = 'PLANO_E29' THEN
+						REPLACE COD_MUN WITH DEP + MUN ALL
+					ENDIF
+				ENDIF
+				tot_dat = tot_dat + _TALLY
+
+				 * SE CREAN DOS CURSORES, UNO CON LOS REGISTROS DUPLICADOS Y OTRO CON	;
+					LOS REGISTROS NO DUPLICADOS PARA SUBIR ... C_DUPS T_NONDUPS 
+				eventDuplicatesCursorName = ''
+				XtractResult = extractDupsAndNotDups(sPlainTableName,@eventDuplicatesCursorName,,,@sDuplicatesKey )
+
+				* Si XtractResult = 10 u 11, hay duplicados para registrar
+				IF XtractResult > 9 
+					IF !bBeSilent THEN
+						MESSAGEBOX( WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART1 + _EVENTO + ;
+									WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART2 , 0 + 16 + 256, 'Aviso de importación SIVIGILA')
+					ELSE
+						=FPUTS(nResultsFileHandler, WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART1 + _EVENTO + ;
+								WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART2)	
+					ENDIF
+					
+					* PARAMETERS RSName, sourceFileName, sourceFileType, errorsFilePath, errorsFileName
+					DO addDupsToErrorTable WITH eventDuplicatesCursorName, ARC_MAE, 'D', _RTA_CONSOLIDA, 'ERRORES' IN PlainsLib
+
+					markDupsRecordsClause = 'UPDATE ' + sPlainTableName + ' SET ' + sPlainTableName + '.sube = 1 ' ;
+													+ ' FROM ' + eventDuplicatesCursorName + ' WHERE ' +;
+													matchFields(sDuplicatesKey, sPlainTableName, sDuplicatesKey, eventDuplicatesCursorName, ",")
+					&markDupsRecordsClause
+				ENDIF
+			ENDIF 
 		ENDIF
 		SELECT C_EVENTS
 	ENDSCAN
@@ -5427,5 +5465,25 @@ DEFINE CLASS PlainsLoader as Custom
 	ENDPROC
 
 ENDDEFINE 
+
+
+PROCEDURE makeImportTablesTst
+
+	*Parámetros del método a probar: _FilePath, _SvgVersion, nMajor as Byte, nMinor as Byte, nBuild as byte
+	
+	LOCAL _FilePath as String, _SvgVersion as Byte, nMajor as Byte, nMinor as Byte, nBuild as byte
+	
+	SET SAFETY OFF 
+	
+	_FilePath = 'C:\Users\wilso\Documents\SIVIGILA - 2018\ARCHIVOS DE CONSOLIDACION\VERSION 2010'
+	_SvgVersion = _VERSION2010 
+	 nMajor = 18
+	 nMinor = 4
+	 nBuild = 0
+SET STEP ON 	 
+	DO makeImportTables WITH _FilePath, _SvgVersion, nMajor , nMinor , nBuild 
+
+	SET SAFETY ON
+ENDPROC 
 
 

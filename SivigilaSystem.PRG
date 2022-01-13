@@ -608,7 +608,17 @@ PROCEDURE reportUsedVersion(sSourceTableName as String, sEntityCode as String, s
 
 	SELECT rsVersionesParaExportar
 	sCmd = 'COPY TO "' + sXLSTargetPath +  sXLSFileName + '" FOR !DELETED() XL5 '
-	&sCmd
+	bContinue = .T.
+	TRY 
+		&sCmd	
+	CATCH TO oException
+		bContinue = .F.
+	ENDTRY 
+	
+	IF !bContinue THEN 
+		sCmd = 'COPY TO "' + sXLSTargetPath +  sXLSFileName + '" FOR !DELETED() CSV '
+		&sCmd	
+	ENDIF 
 ENDPROC
 
 

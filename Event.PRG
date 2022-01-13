@@ -78,7 +78,7 @@ nDIAS_AJUSTE = .NULL.
 sCLASIF_INICIAL = .NULL.
 sACTUALIZABLES_POR_CONFIRMACION = .NULL.
 sMANEJA_CONTACTOS = .NULL.
-
+bARCHIVABLE = .F.
 nFORMULARIO = .NULL.
 *Número del "formulario de captura" de datos complementarios
 
@@ -168,6 +168,7 @@ FUNCTION Init(sEventCode as String)
 			.sCLASIF_INICIAL = rsEventDescription.CLASIF_INICIAL 
 			.sACTUALIZABLES_POR_CONFIRMACION = rsEventDescription.ACTUALIZABLES_POR_CONFIRMACION
 			.sMANEJA_CONTACTOS = rsEventDescription.MANEJA_CONTACTOS
+			.bARCHIVABLE = rsEventDescription.ARCHIVABLE 
 			
 			.bNotBDPlusCDEvent = ((',' + ALLTRIM(.sCOD_EVE) + ',') $ This.sEventsWithoutBdpluscd)
 			
@@ -212,7 +213,8 @@ FUNCTION Init(sEventCode as String)
 			.sCLASIF_INICIAL = .NULL.
 			.sACTUALIZABLES_POR_CONFIRMACION = .NULL.
 			.sMANEJA_CONTACTOS = .NULL.
-			
+			.bARCHIVABLE = .F.
+						
 			.bHasComplementaryData = .F.
 			.bCatchLabs = .F.
 			.bIsIndividual = .T.
@@ -505,6 +507,13 @@ FUNCTION MandatoryComplementaryData2() as Boolean
 	
 	RETURN !ISNULL(This.sCOD_EVE) AND (',' + ALLTRIM(This.sCOD_EVE) + ',' $ This.sNeedsComplementaryData2)
 ENDFUNC 
+
+
+FUNCTION isActive() as Boolean 
+	
+	RETURN !ISNULL(This.sCOD_EVE) AND !EMPTY(This.sCOD_EVE) AND (This.bACTIVO)
+	
+ENDFUNC
 
 ENDDEFINE
 

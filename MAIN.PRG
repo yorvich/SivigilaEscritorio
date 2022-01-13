@@ -603,7 +603,7 @@ PROCEDURE resetSivigilaVersion
 	nMajor=nCurrentMajor_Internal
 	nMinor=nCurrentMinor_Internal
 	nBuild=nCurrentBuild_Internal
-	gsSivigilaRecordVersion = _ver + ALLTRIM(STR(nMajor)) + '.' + ALLTRIM(STR(nMinor)) + '.' + ALLTRIM(STR(nBuild))
+	gsSivigilaRecordVersion = IIF(VARTYPE(_ver)='C',_ver,'') + ALLTRIM(STR(nMajor)) + '.' + ALLTRIM(STR(nMinor)) + '.' + ALLTRIM(STR(nBuild))
 
 ENDPROC
 
@@ -622,3 +622,15 @@ ENDFUNC
 
 
 
+
+PROCEDURE resetSivigilaVersion_V02(nMajor, nMinor, nBuild)
+
+	*Restablece los valores de las variables globales nMajor, nMinor y nBuild a sus valores internos por defecto según se definen;
+	en SIVIGILA.h
+		
+	nMajor=nCurrentMajor_Internal
+	nMinor=nCurrentMinor_Internal
+	nBuild=nCurrentBuild_Internal
+	gsSivigilaRecordVersion = IIF(VARTYPE(_ver)='C',_ver,'') + ALLTRIM(STR(nMajor)) + '.' + ALLTRIM(STR(nMinor)) + '.' + ALLTRIM(STR(nBuild))
+
+ENDPROC

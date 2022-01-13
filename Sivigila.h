@@ -79,17 +79,17 @@ versiones 0.1.0, 0.1.1, 0.1.2, ... ,0.2.0, 0.2.1, 0.2.2,... Internamente estas v
 SIVIGILA 2010 versiones 16.0.1, 16.0.2, 16.0.3, ... ,16.1.0, 16.1.1, 16.1.2
 
 #DEFINE nCurrentMajor 4
-#DEFINE nCurrentMinor 0
+#DEFINE nCurrentMinor 1
 #DEFINE nCurrentBuild 0
 #DEFINE sCurrentLetter ''
 
 #DEFINE nCurrentMajor_Internal 18
 #DEFINE nCurrentMinor_Internal 4
-#DEFINE nCurrentBuild_Internal 0
+#DEFINE nCurrentBuild_Internal 1
 #DEFINE sCurrentLetter_Internal ''
 
 #DEFINE nCurrentMajor_Title 4
-#DEFINE nCurrentMinor_Title 0
+#DEFINE nCurrentMinor_Title 1
 #DEFINE nCurrentBuild_Title 0
 
 

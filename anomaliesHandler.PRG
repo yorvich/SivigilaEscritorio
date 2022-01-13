@@ -9,7 +9,7 @@ FUNCTION solveDuplicates
 	LPARAMETERS sSourceTableName as String, sXLSFilesPath as String
 
 	SET PROCEDURE TO SIVIGILAUtilities ADDITIVE
-	SET PROCEDURE TO IMPORTAR_CLICK ADDITIVE
+	SET PROCEDURE TO PlainsLib ADDITIVE
 	
 	sOldProcedureFile=SET("Procedure")
 

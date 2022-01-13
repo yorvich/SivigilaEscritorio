@@ -11,7 +11,7 @@ en caso contrario será 0
 las salidas que normalmente se dirigien a la interfaz de usuario 
 
 
-SET PROCEDURE TO plainsLib ADDITIVE
+*SET PROCEDURE TO plainsLib ADDITIVE
 
 ruta_a_planos = ubica
 ARC_MAE       = RIGHT(UBICA,12)
@@ -21,6 +21,10 @@ IF validateControlFile(UBICA, bBeSilent, nResultsFileHandler)
 	IF loadControlFile(bBeSilent, nResultsFileHandler)
 		UBICA=SUBSTR(UBICA,1,LEN(UBICA)-12)
 		DO LoadAndValidatePlains WITH bBeSilent, nResultsFileHandler
+		
+		*DO LoadAndValidatePlains WITH bBeSilent, nResultsFileHandler, n_version, nMajor, nMinor, nBuild, (_RTA_CONSOLIDA), (UBICA) IN plainsLib
+		*Esta instrucción sería la que se debe usar cuando todo se haya implementado en PlainsLib
+
 		txtDataLoaded = 1
 	ELSE
 		txtDataLoaded = 0
@@ -35,13 +39,13 @@ PROCEDURE LoadAndValidatePlains
 
 	LPARAMETERS bBeSilent as Boolean, nResultsFileHandler as Number 
 	
-	SET PROCEDURE TO plainsLib	ADDITIVE
+	*SET PROCEDURE TO plainsLib	ADDITIVE
 	SET PROCEDURE TO (PATH_TO_COMMON_LIB + '\TablesHandler') ADDITIVE
 
 	* Se crean las tablas de importacion de acuerdo con la version del sistema con la que ;
 	fueron generados los archivos que se importan
-	DO makeImportTables WITH _RTA_CONSOLIDA, n_version, nMajor, nMinor, nBuild
-
+	DO makeImportTables WITH _RTA_CONSOLIDA, n_version, nMajor, nMinor, nBuild IN PlainsLib
+	
 	CLOSE TABLES ALL
 
 	*=SelectTable('EVENTOS',,.F.)
@@ -312,83 +316,6 @@ PROCEDURE produceSummary
 
 ENDPROC
 
-*-----------------------------------------------------------------------------------------------------
-FUNCTION extractDupsAndNotDups
-
-	LPARAMETERS PlainFileName, duplicatesRSName, aPlainTableKeys, sKeyIDToUse
-
-	*Determina si existen registros duplicados en PlainFileName teniendo en cuenta la clave que para tales efectos;
-	se encuentre definida en el arreglo aPlainTableKeys o de acuerdo con la indicada en aPlainTableKeys por sKeyIDToUse, ;
-	si es que se recibe este parámetro opcional.
-	
-	*Retorna:	(1) Todos los registros son únicos	;
-				(10) Todos los registros son duplicados	;
-				(11) Existen registros duplicados y NO duplicados
-
-	*Como efecto colateral, crea ;
-	1. Una tabla que contiene los registros NO duplicados en  PlainFileName. ;
-	El nombre de esta tabla será T_NONDUPS_ + ALLTRIM(SUBSTR(PlainFileName,RAT('_',PlainFileName)+1));
-	;
-	2. Un cursor que contiene el conteo de los registros duplicados en PlainFileName. ;
-	El nombre de esta curosr será C_COUNT_DUPS ;
-	;
-	3. Una tabla que contendrá los registros duplicados en PlainFileName. ;
-	El nombre de esta tabla será C_DUPS_ + ALLTRIM(SUBSTR(PlainFileName,RAT('_',PlainFileName)+1)) y ;
-	quedará almacenado en duplicatesRSName;
-	;
-	El parámetro opcional sKeyIDToUse permite que se puedan detectar registros duplicados en PlainFileName ;
-	sin utilizar la clave por defecto establecida en el arreglo aPlainTableKeys; así, por ejemplo, se pueden;
-	detectar duplicados en la tabla UPGD utilizando la clave de detección de duplicados establecida ;
-	para PLANO_UPGD; en este caso se debería hacer la llamada;
-	=extractDupsAndNotDups('UPGD',...,'PLANO_UPGD')
-	
-
-	_ReturnedValue = 0
-
-	IF VARTYPE(sKeyIDToUse)='C' AND !EMPTY(sKeyIDToUse) THEN 
-		SELECT TAG_EXPR FROM MASTER_INDEX WHERE EXTRAS='DUPLICATES' AND TABLE_NAME='&sKeyIDToUse' INTO CURSOR rsKeysForDups
-	ELSE 
-		SELECT TAG_EXPR FROM MASTER_INDEX WHERE EXTRAS='DUPLICATES' AND TABLE_NAME='&PlainFileName' INTO CURSOR rsKeysForDups
-		IF _TALLY = 0 THEN
-			SELECT TAG_EXPR FROM MASTER_INDEX WHERE EXTRAS='DUPLICATES' AND TABLE_NAME='PLANO_EXX' INTO CURSOR rsKeysForDups
-		ENDIF
-	ENDIF 
-	IF _TALLY > 0 THEN 
-	
-		KeyWithCommas = ALLTRIM(STRTRAN(rsKeysForDups.TAG_EXPR,'+',','))
-
-		SqlClause = 'SELECT ' + KeyWithCommas + ', COUNT(*) AS counter ' + ;
-					'FROM ' + '"' + PlainFileName + '"' + ' GROUP BY ' + KeyWithCommas + ;
-					' HAVING COUNT(*) > 1 INTO CURS C_COUNT_DUPS NOFILTER' 
-		&SqlClause
-
-		IF _TALLY > 0
-			_ReturnedValue = _ReturnedValue + 10
-		ENDIF
-
-
-		bNRegIsPresent = isField(JUSTSTEM(PlainFileName),'nReg')
-		DO crossTables WITH PlainFileName, 'C_COUNT_DUPS', KeyWithCommas, 'LEFT OUTER', 'C_COUNT_DUPS.' + LEFT(KeyWithCommas,AT(',',KeyWithCommas)-1) + ' IS NULL', ;
-							!bNRegIsPresent, SqlClause IN (PATH_TO_COMMON_LIB + 'QueriesHandler')
-		SqlClause = SqlClause + ' INTO TABLE T_NONDUPS_' + ALLTRIM(SUBSTR(PlainFileName,RAT('_',PlainFileName)+1))
-		&SqlClause
-
-		IF _TALLY > 0
-			_ReturnedValue = _ReturnedValue + 1
-		ENDIF
-
-		duplicatesRSName = 'C_DUPS_' + ALLTRIM(SUBSTR(PlainFileName,RAT('_',PlainFileName)+1))
-		DO crossTables WITH PlainFileName, 'C_COUNT_DUPS', KeyWithCommas, 'INNER', , !bNRegIsPresent, SqlClause IN (PATH_TO_COMMON_LIB + 'QueriesHandler')
-		SqlClause = SqlClause + ' INTO TABLE ' + duplicatesRSName
-		&SqlClause
-
-		SELECT (duplicatesRSName)
-	ENDIF 
-	USE IN 'rsKeysForDups'
-			
-	RETURN _ReturnedValue 
-		  
-ENDFUNC
 
 *-----------------------------------------------------------------------------------------------------
 PROCEDURE initPlainTableKeysArray(aPlainTableKeys)

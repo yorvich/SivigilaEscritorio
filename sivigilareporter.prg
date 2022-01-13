@@ -1891,15 +1891,16 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 		*El evento no obedece al esquema datos básicos + datos complementarios y requiere tratamiento especial
 	
 		EventTable = ''
-		
+
 		*Establece los campos que se deben extraer. 
-		XlsQuery = GetQryString("E" + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), @EventTable, nMajor, nMinor, nBuild, .T., .T.,,,@nExportQueries, @sPostCmds)
+		XlsQuery = GetQryString("E" + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), @EventTable, nMajor, nMinor, nBuild, .T., .T.,,,@nExportQueries, ;
+								@sPostCmds, !oCurrentEvent.isActive())
 		IF EMPTY(XlsQuery) THEN
 			*No se encontró un query definido de exportación para el evento, por tanto, se usa el query por default	
 
 			EventTable = 'Eventos_' + PADL(oCurrentEvent.nFORMULARIO, 2, '0')
 			
-			sComplementaryDataSQL = getQueryFields('E' + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), 1, 'A', nMajor, nMinor, nBuild) 
+			sComplementaryDataSQL = getQueryFields('E' + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), 1, 'A', nMajor, nMinor, nBuild, !oCurrentEvent.isActive()) 
 			
 			sAdditionalDataSQL =', B.nit_upgd, E.nom_eve, B.raz_soc AS nom_upgd, C.nom_dep AS ndep_notif, ' +;
 								' D.nom_mun AS nmun_notif, A.Version' 
@@ -2074,11 +2075,12 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 			IF HasComplementaryData THEN
 				xlsFileNameSuffix =  ' DATOS BASICOS Y COMPLEMENTARIOS'
 			ENDIF
-*SET STEP ON 
+ 
 			sLinkerExpr = ''
 			sPostCmds = ''
 			IF !bUseDefaultQuery THEN 
-				XlsQuery = GetQryString("E" + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), @EventTable, nMajor, nMinor, nBuild, .T., .T., @sLinkerExpr, , , @sPostCmds)
+				XlsQuery = GetQryString("E" + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), @EventTable, nMajor, nMinor, nBuild, .T., .T., ;
+										@sLinkerExpr, , , @sPostCmds, !oCurrentEvent.isActive())
 			ENDIF 
 			IF EMPTY(XlsQuery) THEN
 				*No se encontró un query definido de exportación para el evento, por tanto, se usa el query por default	
@@ -2159,7 +2161,7 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 						StartPosition = 9
 				 	ENDIF
  				 	
-					sComplementaryDataSQL = getQueryFields('E' + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), StartPosition, 'H', nMajor, nMinor, nBuild)
+					sComplementaryDataSQL = getQueryFields('E' + PADL(oCurrentEvent.nFORMULARIO, 2, '0'), StartPosition, 'H', nMajor, nMinor, nBuild, !oCurrentEvent.isActive())
 				  					
 			   		sFROM_SQL =	sFROM_SQL + ' LEFT OUTER JOIN (SELECT * FROM ' + EventTable + ' ORDER BY AJUSTE,FEC_AJU) AS H ON A.cod_eve = H.cod_eve AND' +;
 								' A.año = H.año AND A.semana = H.semana AND ' +;
@@ -2231,18 +2233,20 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 
 				xlsFileNameSuffix = xlsFileNameSuffix + sSuffix 
 				xlsFileName = This.sXlsFilePath + '\EVENTO ' + ALLTRIM(EventCode) + xlsFileNameSuffix 
-				oDataExporter.sSourceTableName = 'rsAdjustedCases'
-				oDataExporter.sExportationPath = This.sXlsFilePath
-				oDataExporter.sExportedFileName = 'EVENTO '+ALLTRIM(EventCode) + xlsFileNameSuffix 
-				oDataExporter.sExcludeFields = 'AJUSTE, FEC_AJU'
+				WITH oDataExporter 
+					.sSourceTableName = 'rsAdjustedCases'
+					.sExportationPath = This.sXlsFilePath
+					.sExportedFileName = 'EVENTO '+ALLTRIM(EventCode) + xlsFileNameSuffix 
+					.sExcludeFields = 'AJUSTE, FEC_AJU, AJUSTE_AUX'
 
-				IF sOutputType = 'XLS' OR sOutputType = 'CSV' THEN 
-					oDataExporter.exportToXLS(bDoNotIgnoreEmptyFiles)
-				ELSE
-					oDataExporter.exportToDBF(bDoNotIgnoreEmptyFiles)
-				ENDIF 
-			  	sResultMsg = '\EVENTO ' + ALLTRIM(EventCode) + xlsFileNameSuffix + '.' + CHRTRAN(oDataExporter.sExportedFileType,'5','S')
-
+					IF sOutputType = 'XLS' OR sOutputType = 'CSV' THEN 
+						.exportToXLS(bDoNotIgnoreEmptyFiles)
+					ELSE
+						.exportToDBF(bDoNotIgnoreEmptyFiles)
+					ENDIF 
+				  	sResultMsg = '\EVENTO ' + ALLTRIM(EventCode) + xlsFileNameSuffix + '.' + CHRTRAN(.sExportedFileType,'5','S')
+				ENDWITH 
+				
 				This.LogOutputFiles(oDataExporter, 'DB+DC')
 
 				TRY
@@ -2287,14 +2291,17 @@ la condición sFilter partiendo de la especificación de exportación que para él s
 					
 					xlsFileNameSuffix = ' LABORATORIOS Y DATOS BASICOS' + sSuffix  
 					xlsFileName = This.sXlsFilePath + '\EVENTO ' + ALLTRIM(EventCode) + xlsFileNameSuffix 
-					oDataExporter.sSourceTableName = tmpTable
-					oDataExporter.sExportationPath = This.sXlsFilePath
-					oDataExporter.sExportedFileName = 'EVENTO '+ALLTRIM(EventCode) + xlsFileNameSuffix 
-					oDataExporter.exportToXLS(bDoNotIgnoreEmptyFiles)
-					*?'Final: ' + TIME()
-					sResultMsg = sResultMsg + CHR(13) + '\EVENTO '+ALLTRIM(EventCode) + xlsFileNameSuffix  + '.' +;
-								CHRTRAN(oDataExporter.sExportedFileType,'5','S')
-								
+					
+					WITH oDataExporter
+						.sSourceTableName = tmpTable
+						.sExportationPath = This.sXlsFilePath
+						.sExportedFileName = 'EVENTO '+ALLTRIM(EventCode) + xlsFileNameSuffix 
+						.sExcludeFields = 'AJUSTE, FEC_AJU, AJUSTE_AUX'
+						.exportToXLS(bDoNotIgnoreEmptyFiles)
+						*?'Final: ' + TIME()
+						sResultMsg = sResultMsg + CHR(13) + '\EVENTO '+ALLTRIM(EventCode) + xlsFileNameSuffix  + '.' +;
+									CHRTRAN(.sExportedFileType,'5','S')
+					ENDWITH				
 					This.LogOutputFiles(oDataExporter, 'LAB+DB')
 				ENDIF 
 *SET STEP ON

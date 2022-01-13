@@ -698,7 +698,7 @@ PROCEDURE makeTSQLExtractStatementsTst()
 ENDPROC 
 
 
-PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as String)
+PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as String, sCastingTo as string)
 
 	*Produce un archivo texto de instrucciones T-SQL de Sql Server para cada una de las tablas de datos complementarios ;
 	del sivigila, de tal forma que se puedan traducir campos en formato JSON a tablas.
@@ -748,7 +748,11 @@ PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as 
 
 			nFields = ALINES(aFieldList,sFieldList,15,',')
 			FOR iField=1 TO nFields
-				SQLCmd = SQLCmd + "JSON_VALUE(U" + JsonColumnName + ",'$." + aFieldList[iField] + "') AS " + aFieldList[iField] + ','
+				IF EMPTY(sCastingTo) THEN  
+					SQLCmd = SQLCmd + "JSON_VALUE(U" + JsonColumnName + ",'$." + aFieldList[iField] + "') AS " + aFieldList[iField] + ','
+				ELSE
+					SQLCmd = SQLCmd + "CAST(JSON_VALUE(U" + JsonColumnName + ",'$." + aFieldList[iField] + "') AS " + sCastingTo + ") AS " + aFieldList[iField] + ','
+				ENDIF 
 			NEXT iField
 			SQLCmd = SUBSTR(SQLCmd,1,LEN(SQLCmd)-1)
 			SQLCmd = SQLCmd + " FROM " + sSubquerySQLCmd 
@@ -769,4 +773,85 @@ PROCEDURE makeTSQLExtractStatements(JsonColumnName as string, sTableFromName as 
 		ENDIF 
 	ENDSCAN
 	=FCLOSE(nResultsFileHandler)
+ENDPROC
+
+
+PROCEDURE makeInOutQueriesFile()
+	
+	LOCAL sInOutQry as String, sEvents as String 
+	sInOutQry = ''
+	sEvents = ''
+	
+	SET PROCEDURE TO EventsHandler ADDITIVE 
+	SET PROCEDURE TO Utilities ADDITIVE 
+	
+	DO getInOutQueries 
+
+	nResultsFileHandler=FCREATE('Sivigila_Queries_In_out.txt')
+
+	SELECT rsExportQueries 
+	SCAN FOR CurrentQuery=1
+		sInOutQry = FILETOSTR(rsExportQueries.Qryfile)
+		IF isNumeric(RIGHT(ALLTRIM(rsExportQueries.ShortName),2)) THEN 
+			sEvents = 'Eventos(s): ' + GetEventsStoredInDCTable(VAL(RIGHT(ALLTRIM(rsExportQueries.ShortName),2)))
+		ELSE
+			sEvents = 'Eventos(s): ' + rsExportQueries.Tablename
+		ENDIF 
+		=FPUTS(nResultsFileHandler,sEvents)
+		=FPUTS(nResultsFileHandler,CHR(13)+CHR(10)+CHR(13)+CHR(10))
+		=FPUTS(nResultsFileHandler,sInOutQry)
+		=FPUTS(nResultsFileHandler,CHR(13)+CHR(10)+CHR(13)+CHR(10))
+	ENDSCAN
+	=FCLOSE(nResultsFileHandler)
+ENDPROC 
+
+PROCEDURE makeTSQLExtractStatementsForSectores(sTableFromName as String, sTableToName as String, sDefaultValueExpr as String, sFilter as string, ;
+												sCreatorId as String )
+
+	*Produce un archivo texto de instrucciones T-SQL de Sql Server para registros de la tabla sTableFromName que cumplan la condición ;
+	sFilter y permitan su inserción en la tabla sTableToName del sivigila 4.0. sDefaultValueExpr es una expresión que se usa para asignar ;
+	valores por defecto en caso de que sea necesario.
+	
+	*El archivo texto de resultados quedará con el nombre TSQL_ + sTableFromName y contendrá para cada registro, instrucciones;
+	INSERT del lenguaje TSQL que se pueden ejecutar en el servidor en donde se encuente la BD del Sistema Sivigila 4.0
+	
+	LOCAL SQLCmd as String
+	SQLCmd = ''
+
+	SELECT * FROM &sTableFromName WHERE &sFilter INTO CURSOR rsSource 
+	IF _tally >0 THEN 
+
+		nResultsFileHandler=FCREATE('TSQL_' + sTableFromName + '.sql')
+
+		SELECT rsSource
+		SCAN 
+			SQLCmd = "INSERT INTO " + sTableToName + ;
+						"(aliasLista, idListaPadre, estado, creadoPor, fechaCreacion, actualizadoPor, fechaActualizacion, codigoItem,"  + ;
+						" descripcionLista, codigoItem1, codigoItem2, codigoItem3, codigoItem4, codigoItem5  )"  + ;
+						" VALUES ('" + ;
+						"Sectores" + "', "  + ;
+						sDefaultValueExpr + ", "  + ;
+						sDefaultValueExpr + ", "  + ;
+						"'" + sCreatorId + "', "  + ;
+						"getdate()" + ", "  + ;
+						sDefaultValueExpr + ", "  + ;
+						sDefaultValueExpr + ", "  + ;
+						"'" + COD_SEC + "', "  + ;
+						"'" + ALLTRIM(NOM_SEC) + "', "  + ;
+						"'" + COD_DEP + "', "  + ;
+						"'" + COD_MUN + "', "   + ;
+						sDefaultValueExpr+ ", "   + ;
+						sDefaultValueExpr+ ", "   + ;
+						sDefaultValueExpr+ ")"  
+						
+			*Almacena la instrucción TSQL recien construida en el archivo de resultados
+			=FPUTS(nResultsFileHandler,SQLCmd)
+			=FPUTS(nResultsFileHandler,CHR(13)+CHR(10)+CHR(13)+CHR(10))
+		ENDSCAN
+		
+		=FFLUSH(nResultsFileHandler)
+		=FCLOSE(nResultsFileHandler)
+		
+	ENDIF
+	USE IN rsSource
 ENDPROC

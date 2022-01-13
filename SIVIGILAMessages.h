@@ -63,7 +63,7 @@
 
 
 #DEFINE WARNING_UPGD_PLAIN_FILE_WITH_DUPLICATES ;
-	'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
 	'Existen registros repetidos o duplicados en el archivo plano de UPGDs.' + CHR(13) + ;
 	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
 	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
@@ -71,14 +71,14 @@
 
 
 #DEFINE WARNING_TH_PLAIN_FILE_WITH_DUPLICATES ;
-	'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
 	'Existen registros repetidos o duplicados en el archivo plano de Talento Humano.' + CHR(13) + ;
 	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
 	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
 	'para los fines que se considere pertinentes.'  + CHR(13)
 
 #DEFINE WARNING_UCI_PLAIN_FILE_WITH_DUPLICATES ;
-	'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
 	'Existen registros repetidos o duplicados en el archivo plano de UCI.' + CHR(13) + ;
 	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
 	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
@@ -93,12 +93,20 @@
 
 
 #DEFINE WARNING_INDIVIDUAL_PLAIN_FILE_WITH_DUPLICATES ;
-	'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
 	'Existen registros repetidos o duplicados en el archivo plano de Notificación Individual.' + CHR(13) + ;
 	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
 	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
 	'para los fines que se considere pertinentes.'  + CHR(13)
 
+
+#DEFINE WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES ;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'Los eventos de la fuente son obsoletos o' + CHR(13) + ;
+	'existen registros repetidos o duplicados en la fuente de datos complementarios.' + CHR(13) + ;
+	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+	'repetidos o duplicados, si aplica, en la misma carpeta en donde están los '  + CHR(13) + ;
+	'archivos planos para los fines que se considere pertinentes.'  + CHR(13)
 
 #DEFINE WARNING_OUTBREAK_PLAIN_FILE_WITHOUT_CD ;
 	'Existen registros sin Datos complementarios en el archivo plano de Notificación Colectiva.' + CHR(13) + ;
@@ -109,7 +117,7 @@
 
 
 #DEFINE WARNING_OUTBREAK_PLAIN_FILE_WITH_DUPLICATES ;
-	'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
 	'Existen registros repetidos o duplicados en el archivo plano de Notificación Colectiva.' + CHR(13) + ;
 	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
 	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
@@ -117,7 +125,7 @@
 
 
 #DEFINE WARNING_COMPLEMENTARY_PLAIN_FILE_WITH_DUPLICATES_PART1 ;
-	'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
 	'Existen registros repetidos o duplicados en el archivo plano de Datos Complementarios ' + CHR(13) + ;
 	'para el evento '
 
@@ -127,10 +135,32 @@
 	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
 	'para los fines que se considere pertinentes.'  + CHR(13)
 
+#DEFINE WARNING_LABS_PLAIN_FILE_WITH_DUPLICATES ;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'Existen registros repetidos o duplicados en la fuente de notificación laboratorios.' + CHR(13) + ;
+	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
+	'para los fines que se considere pertinentes.'  + CHR(13)
 
 #DEFINE WARNING_IRA_PLAIN_FILE_WITH_DUPLICATES ;
-	'ESTO NO ES UN ERROR DEL SISTEMA SINO SOLO UN AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
 	'Existen registros repetidos o duplicados en el archivo plano de Morbilidad por IRA.' + CHR(13) + ;
+	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
+	'para los fines que se considere pertinentes.'  + CHR(13)
+
+
+#DEFINE WARNING_CONTACS_PLAIN_FILE_WITH_DUPLICATES ;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'Existen registros repetidos o duplicados en la fuente de notificación contactos.' + CHR(13) + ;
+	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
+	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
+	'para los fines que se considere pertinentes.'  + CHR(13)
+
+
+#DEFINE WARNING_FOLLOWUPS_PLAIN_FILE_WITH_DUPLICATES ;
+	'AVISO DE PRECAUCIÓN.' + CHR(13) + CHR(13) +;
+	'Existen registros repetidos o duplicados en la fuente de notificación seguimiento a contactos.' + CHR(13) + ;
 	'El proceso continuará y se guardará un archivo excel con los registros '  + CHR(13) + ;
 	'repetidos o duplicados en la misma carpeta en donde están los archivos planos  '  + CHR(13) + ;
 	'para los fines que se considere pertinentes.'  + CHR(13)

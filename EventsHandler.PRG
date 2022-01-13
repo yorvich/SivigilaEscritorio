@@ -697,3 +697,20 @@ FUNCTION IsValidAgeForEvent2
 	
 	RETURN bReturnedValue	
 ENDFUNC
+
+
+FUNCTION GetEventsStoredInDCTable(sDCId as integer)
+	
+	LOCAL sReturnedStr  as String 
+	sReturnedStr = ''
+	
+	SELECT COD_EVE FROM EVENTOS WHERE VAL(FORMULARIO) = sDCId INTO CURSOR rsEventsInDCTable
+	IF _tally > 0 THEN 
+		SELECT rsEventsInDCTable
+		SCAN 
+			sReturnedStr = sReturnedStr  + ',' + rsEventsInDCTable.COD_EVE 
+		ENDSCAN 
+		sReturnedStr = SUBSTR(sReturnedStr,2,LEN(sReturnedStr))
+	ENDIF 
+	RETURN sReturnedStr 
+ENDFUNC

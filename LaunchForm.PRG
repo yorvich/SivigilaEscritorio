@@ -179,6 +179,7 @@ DO CASE
 			_RTA_PLANOS=_mydocument+'\ARCHIVOS PLANOS'
 			_RTA_XLS=_mydocument+'\ARCHIVOS XLS'
 			_nomb_usua=''
+			n_inmediata=''
 			*_rta=0
 			*specialChars = "+.\/:*?',{}<>_&;^()=#$%[]" + '"' 
 			*dSivigila2010LaunchDate = {^2018-02-05}
@@ -248,5 +249,32 @@ DO CASE
 		OPEN DATABASE BDSivigila
 		DO FORM FRMEVENTOS_94 WITH 'EVENTOS_94'
 
+	CASE sFormName = 'FRMPLAINFILESLOADER'
+		sOldSafety = SET("Safety")
+		SET SAFETY off
+		
+		STORE 0 TO tot_DC, tot_pte, tot_dat, tot_bro, tot_rab, tot_vihg, tot_vihrn, tot_upgd, tot_th, total_uci_cargadas, tot_rh, tot_lab, con_pte,;
+		    tot_contactos, tot_seguimientos 	
+		_cod_acc='SIVIGILA  '
+		_nomb_usua=''
+		_ver=''
+		_dir_act=sys(5)+sys(2003)+'\'
+		_mydocument=ADDBS(GETENV("HOMEDRIVE")+GETENV("HOMEPATH"))+'DOCUMENTS\SIVIGILA - 2018'
+		_RTA_PLANOS=_mydocument+'\ARCHIVOS PLANOS'
+		_RTA_CONSOLIDA = _mydocument + "\ARCHIVOS DE CONSOLIDACION"
+
+		NMAJOR=18
+		NMINOR=4
+		NBUILD=0
+
+		DO FORM (sFormName)
+
+		IF bForTests THEN 
+			RELEASE tecla_pres, _cod_acc, _rta, specialChars, dSivigila2010LaunchDate, _nomb_usua, _ver, _car_esp, _dir, RemoveSpecialChars, ;
+					goErrorlog, gsErrorMsg 
+			CLOSE DATABASES 
+		ENDIF
+		
+		SET SAFETY &sOldSafety
 ENDCASE
 

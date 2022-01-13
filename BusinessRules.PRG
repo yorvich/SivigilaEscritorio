@@ -1076,6 +1076,11 @@ FUNCTION beforeInsert(sEventCode as String, sMsg) as boolean
 			bSuccess = (m.TIP_EXP!='11' OR m.CON_FIN='2')
 			sMsg = 'El tipo de exposición Suicidio solo aplica si la condición final del paciente es muerto'
 			
+			IF bSuccess THEN
+				bSuccess = (!(m.UNI_MED!='1' OR (m.UNI_MED='1' AND VAL(m.EDAD)<5)) OR INLIST(m.TIP_EXP,'2','4','6','8','9'))
+				sMsg = 'En menores de 5 años, las opciones 1. Ocupacional, 3. Intencional suicida y 10. Automedicación/autoprescripción, no aplican para "tipo de exposición"'
+			ENDIF
+
 			RETURN bSuccess 
 
 		CASE sEventCode = '351'
@@ -1183,6 +1188,11 @@ FUNCTION beforeInsert(sEventCode as String, sMsg) as boolean
 		CASE sEventCode = '346 '
 			bSuccess = (m.PAC_HOS!='1' or !EMPTY(m.SERV_HOSP))
 			sMsg = 'Si el paciente es hospitalizado, debe diligenciar Servicio en el que se hospitalizó'
+
+			IF bSuccess THEN
+				bSuccess = !(m.TIP_CAS='5' OR m.AJUSTE='5') OR (m.CON_FIN='2' OR m.PAC_HOS='1' OR (m.CON_EST='1' AND OCCURS('1',m.TOS + m.FIEBRE + m.ODINOFAGIA + m.DIF_RES + m.ADINAMIA + m.RINORREA + m.CONJUNTIVI + m.CEFALEA + m.DIARREA + m.PERD_GUSTO + m.OTROS_SINT)>=1))
+				sMsg = 'La clasificación o ajuste "Confirmado por nexo" solo aplica si el paciente es hospitalizado o fallecido o tuvo contacto estrecho en los últimos 14 días con un caso probable o confirmado y, en este último caso, presenta algún síntoma.'
+			ENDIF
 
 			RETURN bSuccess 
 			
@@ -1339,7 +1349,14 @@ FUNCTION beforeInsertLab(sEventCode as String, sMsg, oCData, bIsUpdating as Bool
 			ENDIF
 			
 			RETURN bSuccess 
+		
+		CASE sEventCode = '365'
 			
+			bSuccess = (!(m.TIP_EXP = '12' AND (fnEvento_365_IsGlypho(m.COD_SUST)))) OR (m.TIPO_MUEST = '1' OR m.TIPO_MUEST = '2')
+			sMsg = 'Cuando el producto sea algún Glifosato y el tipo de exposición sea aspersión, en tipo de muestra solo se acepta sangre u orina'
+			
+			RETURN bSuccess 
+	
 		OTHERWISE
 			RETURN .T.
 	ENDCASE

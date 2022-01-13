@@ -17,6 +17,7 @@ sCurrentYear = .NULL.
 sCurrentWeek = .NULL.
 sStateCode = .NULL.
 bIsUND = .NULL.
+bIsUNM = .NULL.
 bIsUPGD = .NULL.
 
 sMacAdresses = ''
@@ -45,7 +46,8 @@ FUNCTION Init(bSetMacAddress as Boolean, bSetIPAddress as Boolean )
 			.sCurrentYear = rsNotifierUnitDescription.VIGENCIA
 			.sCurrentWeek = rsNotifierUnitDescription.SEMANA
 			.sStateCode = LEFT(rsNotifierUnitDescription.UNI_NOT,2)
-			.bIsUND= IIF(rsNotifierUnitDescription.TIP_UNI='3',.T.,.F.)
+			.bIsUND = IIF(rsNotifierUnitDescription.TIP_UNI='3',.T.,.F.)
+			.bIsUNM = IIF(rsNotifierUnitDescription.TIP_UNI='2',.T.,.F.)
 			.bIsUPGD = IIF(rsNotifierUnitDescription.TIP_UNI='1',.T.,.F.)
 			
 			IF bSetMacAddress THEN 

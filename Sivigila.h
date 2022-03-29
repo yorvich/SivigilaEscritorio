@@ -464,8 +464,8 @@ momento de cargarlos desde una archivo plano
 */ Usado en: ;
 	Modules.
 
-#DEFINE DB_CLOSURE_DAY '07'
-#DEFINE DB_CLOSURE_MONTH '04'
+#DEFINE DB_CLOSURE_DAY '30'
+#DEFINE DB_CLOSURE_MONTH '03'
 
 
 *----------------------------------------------------------------------------------------------------------------------------

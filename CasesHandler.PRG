@@ -119,7 +119,7 @@ PROCEDURE lastCaseRecordTst()
 ENDPROC
 
 
-PROCEDURE AdjustIndividualCase(sEventCode AS String, sFilter as String)
+PROCEDURE AdjustIndividualCase_V00(sEventCode AS String, sFilter as String)
 	
 	PUBLIC gsXLSFilter as String
 	gsXLSFilter = sFilter
@@ -228,7 +228,123 @@ PROCEDURE AdjustIndividualCase(sEventCode AS String, sFilter as String)
 
 ENDPROC 
 
+PROCEDURE AdjustIndividualCase(sEventCode AS String, sFilter as String)
+	
+	LOCAL oCurrentEvent  as object
+	oCurrentEvent = NEWOBJECT("Event","Event.fxp",.NULL.,sEventCode)	
+
+	LOCAL sWHERE_SQL as String 
+	sWHERE_SQL = ' '
+	
+	LOCAL nRecordsToTraverse as Number, nIndividualNotifications as Number 
+	nRecordsToTraverse = 0
+	nIndividualNotifications = 0
+
+	LOCAL sTmpTable as string
+	sTmpTable = ADDBS(SYS(2023)) + SYS(2015)
+	
+	SET PROCEDURE TO PlainsLib ADDITIVE 
+	
+	* Se determina si el evento tiene datos complementarios
+	HasComplementaryData = .T.
+	
+	sEventTable = ''
+
+	*Establece las condiciones de filtrado para la extracción de registros
+	IF !EMPTY(ALLTRIM(sEventCode )) THEN 
+		sWHERE_SQL = sWHERE_SQL + ' COD_EVE ="' + sEventCode  + '" AND '
+	ENDIF 
+	sWHERE_SQL = sWHERE_SQL + sFilter
+	
+	*Establece la instrucción SQL que permite unir datos básicos y complementarios del evento sEventCode. El renombramiento de los campos;
+	COD_EVE_A y TIP_SS obedece a los requerimientos de nombres del procesador de ajustes
+	XlsQuery = 'SELECT A.COD_EVE_A AS COD_EVE, A.TIP_SS AS TIP_SS_, A.* FROM (select * from ' +;
+				'(select * from Paciente A where &sWHERE_SQL) AS rsDB ' +;
+				'left outer join (SELECT * FROM ' + oCurrentEvent.sDC_TABLA + ' WHERE &sWHERE_SQL ORDER BY AJUSTE,FEC_AJU) as H  ' +;
+				'on rsDB.cod_eve = H.cod_eve AND rsDB.año = H.año AND rsDB.semana = H.semana AND  rsDB.tip_ide = H.tip_ide  ' +;
+				'AND rsDB.num_ide = H.num_ide  AND  rsDB.cod_pre = H.cod_pre AND rsDB.cod_sub = H.cod_sub) as A'
+ 
+	XlsQuery =  XlsQuery + ' INTO TABLE "' + (sTmpTable) + '" DATABASE SIVIGILATemp'
+
+	sOldDB = SET("Database")
+	OPEN DATABASE SIVIGILATemp
+	SET  DATABASE TO SIVIGILATemp
+	TRY
+		REMOVE TABLE JUSTSTEM(sTmpTable) DELETE
+	CATCH TO oException
+	ENDTRY
+	&XlsQuery 
+	nRecordsToTraverse = RECCOUNT(JUSTSTEM(sTmpTable))
+
+	WAIT 'Procesando ' + STR(nRecordsToTraverse) + ' registros del evento ' + sEventCode  WINDOW NOWAIT TIMEOUT 10
+	*?'Inicio: ' + TIME()
+*SET STEP ON 
+	IF nRecordsToTraverse > 0
+		* se encontraron registros. Se procesan  entonces los ajustes que quedarán en un cursor de nombre rsAdjustedCases
+
+		nIndividualNotifications = _TALLY 
+		
+		sTagExpr = 'AÑO_A+SEMANA_A+COD_EVE+TIP_IDE_A+NUM_IDE_A+COD_PRE_A+COD_SUB_A'
+		oAdjustmentsProcessor = NEWOBJECT("AdjustmentsProcessor","AdjustmentsProcessor.fxp")
+		oAdjustmentsProcessor.sSourceTablename = JUSTSTEM(sTmpTable)
+		oAdjustmentsProcessor.sAdjustmentFieldName = 'AJUSTE_A'
+		oAdjustmentsProcessor.sAdjustmentDateFieldName = 'FEC_AJU_A'
+		oAdjustmentsProcessor.processAdjustments(sTagExpr)
+
+		RELEASE oAdjustmentsProcessor
+		
+		SELECT rsAdjustedCases
+	ENDIF
+
+	TRY
+		REMOVE TABLE JUSTSTEM(sTmpTable) DELETE
+	CATCH TO oException
+	ENDTRY
+	SET DATABASE TO &sOldDB
+
+	
+	*?'Final: ' + TIME()
+
+ENDPROC 
+
+
 PROCEDURE AdjustIndividualCaseTst(sEventCode AS String, sFilter as String )
 SET STEP ON 
+	*DO AdjustIndividualCase_V00 WITH sEventCode, sFilter 
 	DO AdjustIndividualCase WITH sEventCode, sFilter 
+ENDPROC 
+
+
+PROCEDURE makeNotified(nNewValue as byte, sReplacementCondition as string, bUseMasterSlaveRelationship  as Boolean )
+
+	*Establece el campo NOTIFICA de la tabla de datos básicos PACIENTE al valor nNewValue para los registros que cumplan la condición;
+	sReplacementCondition. Si se pasa bUseMasterSlaveRelationship y es .T., también actualiza los registros relacionados que se;
+	encuentren en la tabla de datos complementarios y en la tabla de laboratorios.
+	
+	SET PROCEDURE TO SivigilaUtilities ADDITIVE 
+
+	glDisableRules=.T.
+
+	IF bUseMasterSlaveRelationship THEN
+		*Establece una línea base de pacientes para los cuales se hará la actualización de registros de datos complementarios, laboratorios ;
+		teniendo en cuenta las condiciones de filtrado sReplacementCondition 
+		sSQLClause= 'SELECT DISTINCT ' + STRTRAN(qualifyFields(getKeyFields('PACIENTE'), '+' , 'RecordSource'), '+', ',') +;
+					' FROM PACIENTE AS RecordSource WHERE ' + sReplacementCondition +;
+					' INTO CURSOR rsPatientsBaseLine NOFILTER'
+		&sSQLClause
+	ENDIF
+
+	UPDATE PACIENTE SET NOTIFICA = nNewValue WHERE &sReplacementCondition 
+
+	IF bUseMasterSlaveRelationship THEN
+		=UpdateSIVIGILAComplementaryData('rsPatientsBaseLine', getKeyFields('PACIENTE'), , , 'NOTIFICA = ' + ALLTRIM(STR(nNewValue)) )
+	ENDIF
+	
+	glDisableRules=.F.
+ENDPROC
+
+
+PROCEDURE makeNotifiedTst(nNewValue as Byte, sReplacementCondition as string, bUseMasterSlaveRelationship  as Boolean )
+SET STEP ON 
+	DO makeNotified WITH nNewValue, sReplacementCondition, bUseMasterSlaveRelationship  
 ENDPROC 

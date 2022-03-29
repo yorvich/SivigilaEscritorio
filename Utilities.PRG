@@ -148,7 +148,7 @@ PROCEDURE ExportMemoFields(sSourceTable as String)
 	lcFieldString = ''
 	lcMemo = ''
 
-	IF EMPTY(sSourceTable) THEN  
+	IF EMPTY(sSourceTable) THEN  	
 		USE GETFILE('dbf', 'Select DBF') && Prompts for table to be used.
 	ELSE
 		USE (sSourceTable)
@@ -645,9 +645,47 @@ FUNCTION IsMemberOf( sItem as String, sList as String ) as Boolean
 	RETURN (',' + sItem + ',' $ ',' + sList + ',')
 ENDFUNC 
 
+
+FUNCTION ListFromNumbers( sStream as String, sSeparator as Character, nPadLength as Byte) as String 
+	*Retorna una lista separada por sSeparator en donde el i-ésimo ítem corresponde a la i-ésima secuencia de números que ;
+	existan en sStream, que se supone es un flujo de caracteres que contiene secuencias de digitos decimales mezclados ;
+	con otros caracteres. Si sStream es vacío o no contien caracteres distintos a digitios decimales, retorna una lista ;
+	vacía.
+	
+	*nPadLength (in): nose usa en la actual implementación
+	
+	LOCAL sListItem as String
+	sListItem = ''
+	
+	LOCAL sList as String
+	sList = ''
+	
+	IF !EMPTY(sStream ) THEN 
+		nStreamLength = LEN(sStream)
+		iChar=1
+		DO WHILE  iChar <=  nStreamLength 
+			IF ISDIGIT(SUBSTR(sStream,iChar,1)) THEN 
+				sListItem = sListItem + SUBSTR(sStream,iChar,1)
+			ELSE
+				sList = sList + IIF(EMPTY(sListItem ),'',PADR(sListItem,nPadLength,' ') + sSeparator )
+				sListItem = ''
+				 
+			ENDIF 
+			iChar = iChar + 1
+		ENDDO 
+	ENDIF 
+	
+	RETURN SUBSTR(sList,1,LEN(sList)-1)
+ENDFUNC 
+
+
 PROCEDURE Push(sList as String)
 ENDPROC 
 
+
+FUNCTION ListLength(sList as String)
+	RETURN (OCCURS(',',sList)+1)
+ENDPROC 
 
 PROCEDURE runBatFile(sCommads as String)
 
@@ -670,3 +708,56 @@ PROCEDURE runBatFile(sCommads as String)
 	DELETE FILE "&sBatFilenameToRun"
 
 ENDPROC 
+
+
+PROCEDURE buildLongCalendar()
+
+	TRY
+		USE CALENDARIO IN 0
+	CATCH TO oException
+	ENDTRY 
+	SELECT CALENDARIO 
+	
+	SCAN 
+		nDatesToBuild = CALENDARIO.hasta - CALENDARIO.desde 
+		FOR iDate=0 TO nDatesToBuild 
+			INSERT INTO CALENDARIO2 VALUES (CALENDARIO.vigencia,CALENDARIO.periodo,CALENDARIO.semana,CALENDARIO.desde + iDate)
+		ENDFOR 
+	ENDSCAN
+		
+ENDPROC 
+
+
+FUNCTION getListItem(sList as String, nIndex as numbre ) as String
+	
+	LOCAL sLocalList as String
+	sLocalList  = ',' + sList + ','
+	
+	RETURN STREXTRACT(sLocalList, ',', ',', nIndex)
+ENDFUNC 
+
+
+FUNCTION weekDistance(sWeek1 as String, sWeek2 as String) as Number 
+
+	*Retorna el número de semanas epidemiológicas que dista entre sWeek1 y  sWeek2. ;
+	sWeek(i) i=1,2 es una lista separada por comas en donde el primer item es el número de la semana ;
+	y el segundo el número del año. ;
+	Se supone que sWeek1_2 <= sWeek1_2, en caso contrario retorna 65535
+	
+*SET STEP ON 
+	sWeek1_1 = VAL(getListItem(sWeek1, 1 ))
+	sWeek2_1 = VAL(getListItem(sWeek2, 1 ))
+	sWeek1_2 = VAL(getListItem(sWeek1, 2 ))
+	sWeek2_2 = VAL(getListItem(sWeek2, 2 ))
+	
+	IF sWeek1_2 = sWeek2_2
+		RETURN ABS(sWeek1_1 - sWeek2_1)
+	ELSE
+		IF sWeek1_2 <= sWeek2_2
+			RETURN (ABS(sWeek1_1 - 53) + ABS(1 - sWeek2_1))
+		ELSE
+			RETURN 65535
+		ENDIF 
+	ENDIF
+	
+ENDFUNC

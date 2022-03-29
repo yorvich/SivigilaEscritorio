@@ -437,7 +437,13 @@ PROCEDURE processAdjustments(sMatchingFields  as String,  sFilter  as String, sO
 				IF bUnmovableFieldsFound THEN 
 					*Se han detectado campos modificados por el sistema Sivigila que deben mantener el valor asignado por él
 					FOR iUnmovableField=1 TO nUnmovableFields
-						sAssignmentInstruction = 'm.' + aUnmovableFields[3,iUnmovableField] + ' = "' + aUnmovableFields[2,iUnmovableField] + '"'
+						*sAssignmentInstruction = 'm.' + aUnmovableFields[3,iUnmovableField] + ' = "' + aUnmovableFields[2,iUnmovableField] + '"'
+						IF VARTYPE(aUnmovableFields[2,iUnmovableField]) = 'D' THEN 
+							sAssignmentInstruction = 'm.' + aUnmovableFields[3,iUnmovableField] + ' = CTOD("' + DTOC(aUnmovableFields[2,iUnmovableField]) + '")'
+						ELSE
+							sAssignmentInstruction = 'm.' + aUnmovableFields[3,iUnmovableField] + ' = "' + aUnmovableFields[2,iUnmovableField] + '"'
+						ENDIF
+						
 						&sAssignmentInstruction
 					NEXT iUnmovableField
 

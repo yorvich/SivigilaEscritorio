@@ -277,9 +277,9 @@ PROCEDURE updateDataFrom (masterTableName as String, sSourceFileNameAndPath as s
 					ELSE
 						*Se ha identificado en el archivo de actualizaciones, un registro que no se encuentra en la tabla masterTablename
 						
-						glDisableRules = .T.
+						*glDisableRules = .T.
 						INSERT INTO (masterTableName) FROM MEMVAR 
-						glDisableRules = .F.
+						*glDisableRules = .F.
 					ENDIF
 
 					nTraversedRecords = nTraversedRecords + 1
